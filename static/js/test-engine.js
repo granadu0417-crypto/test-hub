@@ -175,7 +175,11 @@ class TestEngine {
 
     // 공유 버튼 업데이트
     updateShareButtons(result, resultUrl) {
-        const shareText = `나는 ${result.badge} ${result.title}! 당신도 테스트해보세요`;
+        // 매력적인 공유 텍스트 생성
+        const shareText = `🎯 나는 "${result.title}" ${result.badge}
+
+${result.subtitle || ''}
+당신의 결과는? 👉`;
 
         // 링크 복사 버튼
         const copyButton = document.querySelector('.share-button[data-action="copy"]');
@@ -190,7 +194,8 @@ class TestEngine {
         // Facebook 공유 버튼
         const fbButton = document.querySelector('.share-button[data-action="facebook"]');
         if (fbButton) {
-            const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(resultUrl)}&quote=${encodeURIComponent(shareText)}`;
+            const fbShareText = `나는 ${result.badge} ${result.title}! 당신도 테스트해보세요`;
+            const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(resultUrl)}&quote=${encodeURIComponent(fbShareText)}`;
             fbButton.onclick = () => window.open(fbUrl, '_blank', 'width=600,height=400');
         }
     }
