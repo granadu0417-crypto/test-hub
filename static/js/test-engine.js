@@ -96,6 +96,38 @@ class TestEngine {
             const resultType = e_i + s_n + t_f + j_p;
 
             return this.testData.results.find(r => r.type === resultType);
+        }
+
+        // 2차원 점수 시스템 감지 (energy, emotional 축)
+        const has2D = this.scores.hasOwnProperty('energy') && this.scores.hasOwnProperty('emotional');
+
+        if (has2D) {
+            const energy = this.scores.energy || 0;
+            const emotional = this.scores.emotional || 0;
+
+            // 2차원 평면에서 결과 판정
+            const energyThreshold = 5;  // 중립 범위
+            const emotionalThreshold = 5;
+
+            let resultType;
+
+            if (energy > energyThreshold && emotional > emotionalThreshold) {
+                resultType = 'passionate-romantic';
+            } else if (energy > energyThreshold && emotional < -emotionalThreshold) {
+                resultType = 'passionate-realistic';
+            } else if (energy < -energyThreshold && emotional > emotionalThreshold) {
+                resultType = 'steady-romantic';
+            } else if (energy < -energyThreshold && emotional < -emotionalThreshold) {
+                resultType = 'steady-realistic';
+            } else if (Math.abs(energy) > Math.abs(emotional)) {
+                // Energy 축이 더 강함
+                resultType = energy > 0 ? 'passionate' : 'steady';
+            } else {
+                // Emotional 축이 더 강함
+                resultType = emotional > 0 ? 'romantic' : 'realistic';
+            }
+
+            return this.testData.results.find(r => r.type === resultType);
         } else {
             // 일반 테스트: 가장 높은 점수의 타입 찾기
             let maxScore = -1;
@@ -127,6 +159,11 @@ class TestEngine {
                 <div class="result-badge">${result.badge || '🎯'}</div>
                 <h1 class="result-title">${result.title}</h1>
                 <p class="result-subtitle">${result.subtitle || ''}</p>
+                ${result.rarity ? `
+                    <div class="result-rarity" style="margin: 15px 0; padding: 10px 20px; background: linear-gradient(135deg, #667eea33, #764ba233); border-radius: 15px; display: inline-block;">
+                        <span style="font-size: 14px; color: #667eea; font-weight: bold;">✨ 희소성: 전체의 ${result.rarity}%</span>
+                    </div>
+                ` : ''}
                 <div class="result-description">
                     ${result.description}
                 </div>
@@ -136,6 +173,18 @@ class TestEngine {
                         <ul>
                             ${result.traits.map(trait => `<li>${trait}</li>`).join('')}
                         </ul>
+                    </div>
+                ` : ''}
+                ${result.loveLanguage ? `
+                    <div class="result-love-language" style="margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 15px; border-left: 4px solid #667eea;">
+                        <h3 style="margin-bottom: 10px;">💕 나의 사랑의 언어</h3>
+                        <p style="color: #666;">${result.loveLanguage}</p>
+                    </div>
+                ` : ''}
+                ${result.compatibility ? `
+                    <div class="result-compatibility" style="margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 15px; border-left: 4px solid #764ba2;">
+                        <h3 style="margin-bottom: 10px;">💑 잘 맞는 유형</h3>
+                        <p style="color: #666;">${result.compatibility}</p>
                     </div>
                 ` : ''}
                 ${result.recommendation ? `
