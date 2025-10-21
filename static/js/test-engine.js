@@ -147,10 +147,17 @@ class TestEngine {
             </div>
         `;
 
+        // URL에 결과 파라미터 추가 (공유용)
+        const resultUrl = new URL(window.location.href);
+        resultUrl.searchParams.set('result', result.type);
+        window.history.pushState({}, '', resultUrl);
+
         // 결과 후 공유 섹션 표시
         const shareSection = document.getElementById('share-section');
         if (shareSection) {
             shareSection.style.display = 'block';
+            // 공유 버튼 업데이트
+            this.updateShareButtons(result, resultUrl.href);
         }
 
         // 다른 테스트 추천 표시
@@ -164,6 +171,28 @@ class TestEngine {
 
         // 페이지 맨 위로 스크롤
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 공유 버튼 업데이트
+    updateShareButtons(result, resultUrl) {
+        const shareText = `나는 ${result.badge} ${result.title}! 당신도 테스트해보세요`;
+
+        // 링크 복사 버튼
+        const copyButton = document.querySelector('.share-button[data-action="copy"]');
+        if (copyButton) {
+            copyButton.onclick = () => {
+                navigator.clipboard.writeText(`${shareText}\n${resultUrl}`).then(() => {
+                    alert('결과 링크가 복사되었습니다! 친구들과 공유해보세요 ✨');
+                });
+            };
+        }
+
+        // Facebook 공유 버튼
+        const fbButton = document.querySelector('.share-button[data-action="facebook"]');
+        if (fbButton) {
+            const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(resultUrl)}&quote=${encodeURIComponent(shareText)}`;
+            fbButton.onclick = () => window.open(fbUrl, '_blank', 'width=600,height=400');
+        }
     }
 
     // 결과 저장
@@ -223,6 +252,62 @@ let testEngine = null;
 function initTest(testData) {
     testEngine = new TestEngine(testData);
 
+    // URL 파라미터 확인 (공유된 결과 링크인 경우)
+    const urlParams = new URLSearchParams(window.location.search);
+    const sharedResult = urlParams.get('result');
+
+    if (sharedResult) {
+        // 공유된 결과가 있으면 바로 결과 표시
+        const result = testData.results.find(r => r.type === sharedResult);
+        if (result) {
+            document.getElementById('test-intro').style.display = 'none';
+            document.getElementById('test-content').style.display = 'block';
+
+            const container = document.getElementById('question-container');
+            const progressBar = document.getElementById('progress-bar-container');
+            if (progressBar) progressBar.style.display = 'none';
+
+            container.innerHTML = `
+                <div class="result-card">
+                    <div class="result-badge">${result.badge || '🎯'}</div>
+                    <h1 class="result-title">${result.title}</h1>
+                    <p class="result-subtitle">${result.subtitle || ''}</p>
+                    <div class="result-description">
+                        ${result.description}
+                    </div>
+                    ${result.traits ? `
+                        <div class="result-traits">
+                            <h3>주요 특징</h3>
+                            <ul>
+                                ${result.traits.map(trait => `<li>${trait}</li>`).join('')}
+                            </ul>
+                        </div>
+                    ` : ''}
+                    ${result.recommendation ? `
+                        <div class="result-recommendation">
+                            <h3>💡 추천</h3>
+                            <p>${result.recommendation}</p>
+                        </div>
+                    ` : ''}
+                    <div style="margin-top: 30px; text-align: center;">
+                        <button class="restart-test-btn" style="padding: 15px 40px; font-size: 18px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 25px; cursor: pointer; font-weight: bold;">
+                            나도 테스트하기 ▶
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            const shareSection = document.getElementById('share-section');
+            if (shareSection) {
+                shareSection.style.display = 'block';
+                testEngine.updateShareButtons(result, window.location.href);
+            }
+
+            const moreTests = document.getElementById('more-tests');
+            if (moreTests) moreTests.style.display = 'block';
+        }
+    }
+
     // 시작 버튼 이벤트
     const startBtn = document.getElementById('start-test-btn');
     if (startBtn) {
@@ -237,6 +322,9 @@ function initTest(testData) {
     const restartBtns = document.querySelectorAll('.restart-test-btn');
     restartBtns.forEach(btn => {
         btn.addEventListener('click', () => {
+            // URL 파라미터 제거
+            const cleanUrl = window.location.origin + window.location.pathname;
+            window.history.pushState({}, '', cleanUrl);
             testEngine.restart();
         });
     });
