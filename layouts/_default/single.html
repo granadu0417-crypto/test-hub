@@ -34,12 +34,7 @@
 {{ define "scripts" }}
 <script>
     // Test Data (from front matter)
-    const testData = {
-        id: '{{ .File.BaseFileName }}',
-        title: '{{ .Title }}',
-        questions: {{ .Params.questions | jsonify }},
-        results: {{ .Params.results | jsonify }}
-    };
+    const testData = {{ dict "id" .File.BaseFileName "title" .Title "questions" .Params.questions "results" .Params.results | jsonify | safeJS }};
 
     // Initialize test engine
     document.addEventListener('DOMContentLoaded', function() {

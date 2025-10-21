@@ -81,19 +81,35 @@ class TestEngine {
 
     // 결과 계산
     calculateResult() {
-        // 가장 높은 점수의 타입 찾기
-        let maxScore = -1;
-        let resultType = null;
+        // MBTI 테스트 감지: 결과 타입이 4글자 MBTI 코드인지 확인
+        const firstResult = this.testData.results[0];
+        const isMBTI = firstResult && firstResult.type &&
+                      firstResult.type.length === 4 &&
+                      /^[EI][SN][TF][JP]$/.test(firstResult.type);
 
-        Object.keys(this.scores).forEach(type => {
-            if (this.scores[type] > maxScore) {
-                maxScore = this.scores[type];
-                resultType = type;
-            }
-        });
+        if (isMBTI) {
+            // MBTI: 각 차원에서 높은 쪽 선택하여 4글자 조합
+            const e_i = (this.scores.E || 0) >= (this.scores.I || 0) ? 'E' : 'I';
+            const s_n = (this.scores.S || 0) >= (this.scores.N || 0) ? 'S' : 'N';
+            const t_f = (this.scores.T || 0) >= (this.scores.F || 0) ? 'T' : 'F';
+            const j_p = (this.scores.J || 0) >= (this.scores.P || 0) ? 'J' : 'P';
+            const resultType = e_i + s_n + t_f + j_p;
 
-        // 해당 타입의 결과 찾기
-        return this.testData.results.find(r => r.type === resultType);
+            return this.testData.results.find(r => r.type === resultType);
+        } else {
+            // 일반 테스트: 가장 높은 점수의 타입 찾기
+            let maxScore = -1;
+            let resultType = null;
+
+            Object.keys(this.scores).forEach(type => {
+                if (this.scores[type] > maxScore) {
+                    maxScore = this.scores[type];
+                    resultType = type;
+                }
+            });
+
+            return this.testData.results.find(r => r.type === resultType);
+        }
     }
 
     // 결과 표시
