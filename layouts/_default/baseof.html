@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+    <meta name="description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+    <meta name="keywords" content="{{ if .Params.keywords }}{{ delimit .Params.keywords ", " }}{{ else }}{{ .Site.Params.keywords }}{{ end }}">
+    <meta name="author" content="{{ .Site.Params.author }}">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ .Permalink }}">
+    <meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
+    <meta property="og:description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+    <meta property="og:image" content="{{ .Site.BaseURL }}images/{{ if .Params.ogImage }}{{ .Params.ogImage }}{{ else }}og-image.jpg{{ end }}">
+    <meta property="og:site_name" content="{{ .Site.Title }}">
+    <meta property="og:locale" content="ko_KR">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
+    <meta name="twitter:description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+    <meta name="twitter:image" content="{{ .Site.BaseURL }}images/{{ if .Params.ogImage }}{{ .Params.ogImage }}{{ else }}og-image.jpg{{ end }}">
+
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#667eea">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="{{ .Site.Title }}">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/images/icon-512.png">
+    <link rel="apple-touch-icon" href="/images/icon-192.png">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/css/viral.css">
+    {{ block "head" . }}{{ end }}
+
+    <!-- Google Analytics -->
+    {{ if .Site.Params.googleAnalytics }}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ .Site.Params.googleAnalytics }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '{{ .Site.Params.googleAnalytics }}');
+    </script>
+    {{ end }}
+</head>
+<body>
+    {{ partial "header.html" . }}
+
+    <main>
+        {{ block "main" . }}{{ end }}
+    </main>
+
+    <!-- Bookmark Popup -->
+    <div id="bookmarkPopup" class="bookmark-popup" style="display: none;">
+        <h4>⭐ 북마크 추가</h4>
+        <p>자주 사용하시나요? 북마크에 추가하고 빠르게 접속하세요!</p>
+        <div class="bookmark-popup-buttons">
+            <button class="btn-bookmark-yes" onclick="closeBookmarkPopup(true)">추가하기</button>
+            <button class="btn-bookmark-no" onclick="closeBookmarkPopup(false)">나중에</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/js/test-engine.js"></script>
+    {{ block "scripts" . }}{{ end }}
+
+    <!-- Viral Features Script -->
+    <script>
+        // 북마크 팝업 표시 (3번째 방문)
+        function showBookmarkPopup() {
+            const visitKey = 'test_hub_visit_count';
+            const dismissKey = 'test_hub_bookmark_dismissed';
+
+            let visitCount = parseInt(localStorage.getItem(visitKey)) || 0;
+            visitCount++;
+            localStorage.setItem(visitKey, visitCount);
+
+            const dismissed = localStorage.getItem(dismissKey);
+
+            if (visitCount >= 3 && !dismissed) {
+                setTimeout(() => {
+                    document.getElementById('bookmarkPopup').style.display = 'block';
+                }, 2000);
+            }
+        }
+
+        function closeBookmarkPopup(addBookmark) {
+            document.getElementById('bookmarkPopup').style.display = 'none';
+            localStorage.setItem('test_hub_bookmark_dismissed', 'true');
+
+            if (addBookmark) {
+                alert('Ctrl+D (Windows) 또는 Cmd+D (Mac)를 눌러 북마크에 추가하세요!');
+            }
+        }
+
+        // 페이지 로드 시 실행
+        window.addEventListener('load', showBookmarkPopup);
+    </script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => console.log('SW registered'))
+                    .catch(err => console.log('SW registration failed'));
+            });
+        }
+    </script>
+</body>
+</html>

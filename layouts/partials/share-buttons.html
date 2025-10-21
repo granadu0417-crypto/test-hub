@@ -1,0 +1,65 @@
+<div class="share-section" id="share-section" style="display: none;">
+    <h4>💬 결과를 친구에게 공유하기</h4>
+    <div class="share-buttons">
+        <button class="btn-share btn-facebook" onclick="shareFacebook()">
+            <span>📘</span> 페이스북
+        </button>
+        <button class="btn-share btn-copy" id="copyBtn" onclick="copyLink()">
+            <span>🔗</span> 링크 복사
+        </button>
+    </div>
+</div>
+
+<script>
+    // 페이스북 공유
+    function shareFacebook() {
+        const url = encodeURIComponent(window.location.href);
+        const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+        window.open(shareUrl, '_blank', 'width=600,height=400');
+    }
+
+    // 링크 복사
+    function copyLink() {
+        const url = window.location.href;
+        const copyBtn = document.getElementById('copyBtn');
+
+        // Clipboard API 사용 (모던 브라우저)
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).then(() => {
+                copyBtn.innerHTML = '<span>✅</span> 복사 완료!';
+                setTimeout(() => {
+                    copyBtn.innerHTML = '<span>🔗</span> 링크 복사';
+                }, 2000);
+            }).catch(err => {
+                console.error('복사 실패:', err);
+                fallbackCopyLink(url, copyBtn);
+            });
+        } else {
+            // 폴백: execCommand 사용 (구형 브라우저)
+            fallbackCopyLink(url, copyBtn);
+        }
+    }
+
+    // 폴백 복사 함수
+    function fallbackCopyLink(text, btn) {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.select();
+
+        try {
+            document.execCommand('copy');
+            btn.innerHTML = '<span>✅</span> 복사 완료!';
+            setTimeout(() => {
+                btn.innerHTML = '<span>🔗</span> 링크 복사';
+            }, 2000);
+        } catch (err) {
+            console.error('복사 실패:', err);
+            alert('링크 복사에 실패했습니다.');
+        }
+
+        document.body.removeChild(textArea);
+    }
+</script>

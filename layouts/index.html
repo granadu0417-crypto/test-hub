@@ -1,0 +1,207 @@
+{{ define "head" }}
+<style>
+    body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+    }
+
+    .hero {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 60px 20px;
+        text-align: center;
+    }
+
+    .hero h2 {
+        font-size: 2.5rem;
+        color: #333;
+        margin-bottom: 20px;
+        font-weight: 700;
+    }
+
+    .hero p {
+        font-size: 1.2rem;
+        color: #666;
+        line-height: 1.8;
+        margin-bottom: 40px;
+    }
+
+    .test-grid {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px 60px 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 30px;
+    }
+
+    .test-card {
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        border: 3px solid transparent;
+    }
+
+    .test-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
+        border-color: #667eea;
+    }
+
+    .test-icon {
+        font-size: 4rem;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .test-title {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .test-summary {
+        font-size: 1rem;
+        color: #666;
+        line-height: 1.7;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .test-meta {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        font-size: 0.9rem;
+        color: #999;
+        border-top: 1px solid #e0e0e0;
+        padding-top: 15px;
+    }
+
+    .test-meta span {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    @media (max-width: 768px) {
+        .hero h2 {
+            font-size: 1.8rem;
+        }
+
+        .hero p {
+            font-size: 1rem;
+        }
+
+        .test-grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .test-card {
+            padding: 30px;
+        }
+    }
+</style>
+{{ end }}
+
+{{ define "main" }}
+<!-- Hero Section -->
+<div class="hero">
+    <h2>🎯 무료 심리테스트 모음</h2>
+    <p>
+        나는 어떤 사람일까? 재미있고 정확한 심리테스트로<br>
+        나의 성격, 연애 스타일, 직업 적성을 알아보세요!
+    </p>
+</div>
+
+<!-- Test Grid -->
+<div class="test-grid">
+    {{ range where .Site.RegularPages "Section" "tests" }}
+    <a href="{{ .Permalink }}" class="test-card">
+        <div class="test-icon">
+            {{ if .Params.icon }}{{ .Params.icon }}{{ else }}📊{{ end }}
+        </div>
+        <h3 class="test-title">{{ .Title }}</h3>
+        <p class="test-summary">
+            {{ if .Params.summary }}
+                {{ .Params.summary }}
+            {{ else if .Description }}
+                {{ .Description }}
+            {{ else }}
+                {{ .Summary }}
+            {{ end }}
+        </p>
+        <div class="test-meta">
+            {{ if .Params.questionCount }}
+            <span>❓ {{ .Params.questionCount }}개 질문</span>
+            {{ end }}
+            {{ if .Params.duration }}
+            <span>⏱️ {{ .Params.duration }}</span>
+            {{ end }}
+        </div>
+    </a>
+    {{ end }}
+</div>
+
+<!-- Features Section -->
+<div style="max-width: 1000px; margin: 0 auto 60px auto; padding: 0 20px;">
+    <div style="background: white; border-radius: 20px; padding: 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+        <h3 style="text-align: center; font-size: 1.8rem; margin-bottom: 40px; color: #333;">
+            ✨ 심리테스트 모음의 특징
+        </h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
+            <div style="text-align: center;">
+                <div style="font-size: 3rem; margin-bottom: 15px;">🆓</div>
+                <h4 style="font-size: 1.2rem; margin-bottom: 10px; color: #333;">완전 무료</h4>
+                <p style="color: #666; line-height: 1.6;">회원가입 없이 모든 테스트를 무료로 이용할 수 있어요</p>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 3rem; margin-bottom: 15px;">⚡</div>
+                <h4 style="font-size: 1.2rem; margin-bottom: 10px; color: #333;">빠른 결과</h4>
+                <p style="color: #666; line-height: 1.6;">3분 안에 테스트를 완료하고 바로 결과를 확인하세요</p>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 3rem; margin-bottom: 15px;">🎨</div>
+                <h4 style="font-size: 1.2rem; margin-bottom: 10px; color: #333;">재미있는 디자인</h4>
+                <p style="color: #666; line-height: 1.6;">직관적이고 예쁜 디자인으로 즐겁게 테스트하세요</p>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 3rem; margin-bottom: 15px;">💬</div>
+                <h4 style="font-size: 1.2rem; margin-bottom: 10px; color: #333;">공유하기</h4>
+                <p style="color: #666; line-height: 1.6;">결과를 친구들과 공유하고 함께 즐겨보세요</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FAQ Section -->
+<div style="max-width: 800px; margin: 0 auto 80px auto; padding: 0 20px;">
+    <h3 style="text-align: center; font-size: 1.8rem; margin-bottom: 40px; color: #333;">
+        ❓ 자주 묻는 질문
+    </h3>
+    <div style="background: white; border-radius: 20px; padding: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+        <div style="margin-bottom: 30px;">
+            <h4 style="font-size: 1.2rem; color: #333; margin-bottom: 10px;">Q. 회원가입이 필요한가요?</h4>
+            <p style="color: #666; line-height: 1.7;">아니요! 회원가입 없이 누구나 무료로 모든 테스트를 이용할 수 있어요.</p>
+        </div>
+        <div style="margin-bottom: 30px;">
+            <h4 style="font-size: 1.2rem; color: #333; margin-bottom: 10px;">Q. 테스트 결과는 어디에 저장되나요?</h4>
+            <p style="color: #666; line-height: 1.7;">테스트 결과는 여러분의 브라우저에 저장되어 언제든지 다시 확인할 수 있어요.</p>
+        </div>
+        <div>
+            <h4 style="font-size: 1.2rem; color: #333; margin-bottom: 10px;">Q. 모바일에서도 사용할 수 있나요?</h4>
+            <p style="color: #666; line-height: 1.7;">네! 모바일, 태블릿, PC 모든 기기에서 편리하게 이용할 수 있어요.</p>
+        </div>
+    </div>
+</div>
+{{ end }}

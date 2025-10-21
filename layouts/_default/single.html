@@ -1,0 +1,53 @@
+{{ define "head" }}
+<style>
+    body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+    }
+
+    main {
+        padding-bottom: 60px;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+</style>
+{{ end }}
+
+{{ define "main" }}
+<div class="container">
+    <!-- Test Introduction -->
+    {{ partial "test-intro.html" . }}
+
+    <!-- Test Content (Questions & Results) -->
+    {{ partial "test-content.html" . }}
+
+    <!-- Share Buttons -->
+    {{ partial "share-buttons.html" . }}
+</div>
+{{ end }}
+
+{{ define "scripts" }}
+<script>
+    // Test Data (from front matter)
+    const testData = {
+        id: '{{ .File.BaseFileName }}',
+        title: '{{ .Title }}',
+        questions: {{ .Params.questions | jsonify }},
+        results: {{ .Params.results | jsonify }}
+    };
+
+    // Initialize test engine
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize test counter
+        incrementTestCounter(testData.id);
+
+        // Initialize test engine
+        initTest(testData);
+    });
+</script>
+{{ end }}

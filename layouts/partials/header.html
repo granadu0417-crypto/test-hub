@@ -1,0 +1,57 @@
+<header style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px 20px; text-align: center; color: white; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+    <div class="container" style="max-width: 1200px; margin: 0 auto;">
+        <!-- Logo/Title -->
+        <h1 style="font-size: 2rem; margin: 0 0 10px 0; font-weight: 700;">
+            <a href="/" style="color: white; text-decoration: none;">
+                {{ .Site.Title }}
+            </a>
+        </h1>
+
+        <p style="font-size: 1.1rem; margin: 0 0 15px 0; opacity: 0.95;">
+            {{ .Site.Params.description }}
+        </p>
+
+        <!-- Usage Counter -->
+        <div class="usage-counter">
+            <div class="label">누적 참여자</div>
+            <div class="count"><span id="usageCount">0</span>명</div>
+        </div>
+
+        <!-- Navigation (if not on home page) -->
+        {{ if not .IsHome }}
+        <nav style="margin-top: 20px;">
+            <a href="/" style="color: white; text-decoration: none; padding: 10px 20px; background: rgba(255,255,255,0.2); border-radius: 25px; display: inline-block; transition: all 0.3s ease;">
+                ← 전체 테스트 보기
+            </a>
+        </nav>
+        {{ end }}
+    </div>
+
+    <!-- Usage Counter Script -->
+    <script>
+        (function() {
+            const storageKey = 'test_hub_usage_count';
+            const baseCount = 50000; // 기본 시작 숫자
+            let currentCount = parseInt(localStorage.getItem(storageKey)) || baseCount;
+
+            currentCount++;
+            localStorage.setItem(storageKey, currentCount);
+
+            const countElement = document.getElementById('usageCount');
+            if (countElement) {
+                // 애니메이션 효과
+                let displayCount = currentCount - 50;
+                const increment = Math.ceil(50 / 20); // 20단계로 나눔
+
+                const timer = setInterval(() => {
+                    displayCount += increment;
+                    if (displayCount >= currentCount) {
+                        displayCount = currentCount;
+                        clearInterval(timer);
+                    }
+                    countElement.textContent = displayCount.toLocaleString();
+                }, 30);
+            }
+        })();
+    </script>
+</header>

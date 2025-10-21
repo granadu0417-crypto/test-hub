@@ -1,0 +1,56 @@
+<div id="test-intro" class="test-intro" style="max-width: 800px; margin: 40px auto; padding: 0 20px;">
+    <!-- Test Hero Image (if provided) -->
+    {{ if .Params.image }}
+    <div style="text-align: center; margin-bottom: 30px;">
+        <img src="{{ .Params.image }}" alt="{{ .Title }}" style="max-width: 100%; height: auto; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+    </div>
+    {{ end }}
+
+    <!-- Test Icon/Badge -->
+    <div style="text-align: center; font-size: 4rem; margin-bottom: 20px;">
+        {{ if .Params.icon }}{{ .Params.icon }}{{ else }}🎯{{ end }}
+    </div>
+
+    <!-- Test Title -->
+    <h2 style="font-size: 2rem; text-align: center; margin-bottom: 20px; font-weight: 700; color: #333;">
+        {{ .Title }}
+    </h2>
+
+    <!-- Test Description -->
+    <div style="font-size: 1.1rem; line-height: 1.8; color: #666; text-align: center; margin-bottom: 30px;">
+        {{ if .Description }}
+            <p>{{ .Description }}</p>
+        {{ else }}
+            {{ .Content }}
+        {{ end }}
+    </div>
+
+    <!-- Test Info -->
+    <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; margin-bottom: 30px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; text-align: center;">
+            {{ if .Params.questionCount }}
+            <div>
+                <div style="font-size: 0.9rem; color: #999; margin-bottom: 5px;">질문 수</div>
+                <div style="font-size: 1.3rem; font-weight: 700; color: #667eea;">{{ .Params.questionCount }}개</div>
+            </div>
+            {{ end }}
+            {{ if .Params.duration }}
+            <div>
+                <div style="font-size: 0.9rem; color: #999; margin-bottom: 5px;">소요 시간</div>
+                <div style="font-size: 1.3rem; font-weight: 700; color: #667eea;">{{ .Params.duration }}</div>
+            </div>
+            {{ end }}
+            <div>
+                <div style="font-size: 0.9rem; color: #999; margin-bottom: 5px;">참여자 수</div>
+                <div style="font-size: 1.3rem; font-weight: 700; color: #667eea;"><span id="testCount">0</span>명</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Start Button -->
+    <div style="text-align: center;">
+        <button id="start-test-btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 18px 50px; font-size: 1.2rem; font-weight: 700; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); transition: all 0.3s ease;">
+            테스트 시작하기 ▶
+        </button>
+    </div>
+</div>

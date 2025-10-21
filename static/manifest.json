@@ -1,0 +1,26 @@
+{
+  "name": "심리테스트 모음 - 재미있는 성격 & 심리 테스트",
+  "short_name": "심리테스트",
+  "description": "무료 심리테스트, 성격 테스트, MBTI, 연애 스타일, 직업 적성 등 다양한 테스트를 즐겨보세요",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#667eea",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/images/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["lifestyle", "entertainment", "education"],
+  "lang": "ko-KR"
+}
