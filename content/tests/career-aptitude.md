@@ -4,6 +4,9 @@ date: 2025-01-21
 description: "12가지 질문으로 나에게 맞는 직업 찾기! 당신의 재능과 적성을 알아보세요"
 summary: "나의 강점과 성향에 맞는 직업 분야를 찾아보세요"
 icon: "💼"
+category: "career"
+badge: "NEW"
+featured: true
 ogImage: "og-career.jpg"
 keywords: ["직업적성", "진로테스트", "직업테스트", "적성검사", "진로"]
 questionCount: 12

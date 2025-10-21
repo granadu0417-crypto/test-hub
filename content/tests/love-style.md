@@ -4,6 +4,9 @@ date: 2025-01-21
 description: "12가지 질문으로 알아보는 나의 연애 스타일! 당신은 어떤 연인인가요?"
 summary: "나의 연애 스타일과 이상형을 알아보는 재미있는 테스트"
 icon: "💕"
+category: "romance"
+badge: "UPDATE"
+featured: true
 ogImage: "og-love.jpg"
 keywords: ["연애테스트", "연애스타일", "심리테스트", "사랑테스트", "이상형"]
 questionCount: 12

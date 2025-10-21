@@ -4,6 +4,9 @@ date: 2025-01-21
 description: "10가지 질문으로 나의 사랑의 언어 찾기! 나는 어떻게 사랑을 주고받을까?"
 summary: "5가지 사랑의 언어 중 나의 유형을 알아보세요"
 icon: "💝"
+category: "romance"
+badge: ""
+featured: false
 ogImage: "og-love-language.jpg"
 keywords: ["사랑의언어", "애정표현", "연애", "심리테스트", "관계"]
 questionCount: 10

@@ -4,6 +4,9 @@ date: 2025-01-21
 description: "12가지 질문으로 나의 자존감 수준 체크! 나는 나를 얼마나 사랑하고 있을까?"
 summary: "자존감 수준을 측정하고 자기 사랑을 키우는 방법을 알아보세요"
 icon: "🧠"
+category: "healing"
+badge: "UPDATE"
+featured: false
 ogImage: "og-self-esteem.jpg"
 keywords: ["자존감", "자아존중감", "심리테스트", "자기애", "자신감"]
 questionCount: 12

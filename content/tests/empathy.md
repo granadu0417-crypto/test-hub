@@ -4,6 +4,9 @@ date: 2025-01-21
 description: "12가지 질문으로 나의 공감 유형 파악! 나는 다른 사람의 감정을 얼마나 이해할까?"
 summary: "공감 능력을 측정하고 더 나은 관계를 만드는 방법을 알아보세요"
 icon: "🤝"
+category: "personality"
+badge: "NEW"
+featured: true
 ogImage: "og-empathy.jpg"
 keywords: ["공감능력", "감정이입", "심리테스트", "인간관계", "소통"]
 questionCount: 12

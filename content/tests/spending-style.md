@@ -4,6 +4,9 @@ date: 2025-01-21
 description: "12가지 질문으로 나의 소비 습관 파악하기! 당신은 어떤 소비 스타일인가요?"
 summary: "나의 소비 패턴을 분석하고 현명한 재테크 방법을 알아보세요"
 icon: "💰"
+category: "healing"
+badge: "NEW"
+featured: false
 ogImage: "og-spending.jpg"
 keywords: ["소비성향", "재테크", "돈관리", "심리테스트", "절약"]
 questionCount: 12

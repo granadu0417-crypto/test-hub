@@ -4,6 +4,9 @@ date: 2025-01-21
 description: "12가지 질문으로 알아보는 나의 MBTI 성격 유형! 외향형일까 내향형일까?"
 summary: "12개의 질문으로 간단하게 당신의 성격 유형을 알아보세요"
 icon: "🎭"
+category: "personality"
+badge: ""
+featured: true
 ogImage: "og-mbti.jpg"
 keywords: ["MBTI", "성격테스트", "성격유형", "심리테스트", "MBTI테스트"]
 questionCount: 12

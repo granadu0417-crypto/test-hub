@@ -10,7 +10,7 @@
     .hero {
         max-width: 900px;
         margin: 0 auto;
-        padding: 60px 20px;
+        padding: 60px 20px 40px 20px;
         text-align: center;
     }
 
@@ -28,31 +28,120 @@
         margin-bottom: 40px;
     }
 
-    .test-grid {
+    /* 인기 TOP 5 섹션 */
+    .featured-section {
         max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px 60px 20px;
+        margin: 0 auto 60px auto;
+        padding: 0 20px;
+    }
+
+    .featured-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .featured-header h3 {
+        font-size: 2rem;
+        color: #333;
+        margin-bottom: 10px;
+        display: inline-block;
+    }
+
+    .featured-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #FFD700, #FFA500);
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: bold;
+        margin-left: 10px;
+        vertical-align: middle;
+    }
+
+    .featured-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        gap: 30px;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+        margin-bottom: 20px;
+    }
+
+    /* 카테고리 섹션 */
+    .category-section {
+        max-width: 1200px;
+        margin: 0 auto 50px auto;
+        padding: 0 20px;
+    }
+
+    .category-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 3px solid #667eea;
+    }
+
+    .category-header h3 {
+        font-size: 1.8rem;
+        color: #333;
+        margin: 0;
+        font-weight: 700;
+    }
+
+    .category-count {
+        margin-left: 15px;
+        background: #667eea;
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+
+    .test-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
     }
 
     .test-card {
         background: white;
         border-radius: 20px;
-        padding: 40px;
+        padding: 35px;
         box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         transition: all 0.3s ease;
         text-decoration: none;
         color: inherit;
         display: block;
         border: 3px solid transparent;
+        position: relative;
     }
 
     .test-card:hover {
         transform: translateY(-8px);
         box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
         border-color: #667eea;
+    }
+
+    .test-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        padding: 6px 14px;
+        border-radius: 15px;
+        font-size: 0.75rem;
+        font-weight: bold;
+        letter-spacing: 0.5px;
+    }
+
+    .test-badge.new {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+    }
+
+    .test-badge.update {
+        background: linear-gradient(135deg, #f093fb, #f5576c);
+        color: white;
     }
 
     .test-icon {
@@ -93,6 +182,93 @@
         gap: 5px;
     }
 
+    /* 특징 섹션 */
+    .features-section {
+        max-width: 1000px;
+        margin: 60px auto;
+        padding: 0 20px;
+    }
+
+    .features-card {
+        background: white;
+        border-radius: 20px;
+        padding: 50px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .features-title {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 40px;
+        color: #333;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+    }
+
+    .feature-item {
+        text-align: center;
+    }
+
+    .feature-icon {
+        font-size: 3rem;
+        margin-bottom: 15px;
+    }
+
+    .feature-title {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .feature-description {
+        color: #666;
+        line-height: 1.6;
+    }
+
+    /* FAQ 섹션 */
+    .faq-section {
+        max-width: 800px;
+        margin: 60px auto 80px auto;
+        padding: 0 20px;
+    }
+
+    .faq-title {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 40px;
+        color: #333;
+    }
+
+    .faq-card {
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .faq-item {
+        margin-bottom: 30px;
+    }
+
+    .faq-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .faq-question {
+        font-size: 1.2rem;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .faq-answer {
+        color: #666;
+        line-height: 1.7;
+    }
+
     @media (max-width: 768px) {
         .hero h2 {
             font-size: 1.8rem;
@@ -102,6 +278,7 @@
             font-size: 1rem;
         }
 
+        .featured-grid,
         .test-grid {
             grid-template-columns: 1fr;
             gap: 20px;
@@ -109,6 +286,19 @@
 
         .test-card {
             padding: 30px;
+        }
+
+        .featured-header h3,
+        .category-header h3 {
+            font-size: 1.5rem;
+        }
+
+        .features-card {
+            padding: 30px 20px;
+        }
+
+        .faq-card {
+            padding: 30px 20px;
         }
     }
 </style>
@@ -124,83 +314,204 @@
     </p>
 </div>
 
-<!-- Test Grid -->
-<div class="test-grid">
-    {{ range where .Site.RegularPages "Section" "tests" }}
-    <a href="{{ .Permalink }}" class="test-card">
-        <div class="test-icon">
-            {{ if .Params.icon }}{{ .Params.icon }}{{ else }}📊{{ end }}
-        </div>
-        <h3 class="test-title">{{ .Title }}</h3>
-        <p class="test-summary">
-            {{ if .Params.summary }}
-                {{ .Params.summary }}
-            {{ else if .Description }}
-                {{ .Description }}
-            {{ else }}
-                {{ .Summary }}
+<!-- 인기 TOP 5 Section -->
+<div class="featured-section">
+    <div class="featured-header">
+        <h3>🔥 인기 TOP 5</h3>
+        <span class="featured-badge">HOT</span>
+    </div>
+    <div class="featured-grid">
+        {{ range where (where .Site.RegularPages "Section" "tests") ".Params.featured" true }}
+        <a href="{{ .Permalink }}" class="test-card">
+            {{ if .Params.badge }}
+                {{ if eq .Params.badge "NEW" }}
+                <span class="test-badge new">NEW</span>
+                {{ else if eq .Params.badge "UPDATE" }}
+                <span class="test-badge update">UPDATE</span>
+                {{ end }}
             {{ end }}
-        </p>
-        <div class="test-meta">
-            {{ if .Params.questionCount }}
-            <span>❓ {{ .Params.questionCount }}개 질문</span>
-            {{ end }}
-            {{ if .Params.duration }}
-            <span>⏱️ {{ .Params.duration }}</span>
-            {{ end }}
-        </div>
-    </a>
-    {{ end }}
+            <div class="test-icon">{{ .Params.icon }}</div>
+            <h3 class="test-title">{{ .Title }}</h3>
+            <p class="test-summary">{{ .Params.summary }}</p>
+            <div class="test-meta">
+                <span>❓ {{ .Params.questionCount }}개 질문</span>
+                <span>⏱️ {{ .Params.duration }}</span>
+            </div>
+        </a>
+        {{ end }}
+    </div>
 </div>
 
+<!-- 카테고리별 테스트 -->
+
+<!-- 💕 연애 테스트 -->
+{{ $romanceTests := where (where .Site.RegularPages "Section" "tests") ".Params.category" "romance" }}
+{{ if $romanceTests }}
+<div class="category-section">
+    <div class="category-header">
+        <h3>💕 연애 테스트</h3>
+        <span class="category-count">{{ len $romanceTests }}개</span>
+    </div>
+    <div class="test-grid">
+        {{ range $romanceTests }}
+        <a href="{{ .Permalink }}" class="test-card">
+            {{ if .Params.badge }}
+                {{ if eq .Params.badge "NEW" }}
+                <span class="test-badge new">NEW</span>
+                {{ else if eq .Params.badge "UPDATE" }}
+                <span class="test-badge update">UPDATE</span>
+                {{ end }}
+            {{ end }}
+            <div class="test-icon">{{ .Params.icon }}</div>
+            <h3 class="test-title">{{ .Title }}</h3>
+            <p class="test-summary">{{ .Params.summary }}</p>
+            <div class="test-meta">
+                <span>❓ {{ .Params.questionCount }}개 질문</span>
+                <span>⏱️ {{ .Params.duration }}</span>
+            </div>
+        </a>
+        {{ end }}
+    </div>
+</div>
+{{ end }}
+
+<!-- 🎭 성격 테스트 -->
+{{ $personalityTests := where (where .Site.RegularPages "Section" "tests") ".Params.category" "personality" }}
+{{ if $personalityTests }}
+<div class="category-section">
+    <div class="category-header">
+        <h3>🎭 성격 테스트</h3>
+        <span class="category-count">{{ len $personalityTests }}개</span>
+    </div>
+    <div class="test-grid">
+        {{ range $personalityTests }}
+        <a href="{{ .Permalink }}" class="test-card">
+            {{ if .Params.badge }}
+                {{ if eq .Params.badge "NEW" }}
+                <span class="test-badge new">NEW</span>
+                {{ else if eq .Params.badge "UPDATE" }}
+                <span class="test-badge update">UPDATE</span>
+                {{ end }}
+            {{ end }}
+            <div class="test-icon">{{ .Params.icon }}</div>
+            <h3 class="test-title">{{ .Title }}</h3>
+            <p class="test-summary">{{ .Params.summary }}</p>
+            <div class="test-meta">
+                <span>❓ {{ .Params.questionCount }}개 질문</span>
+                <span>⏱️ {{ .Params.duration }}</span>
+            </div>
+        </a>
+        {{ end }}
+    </div>
+</div>
+{{ end }}
+
+<!-- 💼 직업 테스트 -->
+{{ $careerTests := where (where .Site.RegularPages "Section" "tests") ".Params.category" "career" }}
+{{ if $careerTests }}
+<div class="category-section">
+    <div class="category-header">
+        <h3>💼 직업 테스트</h3>
+        <span class="category-count">{{ len $careerTests }}개</span>
+    </div>
+    <div class="test-grid">
+        {{ range $careerTests }}
+        <a href="{{ .Permalink }}" class="test-card">
+            {{ if .Params.badge }}
+                {{ if eq .Params.badge "NEW" }}
+                <span class="test-badge new">NEW</span>
+                {{ else if eq .Params.badge "UPDATE" }}
+                <span class="test-badge update">UPDATE</span>
+                {{ end }}
+            {{ end }}
+            <div class="test-icon">{{ .Params.icon }}</div>
+            <h3 class="test-title">{{ .Title }}</h3>
+            <p class="test-summary">{{ .Params.summary }}</p>
+            <div class="test-meta">
+                <span>❓ {{ .Params.questionCount }}개 질문</span>
+                <span>⏱️ {{ .Params.duration }}</span>
+            </div>
+        </a>
+        {{ end }}
+    </div>
+</div>
+{{ end }}
+
+<!-- 🌱 힐링 테스트 -->
+{{ $healingTests := where (where .Site.RegularPages "Section" "tests") ".Params.category" "healing" }}
+{{ if $healingTests }}
+<div class="category-section">
+    <div class="category-header">
+        <h3>🌱 힐링 테스트</h3>
+        <span class="category-count">{{ len $healingTests }}개</span>
+    </div>
+    <div class="test-grid">
+        {{ range $healingTests }}
+        <a href="{{ .Permalink }}" class="test-card">
+            {{ if .Params.badge }}
+                {{ if eq .Params.badge "NEW" }}
+                <span class="test-badge new">NEW</span>
+                {{ else if eq .Params.badge "UPDATE" }}
+                <span class="test-badge update">UPDATE</span>
+                {{ end }}
+            {{ end }}
+            <div class="test-icon">{{ .Params.icon }}</div>
+            <h3 class="test-title">{{ .Title }}</h3>
+            <p class="test-summary">{{ .Params.summary }}</p>
+            <div class="test-meta">
+                <span>❓ {{ .Params.questionCount }}개 질문</span>
+                <span>⏱️ {{ .Params.duration }}</span>
+            </div>
+        </a>
+        {{ end }}
+    </div>
+</div>
+{{ end }}
+
 <!-- Features Section -->
-<div style="max-width: 1000px; margin: 0 auto 60px auto; padding: 0 20px;">
-    <div style="background: white; border-radius: 20px; padding: 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
-        <h3 style="text-align: center; font-size: 1.8rem; margin-bottom: 40px; color: #333;">
-            ✨ 심리테스트 모음의 특징
-        </h3>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
-            <div style="text-align: center;">
-                <div style="font-size: 3rem; margin-bottom: 15px;">🆓</div>
-                <h4 style="font-size: 1.2rem; margin-bottom: 10px; color: #333;">완전 무료</h4>
-                <p style="color: #666; line-height: 1.6;">회원가입 없이 모든 테스트를 무료로 이용할 수 있어요</p>
+<div class="features-section">
+    <div class="features-card">
+        <h3 class="features-title">✨ 심리테스트 모음의 특징</h3>
+        <div class="features-grid">
+            <div class="feature-item">
+                <div class="feature-icon">🆓</div>
+                <h4 class="feature-title">완전 무료</h4>
+                <p class="feature-description">회원가입 없이 모든 테스트를 무료로 이용할 수 있어요</p>
             </div>
-            <div style="text-align: center;">
-                <div style="font-size: 3rem; margin-bottom: 15px;">⚡</div>
-                <h4 style="font-size: 1.2rem; margin-bottom: 10px; color: #333;">빠른 결과</h4>
-                <p style="color: #666; line-height: 1.6;">3분 안에 테스트를 완료하고 바로 결과를 확인하세요</p>
+            <div class="feature-item">
+                <div class="feature-icon">⚡</div>
+                <h4 class="feature-title">빠른 결과</h4>
+                <p class="feature-description">3분 안에 테스트를 완료하고 바로 결과를 확인하세요</p>
             </div>
-            <div style="text-align: center;">
-                <div style="font-size: 3rem; margin-bottom: 15px;">🎨</div>
-                <h4 style="font-size: 1.2rem; margin-bottom: 10px; color: #333;">재미있는 디자인</h4>
-                <p style="color: #666; line-height: 1.6;">직관적이고 예쁜 디자인으로 즐겁게 테스트하세요</p>
+            <div class="feature-item">
+                <div class="feature-icon">🎨</div>
+                <h4 class="feature-title">재미있는 디자인</h4>
+                <p class="feature-description">직관적이고 예쁜 디자인으로 즐겁게 테스트하세요</p>
             </div>
-            <div style="text-align: center;">
-                <div style="font-size: 3rem; margin-bottom: 15px;">💬</div>
-                <h4 style="font-size: 1.2rem; margin-bottom: 10px; color: #333;">공유하기</h4>
-                <p style="color: #666; line-height: 1.6;">결과를 친구들과 공유하고 함께 즐겨보세요</p>
+            <div class="feature-item">
+                <div class="feature-icon">💬</div>
+                <h4 class="feature-title">공유하기</h4>
+                <p class="feature-description">결과를 친구들과 공유하고 함께 즐겨보세요</p>
             </div>
         </div>
     </div>
 </div>
 
 <!-- FAQ Section -->
-<div style="max-width: 800px; margin: 0 auto 80px auto; padding: 0 20px;">
-    <h3 style="text-align: center; font-size: 1.8rem; margin-bottom: 40px; color: #333;">
-        ❓ 자주 묻는 질문
-    </h3>
-    <div style="background: white; border-radius: 20px; padding: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
-        <div style="margin-bottom: 30px;">
-            <h4 style="font-size: 1.2rem; color: #333; margin-bottom: 10px;">Q. 회원가입이 필요한가요?</h4>
-            <p style="color: #666; line-height: 1.7;">아니요! 회원가입 없이 누구나 무료로 모든 테스트를 이용할 수 있어요.</p>
+<div class="faq-section">
+    <h3 class="faq-title">❓ 자주 묻는 질문</h3>
+    <div class="faq-card">
+        <div class="faq-item">
+            <h4 class="faq-question">Q. 회원가입이 필요한가요?</h4>
+            <p class="faq-answer">아니요! 회원가입 없이 누구나 무료로 모든 테스트를 이용할 수 있어요.</p>
         </div>
-        <div style="margin-bottom: 30px;">
-            <h4 style="font-size: 1.2rem; color: #333; margin-bottom: 10px;">Q. 테스트 결과는 어디에 저장되나요?</h4>
-            <p style="color: #666; line-height: 1.7;">테스트 결과는 여러분의 브라우저에 저장되어 언제든지 다시 확인할 수 있어요.</p>
+        <div class="faq-item">
+            <h4 class="faq-question">Q. 테스트 결과는 어디에 저장되나요?</h4>
+            <p class="faq-answer">테스트 결과는 여러분의 브라우저에 저장되어 언제든지 다시 확인할 수 있어요.</p>
         </div>
-        <div>
-            <h4 style="font-size: 1.2rem; color: #333; margin-bottom: 10px;">Q. 모바일에서도 사용할 수 있나요?</h4>
-            <p style="color: #666; line-height: 1.7;">네! 모바일, 태블릿, PC 모든 기기에서 편리하게 이용할 수 있어요.</p>
+        <div class="faq-item">
+            <h4 class="faq-question">Q. 모바일에서도 사용할 수 있나요?</h4>
+            <p class="faq-answer">네! 모바일, 태블릿, PC 모든 기기에서 편리하게 이용할 수 있어요.</p>
         </div>
     </div>
 </div>
