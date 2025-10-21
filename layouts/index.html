@@ -468,6 +468,37 @@
 </div>
 {{ end }}
 
+<!-- 🎉 재미 테스트 (BTI 시리즈) -->
+{{ $funTests := where (where .Site.RegularPages "Section" "tests") ".Params.category" "fun" }}
+{{ if $funTests }}
+<div class="category-section">
+    <div class="category-header">
+        <h3>🎉 재미 테스트</h3>
+        <span class="category-count">{{ len $funTests }}개</span>
+    </div>
+    <div class="test-grid">
+        {{ range $funTests }}
+        <a href="{{ .Permalink }}" class="test-card">
+            {{ if .Params.badge }}
+                {{ if eq .Params.badge "NEW" }}
+                <span class="test-badge new">NEW</span>
+                {{ else if eq .Params.badge "UPDATE" }}
+                <span class="test-badge update">UPDATE</span>
+                {{ end }}
+            {{ end }}
+            <div class="test-icon">{{ .Params.icon }}</div>
+            <h3 class="test-title">{{ .Title }}</h3>
+            <p class="test-summary">{{ .Params.summary }}</p>
+            <div class="test-meta">
+                <span>❓ {{ .Params.questionCount }}개 질문</span>
+                <span>⏱️ {{ .Params.duration }}</span>
+            </div>
+        </a>
+        {{ end }}
+    </div>
+</div>
+{{ end }}
+
 <!-- Features Section -->
 <div class="features-section">
     <div class="features-card">
