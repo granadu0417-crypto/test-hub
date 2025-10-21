@@ -79,6 +79,117 @@ class TestEngine {
         }
     }
 
+    // 2D 점수 시스템 매핑 정의
+    get2DMapping() {
+        const mappings = {
+            'energy-emotional': {
+                types: {
+                    'high-high': 'passionate-romantic',
+                    'high-low': 'passionate-realistic',
+                    'low-high': 'steady-romantic',
+                    'low-low': 'steady-realistic',
+                    'high-neutral': 'passionate',
+                    'low-neutral': 'steady',
+                    'neutral-high': 'romantic',
+                    'neutral-low': 'realistic'
+                }
+            },
+            'emotional-cognitive': {
+                types: {
+                    'high-high': 'empathic-master',
+                    'high-neutral': 'emotional-intuitive',
+                    'high-low': 'emotional-dominant',
+                    'low-high': 'cognitive-analytical',
+                    'neutral-neutral': 'balanced',
+                    'low-neutral': 'cognitive-focused',
+                    'neutral-low': 'developing',
+                    'low-low': 'detached'
+                }
+            },
+            'energy-breadth': {
+                types: {
+                    'high-high': 'social-butterfly',
+                    'high-neutral': 'warm-connector',
+                    'high-low': 'selective-social',
+                    'neutral-neutral': 'balanced',
+                    'low-high': 'quiet-networker',
+                    'low-neutral': 'intimate-friend',
+                    'neutral-low': 'independent-soul',
+                    'low-low': 'solitary-observer'
+                }
+            },
+            'saving-planning': {
+                types: {
+                    'high-high': 'master-saver',
+                    'high-neutral': 'strategic-investor',
+                    'neutral-high': 'mindful-budgeter',
+                    'neutral-neutral': 'balanced-budgeter',
+                    'low-neutral': 'flexible-spender',
+                    'neutral-low': 'planned-enjoyer',
+                    'low-low': 'impulsive-spender',
+                    'reformed': 'reformed-spender'
+                }
+            },
+            'people-structure': {
+                types: {
+                    'high-high': 'compassionate-leader',
+                    'high-neutral': 'caring-helper',
+                    'high-low': 'creative-collaborator',
+                    'neutral-low': 'innovative-creator',
+                    'low-high': 'analytical-thinker',
+                    'neutral-high': 'strategic-organizer',
+                    'neutral-neutral': 'balanced-professional',
+                    'versatile': 'versatile-adapter'
+                }
+            }
+        };
+        return mappings;
+    }
+
+    // 2D 점수를 결과 타입으로 매핑
+    map2DScoreToType(axis1Name, axis1Score, axis2Name, axis2Score) {
+        const threshold = 5;  // 중립 범위
+        const mappings = this.get2DMapping();
+        const mapKey = `${axis1Name}-${axis2Name}`;
+        const mapping = mappings[mapKey];
+
+        if (!mapping) {
+            console.warn(`No 2D mapping found for ${mapKey}`);
+            return null;
+        }
+
+        // 각 축의 레벨 결정
+        const getLevel = (score) => {
+            if (score > threshold) return 'high';
+            if (score < -threshold) return 'low';
+            return 'neutral';
+        };
+
+        const level1 = getLevel(axis1Score);
+        const level2 = getLevel(axis2Score);
+        const positionKey = `${level1}-${level2}`;
+
+        // 매핑에서 결과 타입 찾기
+        let resultType = mapping.types[positionKey];
+
+        // 특수 케이스 처리
+        if (!resultType && mapKey === 'saving-planning') {
+            // reformed-spender: 낮은 저축 + 중립 계획에서 개선 의지 있는 경우
+            if (level1 === 'low' && level2 === 'neutral' && axis2Score > 0) {
+                resultType = mapping.types['reformed'];
+            }
+        }
+
+        if (!resultType && mapKey === 'people-structure') {
+            // versatile-adapter: 균형잡힌 낮은 수준 (유연한 적응형)
+            if ((level1 === 'neutral' || level1 === 'low') && (level2 === 'neutral' || level2 === 'low')) {
+                resultType = mapping.types['versatile'];
+            }
+        }
+
+        return resultType;
+    }
+
     // 결과 계산
     calculateResult() {
         // MBTI 테스트 감지: 결과 타입이 4글자 MBTI 코드인지 확인
@@ -98,50 +209,35 @@ class TestEngine {
             return this.testData.results.find(r => r.type === resultType);
         }
 
-        // 2차원 점수 시스템 감지 (energy, emotional 축)
-        const has2D = this.scores.hasOwnProperty('energy') && this.scores.hasOwnProperty('emotional');
+        // 2D 점수 시스템 감지: 결과 타입이 아닌 축 점수 찾기
+        const resultTypes = this.testData.results.map(r => r.type);
+        const axisScores = Object.keys(this.scores).filter(key => !resultTypes.includes(key));
 
-        if (has2D) {
-            const energy = this.scores.energy || 0;
-            const emotional = this.scores.emotional || 0;
+        if (axisScores.length === 2) {
+            // 2D 점수 시스템
+            const [axis1, axis2] = axisScores;
+            const score1 = this.scores[axis1] || 0;
+            const score2 = this.scores[axis2] || 0;
 
-            // 2차원 평면에서 결과 판정
-            const energyThreshold = 5;  // 중립 범위
-            const emotionalThreshold = 5;
-
-            let resultType;
-
-            if (energy > energyThreshold && emotional > emotionalThreshold) {
-                resultType = 'passionate-romantic';
-            } else if (energy > energyThreshold && emotional < -emotionalThreshold) {
-                resultType = 'passionate-realistic';
-            } else if (energy < -energyThreshold && emotional > emotionalThreshold) {
-                resultType = 'steady-romantic';
-            } else if (energy < -energyThreshold && emotional < -emotionalThreshold) {
-                resultType = 'steady-realistic';
-            } else if (Math.abs(energy) > Math.abs(emotional)) {
-                // Energy 축이 더 강함
-                resultType = energy > 0 ? 'passionate' : 'steady';
-            } else {
-                // Emotional 축이 더 강함
-                resultType = emotional > 0 ? 'romantic' : 'realistic';
+            const resultType = this.map2DScoreToType(axis1, score1, axis2, score2);
+            if (resultType) {
+                return this.testData.results.find(r => r.type === resultType);
             }
-
-            return this.testData.results.find(r => r.type === resultType);
-        } else {
-            // 일반 테스트: 가장 높은 점수의 타입 찾기
-            let maxScore = -1;
-            let resultType = null;
-
-            Object.keys(this.scores).forEach(type => {
-                if (this.scores[type] > maxScore) {
-                    maxScore = this.scores[type];
-                    resultType = type;
-                }
-            });
-
-            return this.testData.results.find(r => r.type === resultType);
         }
+
+        // 일반 테스트: 가장 높은 점수의 타입 찾기
+        let maxScore = -Infinity;
+        let resultType = null;
+
+        resultTypes.forEach(type => {
+            const score = this.scores[type] || 0;
+            if (score > maxScore) {
+                maxScore = score;
+                resultType = type;
+            }
+        });
+
+        return this.testData.results.find(r => r.type === resultType);
     }
 
     // 결과 표시
