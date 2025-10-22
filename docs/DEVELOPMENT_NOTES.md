@@ -254,3 +254,183 @@ git status
 
 **마지막 업데이트:** 2025-01-22
 **작성자:** Claude Code
+
+
+---
+
+## 심리 분석 센터 구현 (2025-01-22)
+
+### 개요
+
+**목적:**
+egoegg.com의 유료 심리 분석 서비스를 무료로 제공하는 종합 심리 분석 시스템 구축
+
+**구현 범위 (Day 1 완료):**
+- ✅ 50문항 종합 심리 분석 테스트
+- ✅ 5대 차원 분석 (정신 건강, 자원 관리, 생활 균형, 커리어 성장, 대인 관계)
+- ✅ 점수 계산 알고리즘 및 위험 요소 감지
+- ✅ Chart.js 레이더 차트 시각화
+- ✅ 개인화된 조언 및 추천
+
+### 기술 구조
+
+**1. 콘텐츠 구조:**
+```
+content/
+└── psychology-center/
+    ├── comprehensive-analysis.md      # 테스트 페이지 (50문항)
+    └── comprehensive-analysis/
+        └── result.md                   # 결과 페이지
+```
+
+**2. 레이아웃 구조:**
+```
+layouts/
+└── psychology/
+    ├── single.html                     # 테스트 인터페이스
+    └── comprehensive-result.html       # 결과 페이지 (레이더 차트)
+```
+
+**3. JavaScript 모듈:**
+```
+static/js/
+└── psychology-calculator.js            # 점수 계산 및 분석 엔진
+```
+
+### 주요 설계 결정
+
+**1. 동적 결과 vs 정적 결과 페이지**
+
+**선택:** 동적 결과 페이지
+**이유:**
+- 심리 분석은 개인화된 결과 (5차원 x 각기 다른 점수)
+- 정적 페이지로는 모든 조합을 커버 불가능
+- 레이더 차트는 Chart.js로 동적 생성 필요
+- sessionStorage로 데이터 전달
+
+**vs. 기존 personality 테스트:**
+- Personality 테스트: 정적 결과 페이지 (12개 고정 결과 타입)
+- Psychology 테스트: 동적 결과 페이지 (무한 조합)
+
+**2. 7점 Likert 척도 사용**
+
+**선택:** 1-7점 척도 (전혀 그렇지 않다 ~ 매우 그렇다)
+**이유:**
+- 과학적 심리 척도 표준 (Rosenberg, PSS-10, MBI 등)
+- 중립 응답 가능 (4점)
+- 충분한 변별력
+
+**3. 위험 요소 감지 시스템**
+
+**구현:**
+- 스트레스 수준 60점 이상 → 경고
+- 번아웃 65점 이상 → 경고
+- 삶의 만족도 35점 이하 → 위험
+- 전체 점수 35점 미만 → 위기 지원 정보 표시
+
+**위기 지원:**
+- 정신건강 위기상담: 1577-0199
+- 자살예방 상담: 1393
+- 지역 정신건강복지센터 안내
+
+### 데이터 흐름
+
+**1. 테스트 진행:**
+```
+comprehensive-analysis.md (Hugo Front Matter)
+    ↓ jsonify | safeJS
+JavaScript testData 객체
+    ↓ sessionStorage.setItem('psychologyTestData')
+사용자 답변 수집
+    ↓ sessionStorage.setItem('psychologyAnswers')
+결과 페이지로 리다이렉트
+```
+
+**2. 결과 계산:**
+```
+result.md 페이지 로드
+    ↓ sessionStorage.getItem()
+PsychologyCalculator.calculateResults(answers)
+    ↓
+    ├── calculateDimensionScores()      # 5대 차원 점수
+    ├── calculateSubdimensionScores()   # 15개 세부 차원
+    ├── detectRisks()                   # 위험 요소 감지
+    ├── analyzeStrengthsWeaknesses()    # 강점/약점 분석
+    └── generateRadarChartData()        # Chart.js 데이터
+    ↓
+화면에 결과 표시
+```
+
+### 성능 고려사항
+
+**빌드 시간:**
+- Before: 156 pages (~14초)
+- After: 159 pages (~15초)
+- 증가량: +3 pages, +1초
+
+**JavaScript 번들:**
+- psychology-calculator.js: ~7KB
+- Chart.js CDN: ~200KB (외부 로딩)
+
+**사용자 경험:**
+- 테스트 소요 시간: 5-7분 (50문항)
+- 결과 계산: <100ms (클라이언트 사이드)
+- 레이더 차트 렌더링: <500ms
+
+### 향후 개선 계획
+
+**Day 2-10 계획:**
+1. 멘탈 케어 카테고리 (5개 테스트)
+2. 라이프 밸런스 카테고리 (5개 테스트)
+3. 자원 관리 카테고리 (5개 테스트)
+4. 커리어 성장 카테고리 (5개 테스트)
+5. 대인 관계 카테고리 (5개 테스트)
+
+**총 목표:**
+- 26개 테스트 (1개 종합 + 25개 세부)
+- ~200개 결과 페이지 (세부 테스트는 정적 페이지 가능)
+
+### 문제 해결 이력
+
+**문제 1: Hugo 레이아웃 매칭**
+
+**발견:**
+- `type: "psychology"` 설정했지만 레이아웃을 찾지 못함
+
+**해결:**
+```
+layouts/psychology/single.html          # 테스트 페이지용
+layouts/psychology/comprehensive-result.html   # 결과 페이지용
+```
+
+**교훈:**
+- `type: "psychology"` → Hugo는 `layouts/psychology/` 에서 템플릿 찾음
+- 결과 페이지는 `layout: "comprehensive-result"` 명시 필요
+
+**문제 2: sessionStorage 데이터 전달**
+
+**이유:**
+- Hugo는 정적 사이트 생성기
+- 사용자 응답 데이터를 서버에 저장 불가능
+- 클라이언트 사이드 저장 필요
+
+**해결:**
+```javascript
+// 테스트 페이지
+sessionStorage.setItem('psychologyTestData', JSON.stringify(testData));
+sessionStorage.setItem('psychologyAnswers', JSON.stringify(answers));
+
+// 결과 페이지
+const testData = JSON.parse(sessionStorage.getItem('psychologyTestData'));
+const answers = JSON.parse(sessionStorage.getItem('psychologyAnswers'));
+```
+
+**주의사항:**
+- sessionStorage는 탭 닫으면 삭제됨
+- 새 탭에서 결과 페이지 직접 접근 시 데이터 없음
+- 에러 처리: 데이터 없으면 테스트 페이지로 리다이렉트
+
+---
+
+**마지막 업데이트:** 2025-01-22 (Day 1 완료)
+**다음 단계:** Day 2 - 멘탈 케어 카테고리 5개 테스트 구현
