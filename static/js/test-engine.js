@@ -289,21 +289,37 @@ class TestEngine {
                         <p>${result.recommendation}</p>
                     </div>
                 ` : ''}
+
+                <!-- 공유 버튼을 결과 카드 안에 포함 -->
+                <div class="share-section-inline" style="margin-top: 40px; padding-top: 30px; border-top: 2px solid #f0f0f0;">
+                    <h4 style="text-align: center; font-size: 1.3rem; color: #333; margin-bottom: 20px;">
+                        💬 결과를 친구에게 공유하기
+                    </h4>
+                    <div class="share-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                        <button class="btn-share btn-facebook" onclick="testEngine.shareFacebook()" style="flex: 1; min-width: 200px; max-width: 250px; padding: 15px 25px; background: #1877f2; color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s ease;">
+                            <span style="font-size: 1.3rem;">📘</span> 페이스북
+                        </button>
+                        <button class="btn-share btn-copy" onclick="testEngine.copyLink()" style="flex: 1; min-width: 200px; max-width: 250px; padding: 15px 25px; background: #667eea; color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s ease;">
+                            <span style="font-size: 1.3rem;">🔗</span> <span class="copy-text">링크 복사</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         `;
 
-        // URL에 결과 파라미터 추가 (공유용)
-        const resultUrl = new URL(window.location.href);
-        resultUrl.searchParams.set('result', result.type);
-        window.history.pushState({}, '', resultUrl);
+        // 결과 페이지로 리다이렉트 (정적 페이지)
+        const testId = this.testData.id;
+        const resultPageUrl = `/tests/${testId}/${result.type}/`;
 
-        // 결과 후 공유 섹션 표시
-        const shareSection = document.getElementById('share-section');
-        if (shareSection) {
-            shareSection.style.display = 'block';
-            // 공유 버튼 업데이트
-            this.updateShareButtons(result, resultUrl.href);
-        }
+        // 결과 정보 저장 (리다이렉트 전)
+        sessionStorage.setItem('lastTestResult', JSON.stringify({
+            testId: testId,
+            resultType: result.type,
+            timestamp: new Date().toISOString()
+        }));
+
+        // 정적 결과 페이지로 리다이렉트
+        window.location.href = resultPageUrl;
 
         // 다른 테스트 추천 표시
         const moreTests = document.getElementById('more-tests');
@@ -393,6 +409,68 @@ ${result.subtitle || ''}
         // 페이지 맨 위로 스크롤
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+
+    // 페이스북 공유
+    shareFacebook() {
+        const url = encodeURIComponent(this.currentResultUrl || window.location.href);
+        const result = this.currentResult;
+        const text = result ? encodeURIComponent(`나는 ${result.badge} ${result.title}! 당신도 테스트해보세요`) : '';
+        const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`;
+        window.open(shareUrl, '_blank', 'width=600,height=400');
+    }
+
+    // 링크 복사
+    copyLink() {
+        const url = this.currentResultUrl || window.location.href;
+        const result = this.currentResult;
+        const shareText = result ? `🎯 나는 "${result.title}" ${result.badge}\n\n${result.subtitle || ''}\n당신의 결과는? 👉\n${url}` : url;
+
+        // Clipboard API 사용
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(shareText).then(() => {
+                // 버튼 텍스트 변경
+                const copyBtn = document.querySelector('.copy-text');
+                if (copyBtn) {
+                    copyBtn.textContent = '복사 완료!';
+                    setTimeout(() => {
+                        copyBtn.textContent = '링크 복사';
+                    }, 2000);
+                }
+            }).catch(err => {
+                console.error('복사 실패:', err);
+                this.fallbackCopyLink(shareText);
+            });
+        } else {
+            // 폴백: execCommand 사용
+            this.fallbackCopyLink(shareText);
+        }
+    }
+
+    // 폴백 복사 함수
+    fallbackCopyLink(text) {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.select();
+
+        try {
+            document.execCommand('copy');
+            const copyBtn = document.querySelector('.copy-text');
+            if (copyBtn) {
+                copyBtn.textContent = '복사 완료!';
+                setTimeout(() => {
+                    copyBtn.textContent = '링크 복사';
+                }, 2000);
+            }
+        } catch (err) {
+            console.error('복사 실패:', err);
+            alert('링크 복사에 실패했습니다.');
+        }
+
+        document.body.removeChild(textArea);
+    }
 }
 
 // 글로벌 테스트 엔진 인스턴스
@@ -402,12 +480,19 @@ let testEngine = null;
 function initTest(testData) {
     testEngine = new TestEngine(testData);
 
-    // URL 파라미터 확인 (공유된 결과 링크인 경우)
+    // URL 파라미터 확인 (구형 링크 backward compatibility)
     const urlParams = new URLSearchParams(window.location.search);
     const sharedResult = urlParams.get('result');
 
     if (sharedResult) {
-        // 공유된 결과가 있으면 바로 결과 표시
+        // 구형 ?result= URL을 새 정적 페이지로 리다이렉트
+        const newResultUrl = `/tests/${testData.id}/${sharedResult}/`;
+        window.location.replace(newResultUrl);
+        return; // 리다이렉트 후 함수 종료
+    }
+
+    // 아래 코드는 더 이상 실행되지 않음 (리다이렉트됨)
+    if (false) {
         const result = testData.results.find(r => r.type === sharedResult);
         if (result) {
             document.getElementById('test-intro').style.display = 'none';
