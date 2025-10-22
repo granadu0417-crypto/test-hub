@@ -1,6 +1,7 @@
 ---
 title: "종합 심리 분석"
 date: 2025-01-22
+type: "psychology"
 description: "5분만에 알아보는 나의 심리 지도 - 정신 건강, 자원 관리, 생활 균형, 커리어 성장, 대인 관계를 종합 분석"
 emoji: "🧠"
 category: "심리 분석"
