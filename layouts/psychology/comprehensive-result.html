@@ -2,6 +2,9 @@
 <!-- Chart.js for Radar Chart -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
+<!-- html2canvas for Image Download -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
 <!-- Psychology Result Page Styles -->
 <style>
   .psychology-result-container {
@@ -120,6 +123,7 @@
     font-weight: bold;
     margin-bottom: 20px;
     color: #333;
+    text-align: center;
   }
 
   .strength-weakness-grid {
@@ -288,13 +292,16 @@
     <h3>💬 결과를 공유하기</h3>
     <p>친구들도 자신의 심리 상태를 확인해보세요!</p>
     <div class="share-buttons">
+      <button class="btn-share" style="background: #FF6B6B; color: white;" onclick="downloadResultImage()">
+        📸 이미지로 저장
+      </button>
       <button class="btn-share" style="background: #3b5998; color: white;" onclick="shareFacebook()">
         📘 페이스북 공유
       </button>
       <button class="btn-share" style="background: #00acee; color: white;" onclick="shareTwitter()">
         🐦 트위터 공유
       </button>
-      <button class="btn-share" style="background: #25D366; color: white;" onclick="copyLink()">
+      <button class="btn-share" style="background: #25D366; color: white;" onclick="copyLink(event)">
         🔗 링크 복사
       </button>
     </div>
@@ -574,12 +581,12 @@ function shareTwitter() {
   window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank', 'width=600,height=400');
 }
 
-function copyLink() {
+function copyLink(event) {
   const url = window.location.href;
   const text = `종합 심리 분석 결과\n\n${url}`;
-  
+
   navigator.clipboard.writeText(text).then(() => {
-    const btn = event.target;
+    const btn = event.currentTarget;
     const originalText = btn.innerHTML;
     btn.innerHTML = '✅ 복사 완료!';
     setTimeout(() => {
@@ -587,6 +594,62 @@ function copyLink() {
     }, 2000);
   }).catch(err => {
     alert('링크 복사에 실패했습니다: ' + err);
+  });
+}
+
+/**
+ * Download result as image
+ */
+function downloadResultImage() {
+  const btn = event.currentTarget;
+  const originalText = btn.innerHTML;
+  btn.innerHTML = '📸 생성 중...';
+  btn.disabled = true;
+
+  // Get the result container (excluding share buttons and back button)
+  const container = document.querySelector('.psychology-result-container');
+
+  // Temporarily hide share section and back button
+  const shareSection = document.querySelector('.share-section');
+  const backButton = shareSection.nextElementSibling;
+  shareSection.style.display = 'none';
+  backButton.style.display = 'none';
+
+  html2canvas(container, {
+    backgroundColor: '#f5f5f5',
+    scale: 2, // Higher quality
+    logging: false,
+    useCORS: true
+  }).then(canvas => {
+    // Restore hidden elements
+    shareSection.style.display = 'block';
+    backButton.style.display = 'block';
+    btn.innerHTML = originalText;
+    btn.disabled = false;
+
+    // Convert to blob and download
+    canvas.toBlob(blob => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `심리분석결과_${new Date().toISOString().slice(0,10)}.png`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      // Show success message
+      btn.innerHTML = '✅ 저장 완료!';
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+      }, 2000);
+    });
+  }).catch(err => {
+    shareSection.style.display = 'block';
+    backButton.style.display = 'block';
+    btn.innerHTML = originalText;
+    btn.disabled = false;
+    alert('이미지 생성에 실패했습니다: ' + err.message);
   });
 }
 </script>
