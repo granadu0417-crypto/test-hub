@@ -123,7 +123,9 @@
     font-weight: bold;
     margin-bottom: 20px;
     color: #333;
-    text-align: center;
+    text-align: center !important;
+    display: block;
+    width: 100%;
   }
 
   .strength-weakness-grid {
@@ -429,33 +431,55 @@ function displayDimensionScores(dimensionScores) {
 }
 
 /**
- * Display strengths and weaknesses
+ * Display strengths and weaknesses with professional descriptions
  */
 function displayStrengthsWeaknesses(strengths, weaknesses) {
   const container = document.getElementById('strengthWeakness');
   container.innerHTML = '';
-  
+
+  // Professional strength descriptions
+  const strengthDescriptions = {
+    '정서 건강': '감정을 잘 인식하고 조절하는 능력이 우수합니다. 이는 스트레스 상황에서도 균형을 유지하고, 타인과 건강한 관계를 형성하는 데 큰 도움이 됩니다.',
+    '자기 관리': '목표 설정과 실행력이 뛰어나며, 자기 통제력이 강합니다. 이러한 역량은 장기적인 성공과 성취를 이루는 핵심 요소입니다.',
+    '대인 관계': '타인과의 소통과 협력에 능숙하며, 공감 능력이 우수합니다. 이는 사회적 지지 네트워크를 구축하고 유지하는 데 큰 강점입니다.',
+    '카리어 성장': '자신의 능력을 발전시키려는 의지가 강하며, 새로운 도전을 긍정적으로 받아들입니다. 이는 지속적인 성장과 발전의 원동력이 됩니다.',
+    '생활 균형': '일과 휴식의 균형을 잘 맞추며, 전반적인 삶의 질이 높습니다. 이러한 균형감각은 장기적인 웰빙의 기초가 됩니다.'
+  };
+
+  // Professional growth area descriptions
+  const growthDescriptions = {
+    '정서 건강': '감정 조절에 어려움을 느끼는 경우가 있을 수 있습니다. 이는 매우 자연스러운 현상이며, 마음챙김 훈련이나 감정 일기 작성 등을 통해 점진적으로 개선할 수 있습니다.',
+    '자기 관리': '목표 달성에 어려움을 겪거나 미루는 경향이 있을 수 있습니다. 작은 목표부터 시작하여 성취감을 쌓아가면, 자연스럽게 자기 관리 능력이 향상될 것입니다.',
+    '대인 관계': '대인 관계에서 다소 불편함을 느끼는 경우가 있을 수 있습니다. 자신만의 속도로 관계를 발전시켜 나가되, 필요시 전문가의 도움을 받는 것도 좋은 방법입니다.',
+    '카리어 성장': '진로나 커리어 방향에 대한 고민이 있을 수 있습니다. 다양한 경험을 시도해보고, 커리어 상담 등을 통해 자신의 강점과 관심사를 탐색해보시기를 권장합니다.',
+    '생활 균형': '일과 생활의 균형을 맞추는 데 어려움이 있을 수 있습니다. 우선순위를 정하고, 자신을 위한 시간을 의식적으로 확보하는 연습이 도움이 될 것입니다.'
+  };
+
   // Strengths
   const strengthsDiv = document.createElement('div');
-  strengthsDiv.innerHTML = '<h3>💪 강점</h3>';
+  strengthsDiv.innerHTML = '<h3 style="color: #28a745; margin-bottom: 15px;">💪 심리적 강점</h3>';
   strengths.forEach(s => {
+    const description = strengthDescriptions[s.name] || '이 영역에서 우수한 역량을 보이고 있습니다.';
     strengthsDiv.innerHTML += `
       <div class="strength-card">
-        <strong>${s.name}</strong>: ${s.score}점<br>
-        <small>이 영역에서 뛰어난 역량을 보이고 있습니다.</small>
+        <strong style="font-size: 1.1rem;">${s.name}</strong>
+        <div style="color: #28a745; font-weight: bold; margin: 5px 0;">${s.score}점 (상위 ${100 - Math.round(s.score)}%ile)</div>
+        <p style="margin: 10px 0 0 0; line-height: 1.6;">${description}</p>
       </div>
     `;
   });
   container.appendChild(strengthsDiv);
-  
-  // Weaknesses
+
+  // Growth Areas (reframed from weaknesses)
   const weaknessesDiv = document.createElement('div');
-  weaknessesDiv.innerHTML = '<h3>🎯 개선 영역</h3>';
+  weaknessesDiv.innerHTML = '<h3 style="color: #e67e22; margin-bottom: 15px;">🌱 성장 가능 영역</h3>';
   weaknesses.forEach(w => {
+    const description = growthDescriptions[w.name] || '이 영역에 조금 더 관심을 기울이면 좋은 변화를 경험하실 수 있습니다.';
     weaknessesDiv.innerHTML += `
-      <div class="weakness-card">
-        <strong>${w.name}</strong>: ${w.score}점<br>
-        <small>이 영역에 조금 더 관심을 기울이면 좋겠습니다.</small>
+      <div class="weakness-card" style="background: #fff3e0; border-left-color: #e67e22;">
+        <strong style="font-size: 1.1rem;">${w.name}</strong>
+        <div style="color: #e67e22; font-weight: bold; margin: 5px 0;">${w.score}점 (발전 잠재력: 높음)</div>
+        <p style="margin: 10px 0 0 0; line-height: 1.6;">${description}</p>
       </div>
     `;
   });
@@ -463,54 +487,145 @@ function displayStrengthsWeaknesses(strengths, weaknesses) {
 }
 
 /**
- * Display risk alerts
+ * Display risk alerts with supportive, professional language
  */
 function displayRisks(risks) {
   if (risks.length === 0) return;
-  
+
   const section = document.getElementById('riskSection');
   const container = document.getElementById('riskAlerts');
   section.style.display = 'block';
   container.innerHTML = '';
-  
+
   risks.forEach(risk => {
     const alert = document.createElement('div');
     alert.className = `risk-alert ${risk.severity}`;
+
+    // More supportive messaging
+    let title = risk.severity === 'high' ? '💙 특별한 관심이 필요한 영역' : '💛 주의 깊게 살펴볼 영역';
+    let supportiveMessage = risk.message;
+
+    // Add supportive context
+    let actionAdvice = risk.severity === 'high'
+      ? '<p style="margin-top: 10px; font-weight: normal;">전문가와 상담하시면 더 나은 대처 방법을 찾으실 수 있습니다. 도움을 요청하는 것은 강점이며, 자신을 돌보는 현명한 선택입니다.</p>'
+      : '<p style="margin-top: 10px; font-weight: normal;">이 영역에 조금 더 주의를 기울이시면, 점진적인 개선을 경험하실 수 있습니다.</p>';
+
     alert.innerHTML = `
-      <strong>${risk.severity === 'high' ? '⚠️ 높은 위험' : '⚡ 주의'}</strong><br>
-      ${risk.message}
+      <strong>${title}</strong><br>
+      <p style="margin: 8px 0;">${supportiveMessage}</p>
+      ${actionAdvice}
     `;
     container.appendChild(alert);
   });
 }
 
 /**
- * Display recommendations
+ * Display recommendations with specific, actionable advice
  */
 function displayRecommendations(recommendations) {
   const container = document.getElementById('recommendations');
   container.innerHTML = '';
-  
+
   if (recommendations.length === 0) {
-    container.innerHTML = '<p>현재 상태를 잘 유지하고 계십니다! 🎉</p>';
+    container.innerHTML = `
+      <div class="recommendation-item" style="background: #e8f5e9; border-left-color: #4caf50;">
+        <strong>✨ 훌륭합니다!</strong>
+        <p style="margin: 10px 0 0 0;">현재 전반적으로 건강한 심리 상태를 유지하고 계십니다. 지금의 긍정적인 습관들을 계속 이어가시기 바랍니다.</p>
+        <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+          <li>규칙적인 운동과 충분한 수면 유지하기</li>
+          <li>의미 있는 관계에 시간 투자하기</li>
+          <li>자신만의 스트레스 해소 방법 지속하기</li>
+          <li>정기적인 자기 점검과 성찰 시간 갖기</li>
+        </ul>
+      </div>
+    `;
     return;
   }
-  
+
+  // Enhanced recommendation templates with specific actions
+  const enhancedRecommendations = recommendations.map(rec => {
+    let specificActions = [];
+
+    // Add specific, actionable steps based on recommendation type
+    if (rec.message.includes('정서') || rec.message.includes('감정')) {
+      specificActions = [
+        '매일 5분 마음챙김 명상 실천하기',
+        '감정 일기 작성으로 감정 패턴 파악하기',
+        '깊은 호흡 연습으로 즉각적 안정감 얻기',
+        '필요시 정신건강 전문가 상담 고려하기'
+      ];
+    } else if (rec.message.includes('관계') || rec.message.includes('대인')) {
+      specificActions = [
+        '주 1회 의미 있는 대화 시간 만들기',
+        '경청과 공감 능력 향상 연습하기',
+        '소셜 모임이나 관심사 기반 커뮤니티 참여하기',
+        '갈등 상황에서 건설적 대화법 활용하기'
+      ];
+    } else if (rec.message.includes('목표') || rec.message.includes('관리')) {
+      specificActions = [
+        '작고 구체적인 목표부터 시작하기',
+        '일일 우선순위 3가지 정하고 실천하기',
+        '성취 일지 작성으로 동기 유지하기',
+        '미루기 패턴 인식하고 대처 전략 세우기'
+      ];
+    } else {
+      specificActions = [
+        '하루 20분 이상 신체 활동하기',
+        '충분한 수면 (7-8시간) 확보하기',
+        '건강한 식습관과 규칙적인 생활 리듬 유지하기',
+        '여가 활동과 휴식 시간 의식적으로 확보하기'
+      ];
+    }
+
+    return {
+      ...rec,
+      specificActions
+    };
+  });
+
   // Sort by priority
-  const sorted = recommendations.sort((a, b) => {
+  const sorted = enhancedRecommendations.sort((a, b) => {
     const priority = { high: 3, medium: 2, low: 1 };
     return priority[b.priority] - priority[a.priority];
   });
-  
+
   sorted.forEach(rec => {
     const item = document.createElement('div');
     item.className = 'recommendation-item';
+
+    const priorityIcon = rec.priority === 'high' ? '🎯' : '💫';
+    const priorityText = rec.priority === 'high' ? '우선 추천' : '추천 사항';
+
     item.innerHTML = `
-      <strong>${rec.priority === 'high' ? '🔴' : '🟡'} ${rec.message}</strong><br>
-      <small>💡 ${rec.action}</small>
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <strong style="font-size: 1.1rem;">${priorityIcon} ${priorityText}</strong>
+      </div>
+      <p style="margin: 0 0 10px 0; font-weight: 500; color: #1976d2;">${rec.message}</p>
+      <div style="background: #f8f9fa; padding: 12px; border-radius: 8px; margin-top: 10px;">
+        <strong style="font-size: 0.95rem;">💡 구체적인 실천 방법:</strong>
+        <ul style="margin: 8px 0 0 20px; line-height: 1.8; color: #555;">
+          ${rec.specificActions.map(action => `<li>${action}</li>`).join('')}
+        </ul>
+      </div>
     `;
     container.appendChild(item);
   });
+
+  // Add general wellness tip at the end
+  const wellnessTip = document.createElement('div');
+  wellnessTip.className = 'recommendation-item';
+  wellnessTip.style.background = '#f3e5f5';
+  wellnessTip.style.borderLeftColor = '#9c27b0';
+  wellnessTip.innerHTML = `
+    <strong>🌸 웰빙 팁</strong>
+    <p style="margin: 10px 0 0 0; line-height: 1.6;">
+      심리 검사 결과는 현재 상태를 보여주는 하나의 지표일 뿐, 당신을 정의하지 않습니다.
+      작은 변화부터 시작하되, 자신에게 너그러운 마음을 가지시기 바랍니다.
+      개선은 직선이 아닌 곡선으로 이루어지며, 때로는 후퇴하는 것처럼 보일 수도 있습니다.
+      이는 모두 성장 과정의 일부입니다. 💚
+    </p>
+  `;
+  container.appendChild(wellnessTip);
 }
 
 /**
@@ -582,18 +697,25 @@ function shareTwitter() {
 }
 
 function copyLink(event) {
+  if (!event || !event.currentTarget) {
+    console.error('Event object is invalid');
+    alert('링크 복사에 실패했습니다. 다시 시도해주세요.');
+    return;
+  }
+
   const url = window.location.href;
   const text = `종합 심리 분석 결과\n\n${url}`;
+  const btn = event.currentTarget;
+  const originalText = btn.innerHTML;
 
   navigator.clipboard.writeText(text).then(() => {
-    const btn = event.currentTarget;
-    const originalText = btn.innerHTML;
     btn.innerHTML = '✅ 복사 완료!';
     setTimeout(() => {
       btn.innerHTML = originalText;
     }, 2000);
   }).catch(err => {
-    alert('링크 복사에 실패했습니다: ' + err);
+    console.error('Copy failed:', err);
+    alert('링크 복사에 실패했습니다: ' + err.message);
   });
 }
 
