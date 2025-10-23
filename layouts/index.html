@@ -3,29 +3,32 @@
     body {
         margin: 0;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
         min-height: 100vh;
+        font-optical-sizing: auto;
     }
 
     .hero {
         max-width: 900px;
         margin: 0 auto;
-        padding: 60px 20px 40px 20px;
+        padding: 60px 20px 50px 20px;
         text-align: center;
     }
 
     .hero h2 {
-        font-size: 2.5rem;
-        color: #333;
-        margin-bottom: 20px;
-        font-weight: 700;
+        font-size: 2.6rem;
+        color: #2d3748;
+        margin-bottom: 24px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
     }
 
     .hero p {
-        font-size: 1.2rem;
-        color: #666;
-        line-height: 1.8;
+        font-size: 1.25rem;
+        color: #4a5568;
+        line-height: 1.9;
         margin-bottom: 40px;
+        font-weight: 400;
     }
 
     /* 인기 TOP 5 섹션 */
@@ -76,26 +79,28 @@
     .category-header {
         display: flex;
         align-items: center;
-        margin-bottom: 25px;
-        padding-bottom: 15px;
-        border-bottom: 3px solid #667eea;
+        margin-bottom: 32px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #e2e8f0;
     }
 
     .category-header h3 {
-        font-size: 1.8rem;
-        color: #333;
+        font-size: 1.9rem;
+        color: #2d3748;
         margin: 0;
-        font-weight: 700;
+        font-weight: 800;
+        letter-spacing: -0.01em;
     }
 
     .category-count {
-        margin-left: 15px;
-        background: #667eea;
+        margin-left: 16px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
-        padding: 5px 15px;
-        border-radius: 20px;
-        font-size: 0.9rem;
-        font-weight: bold;
+        padding: 6px 16px;
+        border-radius: 24px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
     }
 
     .test-grid {
@@ -106,32 +111,51 @@
 
     .test-card {
         background: white;
-        border-radius: 20px;
-        padding: 35px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        transition: all 0.3s ease;
+        border-radius: 24px;
+        padding: 40px;
+        box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         text-decoration: none;
         color: inherit;
         display: block;
-        border: 3px solid transparent;
+        border: 1px solid rgba(226, 232, 240, 0.8);
         position: relative;
+        overflow: hidden;
+    }
+
+    .test-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        opacity: 0;
+        transition: opacity 0.4s ease;
     }
 
     .test-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
-        border-color: #667eea;
+        transform: translateY(-12px);
+        box-shadow: 0 16px 48px rgba(102, 126, 234, 0.15);
+        border-color: rgba(102, 126, 234, 0.3);
+    }
+
+    .test-card:hover::before {
+        opacity: 1;
     }
 
     .test-badge {
         position: absolute;
-        top: 15px;
-        right: 15px;
-        padding: 6px 14px;
-        border-radius: 15px;
+        top: 20px;
+        right: 20px;
+        padding: 7px 16px;
+        border-radius: 20px;
         font-size: 0.75rem;
-        font-weight: bold;
-        letter-spacing: 0.5px;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     .test-badge.new {
@@ -145,41 +169,45 @@
     }
 
     .test-icon {
-        font-size: 4rem;
+        font-size: 4.5rem;
         text-align: center;
-        margin-bottom: 20px;
+        margin-bottom: 24px;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.06));
     }
 
     .test-title {
-        font-size: 1.6rem;
-        font-weight: 700;
-        color: #333;
-        margin-bottom: 15px;
+        font-size: 1.65rem;
+        font-weight: 800;
+        color: #2d3748;
+        margin-bottom: 16px;
         text-align: center;
+        letter-spacing: -0.01em;
     }
 
     .test-summary {
-        font-size: 1rem;
-        color: #666;
-        line-height: 1.7;
+        font-size: 1.05rem;
+        color: #4a5568;
+        line-height: 1.8;
         text-align: center;
-        margin-bottom: 20px;
+        margin-bottom: 24px;
+        font-weight: 400;
     }
 
     .test-meta {
         display: flex;
         justify-content: center;
-        gap: 20px;
-        font-size: 0.9rem;
-        color: #999;
-        border-top: 1px solid #e0e0e0;
-        padding-top: 15px;
+        gap: 24px;
+        font-size: 0.95rem;
+        color: #718096;
+        border-top: 1px solid #e2e8f0;
+        padding-top: 20px;
+        font-weight: 500;
     }
 
     .test-meta span {
         display: flex;
         align-items: center;
-        gap: 5px;
+        gap: 6px;
     }
 
     /* 특징 섹션 */
@@ -191,16 +219,19 @@
 
     .features-card {
         background: white;
-        border-radius: 20px;
-        padding: 50px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        border-radius: 24px;
+        padding: 56px;
+        box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+        border: 1px solid rgba(226, 232, 240, 0.8);
     }
 
     .features-title {
         text-align: center;
-        font-size: 1.8rem;
-        margin-bottom: 40px;
-        color: #333;
+        font-size: 1.95rem;
+        margin-bottom: 48px;
+        color: #2d3748;
+        font-weight: 800;
+        letter-spacing: -0.01em;
     }
 
     .features-grid {
@@ -214,19 +245,22 @@
     }
 
     .feature-icon {
-        font-size: 3rem;
-        margin-bottom: 15px;
+        font-size: 3.5rem;
+        margin-bottom: 20px;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.06));
     }
 
     .feature-title {
-        font-size: 1.2rem;
-        margin-bottom: 10px;
-        color: #333;
+        font-size: 1.25rem;
+        margin-bottom: 12px;
+        color: #2d3748;
+        font-weight: 700;
     }
 
     .feature-description {
-        color: #666;
-        line-height: 1.6;
+        color: #4a5568;
+        line-height: 1.7;
+        font-size: 0.98rem;
     }
 
     /* FAQ 섹션 */
@@ -238,20 +272,23 @@
 
     .faq-title {
         text-align: center;
-        font-size: 1.8rem;
-        margin-bottom: 40px;
-        color: #333;
+        font-size: 1.95rem;
+        margin-bottom: 48px;
+        color: #2d3748;
+        font-weight: 800;
+        letter-spacing: -0.01em;
     }
 
     .faq-card {
         background: white;
-        border-radius: 20px;
-        padding: 40px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        border-radius: 24px;
+        padding: 48px;
+        box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+        border: 1px solid rgba(226, 232, 240, 0.8);
     }
 
     .faq-item {
-        margin-bottom: 30px;
+        margin-bottom: 32px;
     }
 
     .faq-item:last-child {
@@ -259,14 +296,16 @@
     }
 
     .faq-question {
-        font-size: 1.2rem;
-        color: #333;
-        margin-bottom: 10px;
+        font-size: 1.25rem;
+        color: #2d3748;
+        margin-bottom: 12px;
+        font-weight: 700;
     }
 
     .faq-answer {
-        color: #666;
-        line-height: 1.7;
+        color: #4a5568;
+        line-height: 1.8;
+        font-size: 1.05rem;
     }
 
     @media (max-width: 768px) {
