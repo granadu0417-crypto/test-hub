@@ -3,46 +3,35 @@
     body {
         margin: 0;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
-        background: #e8eaf0;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         min-height: 100vh;
-    }
-
-    /* 모바일 앱 느낌의 메인 컨테이너 */
-    main {
-        max-width: 480px;
-        margin: 0 auto;
-        background: white;
-        min-height: 100vh;
-        box-shadow: 0 0 40px rgba(0,0,0,0.1);
     }
 
     .hero {
-        max-width: 480px;
+        max-width: 900px;
         margin: 0 auto;
-        padding: 40px 20px 30px 20px;
+        padding: 60px 20px 40px 20px;
         text-align: center;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
     }
 
     .hero h2 {
-        font-size: 2rem;
-        color: white;
-        margin-bottom: 15px;
+        font-size: 2.5rem;
+        color: #333;
+        margin-bottom: 20px;
         font-weight: 700;
     }
 
     .hero p {
-        font-size: 1rem;
-        color: rgba(255,255,255,0.95);
+        font-size: 1.2rem;
+        color: #666;
         line-height: 1.8;
-        margin-bottom: 0;
+        margin-bottom: 40px;
     }
 
     /* 인기 TOP 5 섹션 */
     .featured-section {
-        max-width: 480px;
-        margin: 0 auto 40px auto;
+        max-width: 1200px;
+        margin: 0 auto 60px auto;
         padding: 0 20px;
     }
 
@@ -71,16 +60,16 @@
     }
 
     .featured-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
         margin-bottom: 20px;
     }
 
     /* 카테고리 섹션 */
     .category-section {
-        max-width: 480px;
-        margin: 0 auto 40px auto;
+        max-width: 1200px;
+        margin: 0 auto 50px auto;
         padding: 0 20px;
     }
 
@@ -110,9 +99,9 @@
     }
 
     .test-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
     }
 
     .test-card {
@@ -195,8 +184,8 @@
 
     /* 특징 섹션 */
     .features-section {
-        max-width: 480px;
-        margin: 40px auto;
+        max-width: 1000px;
+        margin: 60px auto;
         padding: 0 20px;
     }
 
@@ -216,8 +205,8 @@
 
     .features-grid {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
     }
 
     .feature-item {
@@ -242,8 +231,8 @@
 
     /* FAQ 섹션 */
     .faq-section {
-        max-width: 480px;
-        margin: 40px auto 60px auto;
+        max-width: 800px;
+        margin: 60px auto 80px auto;
         padding: 0 20px;
     }
 
@@ -281,50 +270,35 @@
     }
 
     @media (max-width: 768px) {
-        main {
-            max-width: 100%;
-            box-shadow: none;
-        }
-
-        .hero {
-            max-width: 100%;
-            padding: 30px 20px 25px 20px;
-        }
-
         .hero h2 {
-            font-size: 1.6rem;
+            font-size: 1.8rem;
         }
 
         .hero p {
-            font-size: 0.95rem;
+            font-size: 1rem;
         }
 
-        .featured-section,
-        .category-section,
-        .features-section,
-        .faq-section {
-            max-width: 100%;
+        .featured-grid,
+        .test-grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
         }
 
         .test-card {
-            padding: 25px;
+            padding: 30px;
         }
 
         .featured-header h3,
         .category-header h3 {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
         }
 
         .features-card {
             padding: 30px 20px;
         }
 
-        .features-grid {
-            gap: 15px;
-        }
-
         .faq-card {
-            padding: 25px 20px;
+            padding: 30px 20px;
         }
     }
 </style>
