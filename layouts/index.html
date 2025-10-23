@@ -330,7 +330,17 @@
                 <span class="test-badge update">UPDATE</span>
                 {{ end }}
             {{ end }}
+            {{ if fileExists (printf "static/images/thumbnails/%s.png" .File.BaseFileName) }}
+            <div class="test-thumbnail">
+                <img src="/images/thumbnails/{{ .File.BaseFileName }}.png" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
+            </div>
+            {{ else if fileExists (printf "static/images/thumbnails/%s.svg" .File.BaseFileName) }}
+            <div class="test-thumbnail">
+                <img src="/images/thumbnails/{{ .File.BaseFileName }}.svg" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
+            </div>
+            {{ else }}
             <div class="test-icon">{{ .Params.icon }}</div>
+            {{ end }}
             <h3 class="test-title">{{ .Title }}</h3>
             <p class="test-summary">{{ .Params.summary }}</p>
             <div class="test-meta">
@@ -362,7 +372,17 @@
                 <span class="test-badge update">UPDATE</span>
                 {{ end }}
             {{ end }}
+            {{ if fileExists (printf "static/images/thumbnails/%s.png" .File.BaseFileName) }}
+            <div class="test-thumbnail">
+                <img src="/images/thumbnails/{{ .File.BaseFileName }}.png" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
+            </div>
+            {{ else if fileExists (printf "static/images/thumbnails/%s.svg" .File.BaseFileName) }}
+            <div class="test-thumbnail">
+                <img src="/images/thumbnails/{{ .File.BaseFileName }}.svg" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
+            </div>
+            {{ else }}
             <div class="test-icon">{{ .Params.icon }}</div>
+            {{ end }}
             <h3 class="test-title">{{ .Title }}</h3>
             <p class="test-summary">{{ .Params.summary }}</p>
             <div class="test-meta">
@@ -393,7 +413,17 @@
                 <span class="test-badge update">UPDATE</span>
                 {{ end }}
             {{ end }}
+            {{ if fileExists (printf "static/images/thumbnails/%s.png" .File.BaseFileName) }}
+            <div class="test-thumbnail">
+                <img src="/images/thumbnails/{{ .File.BaseFileName }}.png" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
+            </div>
+            {{ else if fileExists (printf "static/images/thumbnails/%s.svg" .File.BaseFileName) }}
+            <div class="test-thumbnail">
+                <img src="/images/thumbnails/{{ .File.BaseFileName }}.svg" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
+            </div>
+            {{ else }}
             <div class="test-icon">{{ .Params.icon }}</div>
+            {{ end }}
             <h3 class="test-title">{{ .Title }}</h3>
             <p class="test-summary">{{ .Params.summary }}</p>
             <div class="test-meta">
@@ -424,7 +454,17 @@
                 <span class="test-badge update">UPDATE</span>
                 {{ end }}
             {{ end }}
+            {{ if fileExists (printf "static/images/thumbnails/%s.png" .File.BaseFileName) }}
+            <div class="test-thumbnail">
+                <img src="/images/thumbnails/{{ .File.BaseFileName }}.png" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
+            </div>
+            {{ else if fileExists (printf "static/images/thumbnails/%s.svg" .File.BaseFileName) }}
+            <div class="test-thumbnail">
+                <img src="/images/thumbnails/{{ .File.BaseFileName }}.svg" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
+            </div>
+            {{ else }}
             <div class="test-icon">{{ .Params.icon }}</div>
+            {{ end }}
             <h3 class="test-title">{{ .Title }}</h3>
             <p class="test-summary">{{ .Params.summary }}</p>
             <div class="test-meta">
@@ -455,7 +495,17 @@
                 <span class="test-badge update">UPDATE</span>
                 {{ end }}
             {{ end }}
+            {{ if fileExists (printf "static/images/thumbnails/%s.png" .File.BaseFileName) }}
+            <div class="test-thumbnail">
+                <img src="/images/thumbnails/{{ .File.BaseFileName }}.png" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
+            </div>
+            {{ else if fileExists (printf "static/images/thumbnails/%s.svg" .File.BaseFileName) }}
+            <div class="test-thumbnail">
+                <img src="/images/thumbnails/{{ .File.BaseFileName }}.svg" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
+            </div>
+            {{ else }}
             <div class="test-icon">{{ .Params.icon }}</div>
+            {{ end }}
             <h3 class="test-title">{{ .Title }}</h3>
             <p class="test-summary">{{ .Params.summary }}</p>
             <div class="test-meta">
@@ -486,7 +536,17 @@
                 <span class="test-badge update">UPDATE</span>
                 {{ end }}
             {{ end }}
+            {{ if fileExists (printf "static/images/thumbnails/%s.png" .File.BaseFileName) }}
+            <div class="test-thumbnail">
+                <img src="/images/thumbnails/{{ .File.BaseFileName }}.png" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
+            </div>
+            {{ else if fileExists (printf "static/images/thumbnails/%s.svg" .File.BaseFileName) }}
+            <div class="test-thumbnail">
+                <img src="/images/thumbnails/{{ .File.BaseFileName }}.svg" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
+            </div>
+            {{ else }}
             <div class="test-icon">{{ .Params.icon }}</div>
+            {{ end }}
             <h3 class="test-title">{{ .Title }}</h3>
             <p class="test-summary">{{ .Params.summary }}</p>
             <div class="test-meta">
