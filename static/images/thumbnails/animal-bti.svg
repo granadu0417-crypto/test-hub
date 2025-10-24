@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600">
+  <defs>
+    <linearGradient id="animalBg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFF9E6;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FFE4B5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFD280;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="bearGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#D2691E;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#A0522D;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="nose">
+      <stop offset="0%" style="stop-color:#8B4513;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#654321;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="600" fill="url(#animalBg2)" rx="24"/>
+  
+  <!-- Decorative paw prints -->
+  <g fill="#CD853F" opacity="0.15">
+    <g transform="translate(80, 120)">
+      <circle cx="0" cy="-10" r="8"/>
+      <circle cx="-12" cy="0" r="6"/>
+      <circle cx="-6" cy="8" r="6"/>
+      <circle cx="6" cy="8" r="6"/>
+      <ellipse cx="0" cy="15" rx="10" ry="12"/>
+    </g>
+    <g transform="translate(320, 480) rotate(30)">
+      <circle cx="0" cy="-10" r="8"/>
+      <circle cx="-12" cy="0" r="6"/>
+      <circle cx="-6" cy="8" r="6"/>
+      <circle cx="6" cy="8" r="6"/>
+      <ellipse cx="0" cy="15" rx="10" ry="12"/>
+    </g>
+  </g>
+  
+  <!-- Decorative circles -->
+  <circle cx="330" cy="140" r="40" fill="#FFF" opacity="0.2"/>
+  <circle cx="70" cy="500" r="35" fill="#FFF" opacity="0.18"/>
+  
+  <!-- Title -->
+  <text x="200" y="75" font-family="'Noto Sans KR', sans-serif" font-size="36" font-weight="bold" 
+        fill="#8B4513" text-anchor="middle">동물 BTI</text>
+  <text x="200" y="110" font-family="'Noto Sans KR', sans-serif" font-size="18" 
+        fill="#A0522D" text-anchor="middle" opacity="0.9">나를 닮은 동물은?</text>
+  
+  <!-- Main cute bear character -->
+  <g transform="translate(200, 320)">
+    <!-- Shadow -->
+    <ellipse cx="0" cy="140" rx="90" ry="15" fill="#000" opacity="0.1"/>
+    
+    <!-- Body -->
+    <ellipse cx="0" cy="80" rx="75" ry="85" fill="url(#bearGrad)"/>
+    
+    <!-- Arms -->
+    <ellipse cx="-65" cy="60" rx="28" ry="45" fill="#C17817" transform="rotate(-20 -65 60)"/>
+    <ellipse cx="65" cy="60" rx="28" ry="45" fill="#C17817" transform="rotate(20 65 60)"/>
+    
+    <!-- Head -->
+    <circle cx="0" cy="0" r="80" fill="url(#bearGrad)"/>
+    
+    <!-- Ears -->
+    <circle cx="-55" cy="-50" r="30" fill="#A0522D"/>
+    <circle cx="-55" cy="-50" r="20" fill="#D2691E"/>
+    <circle cx="55" cy="-50" r="30" fill="#A0522D"/>
+    <circle cx="55" cy="-50" r="20" fill="#D2691E"/>
+    
+    <!-- Face highlights -->
+    <ellipse cx="-25" cy="-15" rx="30" ry="35" fill="#E8B887" opacity="0.6"/>
+    <ellipse cx="25" cy="-15" rx="30" ry="35" fill="#E8B887" opacity="0.6"/>
+    
+    <!-- Eyes -->
+    <g>
+      <!-- Left eye -->
+      <ellipse cx="-28" cy="-8" rx="16" ry="20" fill="#FFF"/>
+      <circle cx="-28" cy="-5" r="12" fill="#2C1810"/>
+      <circle cx="-24" cy="-10" r="5" fill="#FFF"/>
+      <ellipse cx="-32" cy="-2" rx="3" ry="4" fill="#FFF" opacity="0.7"/>
+      
+      <!-- Right eye -->
+      <ellipse cx="28" cy="-8" rx="16" ry="20" fill="#FFF"/>
+      <circle cx="28" cy="-5" r="12" fill="#2C1810"/>
+      <circle cx="32" cy="-10" r="5" fill="#FFF"/>
+      <ellipse cx="24" cy="-2" rx="3" ry="4" fill="#FFF" opacity="0.7"/>
+    </g>
+    
+    <!-- Cute blush -->
+    <ellipse cx="-50" cy="10" rx="15" ry="12" fill="#FF9999" opacity="0.4"/>
+    <ellipse cx="50" cy="10" rx="15" ry="12" fill="#FF9999" opacity="0.4"/>
+    
+    <!-- Snout -->
+    <ellipse cx="0" cy="20" rx="35" ry="30" fill="#E8B887"/>
+    
+    <!-- Nose -->
+    <ellipse cx="0" cy="15" rx="18" ry="14" fill="url(#nose)"/>
+    <ellipse cx="-6" cy="10" rx="5" ry="4" fill="#FFF" opacity="0.6"/>
+    
+    <!-- Mouth -->
+    <path d="M 0 20 L 0 35" stroke="#654321" stroke-width="3" stroke-linecap="round"/>
+    <path d="M -18 35 Q 0 45 18 35" stroke="#654321" stroke-width="3" fill="none" stroke-linecap="round"/>
+    
+    <!-- Legs/feet -->
+    <ellipse cx="-40" cy="150" rx="30" ry="20" fill="#A0522D"/>
+    <ellipse cx="40" cy="150" rx="30" ry="20" fill="#A0522D"/>
+    <!-- Toe pads -->
+    <g fill="#8B4513">
+      <circle cx="-50" cy="150" r="6"/>
+      <circle cx="-40" cy="155" r="6"/>
+      <circle cx="-30" cy="150" r="6"/>
+      <circle cx="30" cy="150" r="6"/>
+      <circle cx="40" cy="155" r="6"/>
+      <circle cx="50" cy="150" r="6"/>
+    </g>
+  </g>
+  
+  <!-- Decorative honey pot -->
+  <g transform="translate(320, 200)">
+    <ellipse cx="0" cy="20" rx="25" ry="8" fill="#DAA520"/>
+    <path d="M -25 20 L -20 -5 Q -20 -15 0 -15 Q 20 -15 20 -5 L 25 20" fill="#F4A460"/>
+    <rect x="-20" y="-18" width="40" height="5" fill="#8B6914" rx="2"/>
+    <text x="0" y="5" font-size="20" text-anchor="middle" fill="#8B6914">🍯</text>
+  </g>
+  
+  <!-- Bottom decorative wave -->
+  <path d="M 0 555 Q 100 540 200 555 T 400 555 L 400 600 L 0 600 Z" 
+        fill="#CD853F" opacity="0.2"/>
+</svg>

@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600">
+  <defs>
+    <linearGradient id="charBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFF5E6;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FFEAA7;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FDCB6E;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="400" height="600" fill="url(#charBg)" rx="24"/>
+  
+  <circle cx="80" cy="120" r="40" fill="#FFA500" opacity="0.15"/>
+  <circle cx="330" cy="150" r="45" fill="#FF6347" opacity="0.15"/>
+  <circle cx="70" cy="480" r="35" fill="#FFD700" opacity="0.15"/>
+  
+  <text x="200" y="75" font-family="'Noto Sans KR', sans-serif" font-size="36" font-weight="bold" 
+        fill="#E17055" text-anchor="middle">캐릭터 BTI</text>
+  <text x="200" y="110" font-family="'Noto Sans KR', sans-serif" font-size="18" 
+        fill="#D63031" text-anchor="middle" opacity="0.9">나의 캐릭터 유형은?</text>
+  
+  <!-- Four different character types -->
+  <g transform="translate(100, 250)">
+    <!-- Hero character -->
+    <circle cx="0" cy="0" r="40" fill="#F39C12"/>
+    <circle cx="-12" cy="-5" r="5" fill="#2C3E50"/>
+    <circle cx="12" cy="-5" r="5" fill="#2C3E50"/>
+    <path d="M -15 12 Q 0 20 15 12" stroke="#2C3E50" stroke-width="3" fill="none"/>
+    <!-- Cape -->
+    <path d="M -30 10 L -40 40 L -25 35 L -20 20 Z" fill="#E74C3C"/>
+    <path d="M 30 10 L 40 40 L 25 35 L 20 20 Z" fill="#E74C3C"/>
+  </g>
+  
+  <g transform="translate(300, 250)">
+    <!-- Wizard character -->
+    <circle cx="0" cy="0" r="40" fill="#9B59B6"/>
+    <circle cx="-12" cy="-5" r="5" fill="#2C3E50"/>
+    <circle cx="12" cy="-5" r="5" fill="#2C3E50"/>
+    <path d="M -12 12 Q 0 16 12 12" stroke="#2C3E50" stroke-width="3" fill="none"/>
+    <!-- Wizard hat -->
+    <path d="M -35 -15 L 0 -60 L 35 -15 Z" fill="#3498DB"/>
+    <ellipse cx="0" cy="-15" rx="40" ry="8" fill="#2980B9"/>
+    <text x="0" y="-30" font-size="20" text-anchor="middle">⭐</text>
+  </g>
+  
+  <g transform="translate(100, 430)">
+    <!-- Cute character -->
+    <circle cx="0" cy="0" r="40" fill="#FF69B4"/>
+    <circle cx="-12" cy="-5" r="6" fill="#2C3E50"/>
+    <circle cx="12" cy="-5" r="6" fill="#2C3E50"/>
+    <circle cx="-10" cy="-8" r="2" fill="#FFF"/>
+    <circle cx="14" cy="-8" r="2" fill="#FFF"/>
+    <path d="M -15 12 Q 0 22 15 12" stroke="#2C3E50" stroke-width="3" fill="none"/>
+    <!-- Cute ears -->
+    <circle cx="-35" cy="-25" r="15" fill="#FF1493"/>
+    <circle cx="35" cy="-25" r="15" fill="#FF1493"/>
+  </g>
+  
+  <g transform="translate(300, 430)">
+    <!-- Cool character -->
+    <circle cx="0" cy="0" r="40" fill="#1ABC9C"/>
+    <line x1="-16" y1="-5" x2="-8" y2="-5" stroke="#2C3E50" stroke-width="3" stroke-linecap="round"/>
+    <line x1="8" y1="-5" x2="16" y2="-5" stroke="#2C3E50" stroke-width="3" stroke-linecap="round"/>
+    <path d="M -12 12 Q 0 16 10 12" stroke="#2C3E50" stroke-width="3" fill="none"/>
+    <!-- Sunglasses -->
+    <rect x="-20" y="-10" width="40" height="4" fill="#2C3E50" rx="2"/>
+  </g>
+  
+  <g fill="#E67E22">
+    <circle cx="140" cy="180" r="4"/>
+    <circle cx="260" cy="350" r="4"/>
+  </g>
+  
+  <path d="M 0 555 Q 100 540 200 555 T 400 555 L 400 600 L 0 600 Z" 
+        fill="#E17055" opacity="0.2"/>
+</svg>
