@@ -346,7 +346,7 @@
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE/Edge */
-    padding: 40px 0 50px 0;
+    padding: 60px 0 70px 0;
     cursor: grab;
 }
 
