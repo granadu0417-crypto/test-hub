@@ -189,10 +189,13 @@
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         text-decoration: none;
         color: inherit;
-        display: block;
+        display: flex;
+        flex-direction: column;
         border: 1px solid rgba(226, 232, 240, 0.8);
         position: relative;
         overflow: hidden;
+        height: 100%;
+        min-height: 450px;
     }
 
     .test-card::before {
@@ -275,6 +278,26 @@
         margin-bottom: 24px;
         filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
         animation: float 3s ease-in-out infinite;
+        height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .test-thumbnail {
+        height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 24px;
+    }
+
+    .test-thumbnail img {
+        width: 100%;
+        max-width: 300px;
+        height: 120px;
+        object-fit: contain;
+        border-radius: 15px;
     }
 
     .test-title {
@@ -293,6 +316,11 @@
         text-align: center;
         margin-bottom: 24px;
         font-weight: 400;
+        flex: 1;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
 
     .test-meta {
@@ -510,35 +538,45 @@
         <h3>⭐ 추천 테스트</h3>
         <span class="featured-badge">추천</span>
     </div>
-    <div class="featured-grid">
-        {{ range where (where .Site.RegularPages "Section" "tests") ".Params.featured" true }}
-        <a href="{{ .Permalink }}" class="test-card">
-            {{ if .Params.badge }}
-                {{ if eq .Params.badge "NEW" }}
-                <span class="test-badge new">NEW</span>
-                {{ else if eq .Params.badge "UPDATE" }}
-                <span class="test-badge update">UPDATE</span>
-                {{ end }}
+    <div class="slider-wrapper">
+        <button class="slider-nav slider-nav-prev" onclick="slideLeft('featured-slider')">
+            <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        </button>
+        <div class="slider-container" id="featured-slider">
+            {{ range where (where .Site.RegularPages "Section" "tests") ".Params.featured" true }}
+            <div class="slider-item">
+                <a href="{{ .Permalink }}" class="test-card">
+                    {{ if .Params.badge }}
+                        {{ if eq .Params.badge "NEW" }}
+                        <span class="test-badge new">NEW</span>
+                        {{ else if eq .Params.badge "UPDATE" }}
+                        <span class="test-badge update">UPDATE</span>
+                        {{ end }}
+                    {{ end }}
+                    {{ if fileExists (printf "static/images/thumbnails/%s.png" .File.BaseFileName) }}
+                    <div class="test-thumbnail">
+                        <img src="/images/thumbnails/{{ .File.BaseFileName }}.png" alt="{{ .Title }}">
+                    </div>
+                    {{ else if fileExists (printf "static/images/thumbnails/%s.svg" .File.BaseFileName) }}
+                    <div class="test-thumbnail">
+                        <img src="/images/thumbnails/{{ .File.BaseFileName }}.svg" alt="{{ .Title }}">
+                    </div>
+                    {{ else }}
+                    <div class="test-icon">{{ .Params.icon }}</div>
+                    {{ end }}
+                    <h3 class="test-title">{{ .Title }}</h3>
+                    <p class="test-summary">{{ .Params.summary }}</p>
+                    <div class="test-meta">
+                        <span>❓ {{ .Params.questionCount }}개 질문</span>
+                        <span>⏱️ {{ .Params.duration }}</span>
+                    </div>
+                </a>
+            </div>
             {{ end }}
-            {{ if fileExists (printf "static/images/thumbnails/%s.png" .File.BaseFileName) }}
-            <div class="test-thumbnail">
-                <img src="/images/thumbnails/{{ .File.BaseFileName }}.png" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
-            </div>
-            {{ else if fileExists (printf "static/images/thumbnails/%s.svg" .File.BaseFileName) }}
-            <div class="test-thumbnail">
-                <img src="/images/thumbnails/{{ .File.BaseFileName }}.svg" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
-            </div>
-            {{ else }}
-            <div class="test-icon">{{ .Params.icon }}</div>
-            {{ end }}
-            <h3 class="test-title">{{ .Title }}</h3>
-            <p class="test-summary">{{ .Params.summary }}</p>
-            <div class="test-meta">
-                <span>❓ {{ .Params.questionCount }}개 질문</span>
-                <span>⏱️ {{ .Params.duration }}</span>
-            </div>
-        </a>
-        {{ end }}
+        </div>
+        <button class="slider-nav slider-nav-next" onclick="slideRight('featured-slider')">
+            <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+        </button>
     </div>
 </div>
 
@@ -923,11 +961,84 @@ function slideRight(sliderId) {
     }
 }
 
-// 터치 스와이프 지원 (모바일)
+// 자동 슬라이드 시스템
+const autoSliders = new Map(); // 각 슬라이더의 자동 재생 상태 저장
+
+function startAutoSlide(sliderId, interval = 3000) {
+    const slider = document.getElementById(sliderId);
+    if (!slider || autoSliders.has(sliderId)) return;
+
+    const autoSlide = setInterval(() => {
+        const maxScroll = slider.scrollWidth - slider.clientWidth;
+
+        // 끝까지 스크롤했으면 처음으로 되돌리기
+        if (slider.scrollLeft >= maxScroll - 10) {
+            slider.scrollTo({
+                left: 0,
+                behavior: 'smooth'
+            });
+        } else {
+            // 다음 슬라이드로 이동
+            const scrollAmount = slider.offsetWidth * 0.9;
+            slider.scrollBy({
+                left: scrollAmount,
+                behavior: 'smooth'
+            });
+        }
+    }, interval);
+
+    autoSliders.set(sliderId, autoSlide);
+}
+
+function stopAutoSlide(sliderId) {
+    if (autoSliders.has(sliderId)) {
+        clearInterval(autoSliders.get(sliderId));
+        autoSliders.delete(sliderId);
+    }
+}
+
+// IntersectionObserver로 화면에 보이는 슬라이더만 자동 재생
+const sliderObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        const sliderId = entry.target.id;
+
+        if (entry.isIntersecting) {
+            // 화면에 보이면 자동 재생 시작
+            startAutoSlide(sliderId);
+        } else {
+            // 화면에서 벗어나면 자동 재생 중지
+            stopAutoSlide(sliderId);
+        }
+    });
+}, {
+    threshold: 0.3 // 30% 이상 보이면 활성화
+});
+
+// 터치 스와이프 지원 (모바일) + 자동 재생 제어
 document.addEventListener('DOMContentLoaded', () => {
     const sliders = document.querySelectorAll('.slider-container');
 
     sliders.forEach(slider => {
+        // IntersectionObserver 등록
+        sliderObserver.observe(slider);
+
+        // 마우스 오버 시 자동 재생 일시정지
+        slider.addEventListener('mouseenter', () => {
+            stopAutoSlide(slider.id);
+        });
+
+        // 마우스 떠나면 자동 재생 재개
+        slider.addEventListener('mouseleave', () => {
+            const sliderSection = slider.closest('.category-section');
+            const rect = sliderSection.getBoundingClientRect();
+            const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+
+            if (isVisible) {
+                startAutoSlide(slider.id);
+            }
+        });
+
+        // 드래그 기능
         let isDown = false;
         let startX;
         let scrollLeft;
@@ -937,11 +1048,14 @@ document.addEventListener('DOMContentLoaded', () => {
             slider.style.cursor = 'grabbing';
             startX = e.pageX - slider.offsetLeft;
             scrollLeft = slider.scrollLeft;
+            stopAutoSlide(slider.id); // 드래그 시작 시 자동 재생 중지
         });
 
         slider.addEventListener('mouseleave', () => {
-            isDown = false;
-            slider.style.cursor = 'grab';
+            if (isDown) {
+                isDown = false;
+                slider.style.cursor = 'grab';
+            }
         });
 
         slider.addEventListener('mouseup', () => {
@@ -955,6 +1069,23 @@ document.addEventListener('DOMContentLoaded', () => {
             const x = e.pageX - slider.offsetLeft;
             const walk = (x - startX) * 2;
             slider.scrollLeft = scrollLeft - walk;
+        });
+
+        // 터치 이벤트로 자동 재생 제어
+        slider.addEventListener('touchstart', () => {
+            stopAutoSlide(slider.id);
+        });
+
+        slider.addEventListener('touchend', () => {
+            setTimeout(() => {
+                const sliderSection = slider.closest('.category-section');
+                const rect = sliderSection.getBoundingClientRect();
+                const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+
+                if (isVisible) {
+                    startAutoSlide(slider.id);
+                }
+            }, 1000); // 1초 후 재생 재개
         });
     });
 });
