@@ -1,14 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="socialBg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#56CCF2;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#2F80ED;stop-opacity:1" />
+    <linearGradient id="sociability-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#60A5FA;stop-opacity:1" />
     </linearGradient>
   </defs>
-  <rect width="400" height="400" fill="url(#socialBg)" rx="20"/>
-  <circle cx="140" cy="180" r="30" fill="#4A90E2"/>
-  <circle cx="200" cy="150" r="35" fill="#357ABD"/>
-  <circle cx="260" cy="180" r="30" fill="#4A90E2"/>
-  <circle cx="170" cy="240" r="28" fill="#5DADE2"/>
-  <circle cx="230" cy="240" r="28" fill="#5DADE2"/>
+  
+  <rect width="400" height="400" rx="40" fill="url(#sociability-bg)"/>
+  
+  <!-- Three people silhouettes -->
+  <circle cx="140" cy="160" r="30" fill="white" opacity="0.9"/>
+  <rect x="110" y="190" width="60" height="50" rx="8" fill="white" opacity="0.9"/>
+  
+  <circle cx="200" cy="160" r="30" fill="white" opacity="0.95"/>
+  <rect x="170" y="190" width="60" height="50" rx="8" fill="white" opacity="0.95"/>
+  
+  <circle cx="260" cy="160" r="30" fill="white" opacity="0.9"/>
+  <rect x="230" y="190" width="60" height="50" rx="8" fill="white" opacity="0.9"/>
+  
+  <text x="200" y="320" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="white" text-anchor="middle">사회성</text>
 </svg>

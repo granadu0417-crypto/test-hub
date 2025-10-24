@@ -1,94 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600">
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="stressBg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#FFEBEE;stop-opacity:1" />
-      <stop offset="50%" style="stop-color:#EF9A9A;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#E57373;stop-opacity:1" />
+    <linearGradient id="stress-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#EF4444;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F87171;stop-opacity:1" />
     </linearGradient>
   </defs>
   
-  <rect width="400" height="600" fill="url(#stressBg)" rx="24"/>
+  <rect width="400" height="400" rx="40" fill="url(#stress-bg)"/>
   
-  <g opacity="0.12" fill="#C62828">
-    <circle cx="80" cy="120" r="30"/>
-    <circle cx="330" cy="180" r="35"/>
-    <circle cx="70" cy="480" r="28"/>
-  </g>
+  <!-- Head outline -->
+  <circle cx="200" cy="180" r="60" fill="white" opacity="0.9" stroke="white" stroke-width="3"/>
   
-  <text x="200" y="75" font-family="'Noto Sans KR', sans-serif" font-size="36" font-weight="bold" 
-        fill="#C62828" text-anchor="middle">스트레스</text>
-  <text x="200" y="110" font-family="'Noto Sans KR', sans-serif" font-size="18" 
-        fill="#D32F2F" text-anchor="middle" opacity="0.9">나의 스트레스 수치는?</text>
+  <!-- Stress lines around head -->
+  <path d="M 120 150 L 100 130 M 120 180 L 90 180 M 120 210 L 100 230" 
+        stroke="white" stroke-width="8" stroke-linecap="round" opacity="0.9"/>
+  <path d="M 280 150 L 300 130 M 280 180 L 310 180 M 280 210 L 300 230" 
+        stroke="white" stroke-width="8" stroke-linecap="round" opacity="0.9"/>
   
-  <!-- Stress meter character -->
-  <g transform="translate(200, 320)">
-    <!-- Stressed face -->
-    <circle cx="0" cy="0" r="70" fill="#FFB74D"/>
-    
-    <!-- Sweat drops -->
-    <g fill="#87CEEB">
-      <path d="M -60 -20 Q -65 -10 -60 0 Q -55 -10 -60 -20 Z"/>
-      <path d="M 60 -15 Q 55 -5 60 5 Q 65 -5 60 -15 Z"/>
-      <path d="M -50 30 Q -55 40 -50 50 Q -45 40 -50 30 Z"/>
-    </g>
-    
-    <!-- Stressed eyes -->
-    <g>
-      <ellipse cx="-22" cy="-5" rx="10" ry="15" fill="#2C1810"/>
-      <ellipse cx="-22" cy="-8" rx="4" ry="6" fill="#FFF"/>
-      <ellipse cx="22" cy="-5" rx="10" ry="15" fill="#2C1810"/>
-      <ellipse cx="22" cy="-8" rx="4" ry="6" fill="#FFF"/>
-      
-      <!-- Tired under-eyes -->
-      <ellipse cx="-22" cy="8" rx="12" ry="6" fill="#8B4513" opacity="0.3"/>
-      <ellipse cx="22" cy="8" rx="12" ry="6" fill="#8B4513" opacity="0.3"/>
-    </g>
-    
-    <!-- Stressed mouth (wavy/nervous) -->
-    <path d="M -25 25 Q -12 20 0 25 Q 12 30 25 25" stroke="#2C1810" stroke-width="3" fill="none" stroke-linecap="round"/>
-    
-    <!-- Stress lines around head -->
-    <g stroke="#E74C3C" stroke-width="3" fill="none" opacity="0.7">
-      <path d="M -75 -40 L -85 -50"/>
-      <path d="M -65 -55 L -70 -68"/>
-      <path d="M 75 -40 L 85 -50"/>
-      <path d="M 65 -55 L 70 -68"/>
-      <path d="M -80 0 L -95 0"/>
-      <path d="M 80 0 L 95 0"/>
-    </g>
-  </g>
+  <!-- Worried face -->
+  <circle cx="180" cy="170" r="8" fill="#EF4444"/>
+  <circle cx="220" cy="170" r="8" fill="#EF4444"/>
+  <path d="M 170 200 Q 200 190 230 200" 
+        stroke="#EF4444" stroke-width="6" fill="none" stroke-linecap="round"/>
   
-  <!-- Stress level bars -->
-  <g transform="translate(100, 480)">
-    <rect x="0" y="-60" width="25" height="60" fill="#4CAF50" rx="3"/>
-    <rect x="35" y="-80" width="25" height="80" fill="#FFEB3B" rx="3"/>
-    <rect x="70" y="-100" width="25" height="100" fill="#FF9800" rx="3"/>
-    <rect x="105" y="-120" width="25" height="120" fill="#F44336" rx="3"/>
-    <rect x="140" y="-140" width="25" height="140" fill="#C62828" rx="3"/>
-    
-    <text x="85" y="25" font-family="Arial, sans-serif" font-size="14" fill="#C62828" text-anchor="middle" font-weight="bold">LEVEL</text>
-  </g>
-  
-  <!-- Pills/medicine -->
-  <g transform="translate(310, 480)">
-    <ellipse cx="0" cy="0" rx="18" ry="10" fill="#FF6B6B"/>
-    <rect x="-18" y="-10" width="18" height="20" fill="#FFF" rx="9"/>
-    <ellipse cx="-10" cy="-15" rx="12" ry="8" fill="#87CEEB"/>
-    <rect x="-12" y="-15" width="12" height="16" fill="#FFF" rx="6"/>
-  </g>
-  
-  <!-- Coffee cup (stress relief) -->
-  <g transform="translate(90, 200)">
-    <rect x="-15" y="-10" width="30" height="25" fill="#8B4513" rx="3"/>
-    <ellipse cx="0" cy="-10" rx="17" ry="5" fill="#6F4E37"/>
-    <path d="M 15 0 L 25 0 Q 28 5 25 10 L 15 10" stroke="#8B4513" stroke-width="2" fill="none"/>
-    <g stroke="#D2691E" stroke-width="2" opacity="0.5">
-      <path d="M -5 -15 Q -5 -20 -3 -22"/>
-      <path d="M 0 -15 Q 0 -20 2 -22"/>
-      <path d="M 5 -15 Q 5 -20 7 -22"/>
-    </g>
-  </g>
-  
-  <path d="M 0 555 Q 100 540 200 555 T 400 555 L 400 600 L 0 600 Z" 
-        fill="#E57373" opacity="0.2"/>
+  <text x="200" y="320" font-family="Arial, sans-serif" font-size="26" font-weight="bold" fill="white" text-anchor="middle">스트레스 레벨</text>
 </svg>

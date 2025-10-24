@@ -1,102 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600">
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="loveBg2" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#FFE5EC;stop-opacity:1" />
-      <stop offset="50%" style="stop-color:#FFB3D9;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#FF8DC7;stop-opacity:1" />
+    <linearGradient id="love-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#EC4899;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F472B6;stop-opacity:1" />
     </linearGradient>
-    <linearGradient id="heartMain" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#FF4E88;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#FF1654;stop-opacity:1" />
-    </linearGradient>
-    <radialGradient id="glow">
-      <stop offset="0%" style="stop-color:#FFF;stop-opacity:0.8" />
-      <stop offset="100%" style="stop-color:#FFF;stop-opacity:0" />
-    </radialGradient>
   </defs>
   
-  <!-- Background with pattern -->
-  <rect width="400" height="600" fill="url(#loveBg2)" rx="24"/>
+  <rect width="400" height="400" rx="40" fill="url(#love-bg)"/>
   
-  <!-- Decorative circles pattern -->
-  <circle cx="60" cy="80" r="40" fill="#FFF" opacity="0.15"/>
-  <circle cx="340" cy="120" r="50" fill="#FFF" opacity="0.12"/>
-  <circle cx="320" cy="480" r="45" fill="#FFF" opacity="0.18"/>
-  <circle cx="80" cy="520" r="35" fill="#FFF" opacity="0.1"/>
+  <!-- 하트 -->
+  <path d="M200 280 C200 280, 140 220, 140 170 C140 130, 180 120, 200 150 C220 120, 260 130, 260 170 C260 220, 200 280, 200 280 Z" 
+        fill="white" opacity="0.9" transform="scale(1.5) translate(-66, -20)"/>
   
-  <!-- Small hearts floating -->
-  <g opacity="0.25" fill="#FF1654">
-    <path d="M0,6 C-3,2 -8,2 -8,-3 C-8,-6 -6,-8 -4,-8 C-2,-8 0,-6 0,-5 C0,-6 2,-8 4,-8 C6,-8 8,-6 8,-3 C8,2 3,2 0,6 Z" transform="translate(100, 140)"/>
-    <path d="M0,8 C-4,3 -10,3 -10,-4 C-10,-8 -7,-10 -5,-10 C-2,-10 0,-8 0,-6 C0,-8 2,-10 5,-10 C7,-10 10,-8 10,-4 C10,3 4,3 0,8 Z" transform="translate(320, 200)"/>
-    <path d="M0,5 C-2,2 -6,2 -6,-2 C-6,-5 -4,-6 -3,-6 C-1,-6 0,-5 0,-4 C0,-5 1,-6 3,-6 C4,-6 6,-5 6,-2 C6,2 2,2 0,5 Z" transform="translate(90, 450)"/>
-  </g>
-  
-  <!-- Main illustration area -->
-  <g transform="translate(200, 250)">
-    <!-- Glow effect -->
-    <circle cx="0" cy="0" r="120" fill="url(#glow)" opacity="0.4"/>
-    
-    <!-- Large decorative heart (background) -->
-    <g transform="scale(2.2)">
-      <path d="M0,30 C-20,10 -50,10 -50,-20 C-50,-40 -40,-50 -25,-50 C-10,-50 0,-40 0,-30 C0,-40 10,-50 25,-50 C40,-50 50,-40 50,-20 C50,10 20,10 0,30 Z" 
-            fill="#FF69B4" opacity="0.3"/>
-    </g>
-    
-    <!-- Main heart with gradient -->
-    <g transform="scale(2.5)">
-      <!-- Heart shadow -->
-      <path d="M0,30 C-20,10 -50,10 -50,-20 C-50,-40 -40,-50 -25,-50 C-10,-50 0,-40 0,-30 C0,-40 10,-50 25,-50 C40,-50 50,-40 50,-20 C50,10 20,10 0,30 Z" 
-            fill="#000" opacity="0.15" transform="translate(4, 4)"/>
-      
-      <!-- Main heart -->
-      <path d="M0,30 C-20,10 -50,10 -50,-20 C-50,-40 -40,-50 -25,-50 C-10,-50 0,-40 0,-30 C0,-40 10,-50 25,-50 C40,-50 50,-40 50,-20 C50,10 20,10 0,30 Z" 
-            fill="url(#heartMain)"/>
-      
-      <!-- Heart highlight/shine -->
-      <ellipse cx="-18" cy="-25" rx="25" ry="30" fill="#FFF" opacity="0.35"/>
-      <ellipse cx="-25" cy="-20" rx="12" ry="15" fill="#FFF" opacity="0.5"/>
-    </g>
-  </g>
-  
-  <!-- Cute character silhouettes (couple) -->
-  <g transform="translate(140, 420)">
-    <!-- Left person (girl) -->
-    <circle cx="0" cy="0" r="22" fill="#FF1654"/>
-    <path d="M-20,5 Q-20,20 -12,30 L-12,50 Q-12,54 -8,54 L8,54 Q12,54 12,50 L12,30 Q20,20 20,5 Z" 
-          fill="#FF1654"/>
-    <!-- Hair -->
-    <ellipse cx="-15" cy="-5" rx="18" ry="20" fill="#2C1810"/>
-    <ellipse cx="15" cy="-5" rx="18" ry="20" fill="#2C1810"/>
-  </g>
-  
-  <g transform="translate(260, 420)">
-    <!-- Right person (boy) -->
-    <circle cx="0" cy="0" r="22" fill="#FF4E88"/>
-    <path d="M-20,5 Q-20,20 -12,30 L-12,50 Q-12,54 -8,54 L8,54 Q12,54 12,50 L12,30 Q20,20 20,5 Z" 
-          fill="#FF4E88"/>
-    <!-- Hair -->
-    <path d="M-20,-10 Q-15,-25 0,-22 Q15,-25 20,-10" fill="#2C1810"/>
-  </g>
-  
-  <!-- Connecting heart between characters -->
-  <path d="M0,4 C-2,2 -5,2 -5,-2 C-5,-4 -4,-5 -3,-5 C-1,-5 0,-4 0,-3 C0,-4 1,-5 3,-5 C4,-5 5,-4 5,-2 C5,2 2,2 0,4 Z" 
-        transform="translate(200, 435) scale(1.5)" fill="#FFD700"/>
-  
-  <!-- Title text -->
-  <text x="200" y="80" font-family="'Noto Sans KR', sans-serif" font-size="32" font-weight="bold" 
-        fill="#FF1654" text-anchor="middle">연애 스타일</text>
-  <text x="200" y="115" font-family="'Noto Sans KR', sans-serif" font-size="18" 
-        fill="#C41E3A" text-anchor="middle" opacity="0.9">나의 사랑 유형은?</text>
-  
-  <!-- Sparkles/stars -->
-  <g fill="#FFD700">
-    <circle cx="120" cy="95" r="4"/>
-    <circle cx="280" cy="95" r="4"/>
-    <circle cx="160" cy="180" r="3"/>
-    <circle cx="240" cy="180" r="3"/>
-  </g>
-  
-  <!-- Bottom decorative wave -->
-  <path d="M 0 550 Q 100 530 200 550 T 400 550 L 400 600 L 0 600 Z" 
-        fill="#FF1654" opacity="0.15"/>
+  <text x="200" y="350" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="white" text-anchor="middle">연애 스타일</text>
 </svg>

@@ -1,115 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600">
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="foodBg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#FFF5E1;stop-opacity:1" />
-      <stop offset="50%" style="stop-color:#FFE4B5;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#FFD700;stop-opacity:1" />
-    </linearGradient>
-    <linearGradient id="pizza" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#FFA500;stop-opacity:1" />
+    <linearGradient id="food-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F59E0B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FBBF24;stop-opacity:1" />
     </linearGradient>
   </defs>
   
-  <rect width="400" height="600" fill="url(#foodBg)" rx="24"/>
+  <rect width="400" height="400" rx="40" fill="url(#food-bg)"/>
   
-  <!-- Decorative food icons -->
-  <g opacity="0.15" fill="#FF8C00">
-    <text x="80" y="120" font-size="40">🍔</text>
-    <text x="320" y="150" font-size="35">🍰</text>
-    <text x="70" y="500" font-size="38">🍜</text>
-    <text x="330" y="480" font-size="36">🍦</text>
-  </g>
+  <!-- 식기 -->
+  <circle cx="200" cy="180" r="70" fill="white" opacity="0.9"/>
+  <!-- 포크 -->
+  <rect x="150" y="130" width="8" height="100" rx="4" fill="#F59E0B"/>
+  <rect x="142" y="130" width="8" height="30" rx="4" fill="#F59E0B"/>
+  <rect x="158" y="130" width="8" height="30" rx="4" fill="#F59E0B"/>
+  <!-- 나이프 -->
+  <rect x="242" y="130" width="8" height="100" rx="4" fill="#F59E0B"/>
+  <polygon points="246,130 246,150 256,140" fill="#F59E0B"/>
   
-  <circle cx="340" cy="250" r="35" fill="#FFF" opacity="0.2"/>
-  <circle cx="60" cy="350" r="40" fill="#FFF" opacity="0.18"/>
-  
-  <!-- Title -->
-  <text x="200" y="75" font-family="'Noto Sans KR', sans-serif" font-size="36" font-weight="bold" 
-        fill="#FF6347" text-anchor="middle">음식 BTI</text>
-  <text x="200" y="110" font-family="'Noto Sans KR', sans-serif" font-size="18" 
-        fill="#FF4500" text-anchor="middle" opacity="0.9">나를 닮은 음식은?</text>
-  
-  <!-- Main pizza character -->
-  <g transform="translate(200, 300)">
-    <!-- Pizza base (circular) -->
-    <circle cx="0" cy="0" r="85" fill="url(#pizza)"/>
-    <circle cx="0" cy="0" r="75" fill="#FFDAB9"/>
-    
-    <!-- Pizza crust texture -->
-    <g fill="#D2691E" opacity="0.3">
-      <circle cx="60" cy="30" r="4"/>
-      <circle cx="50" cy="-40" r="3"/>
-      <circle cx="-55" cy="35" r="4"/>
-      <circle cx="-45" cy="-45" r="3"/>
-    </g>
-    
-    <!-- Cheese drips -->
-    <path d="M 60 0 Q 65 10 60 15 L 55 15 Q 50 10 55 0 Z" fill="#FFD700"/>
-    <path d="M -50 20 Q -55 30 -50 35 L -45 35 Q -40 30 -45 20 Z" fill="#FFD700"/>
-    
-    <!-- Pepperoni toppings -->
-    <circle cx="-30" cy="-20" r="12" fill="#FF4500"/>
-    <circle cx="25" cy="-30" r="12" fill="#FF4500"/>
-    <circle cx="15" cy="20" r="12" fill="#FF4500"/>
-    <circle cx="-25" cy="25" r="12" fill="#FF4500"/>
-    <circle cx="0" cy="-10" r="12" fill="#FF4500"/>
-    
-    <!-- Mushroom toppings -->
-    <g fill="#DEB887">
-      <ellipse cx="-10" cy="35" rx="10" ry="8"/>
-      <ellipse cx="35" cy="10" rx="10" ry="8"/>
-      <ellipse cx="-40" cy="-10" rx="10" ry="8"/>
-    </g>
-    
-    <!-- Cute face on pizza -->
-    <g transform="translate(0, -5)">
-      <!-- Eyes -->
-      <ellipse cx="-20" cy="0" rx="12" ry="15" fill="#FFF"/>
-      <circle cx="-20" cy="2" r="8" fill="#2C1810"/>
-      <circle cx="-17" cy="-2" r="3" fill="#FFF"/>
-      
-      <ellipse cx="20" cy="0" rx="12" ry="15" fill="#FFF"/>
-      <circle cx="20" cy="2" r="8" fill="#2C1810"/>
-      <circle cx="23" cy="-2" r="3" fill="#FFF"/>
-      
-      <!-- Blush -->
-      <ellipse cx="-45" cy="15" rx="12" ry="10" fill="#FF6B6B" opacity="0.4"/>
-      <ellipse cx="45" cy="15" rx="12" ry="10" fill="#FF6B6B" opacity="0.4"/>
-      
-      <!-- Happy mouth -->
-      <path d="M -25 20 Q 0 35 25 20" stroke="#2C1810" stroke-width="3" fill="none" stroke-linecap="round"/>
-    </g>
-  </g>
-  
-  <!-- Side food characters -->
-  <!-- French fries -->
-  <g transform="translate(80, 480)">
-    <rect x="-15" y="-30" width="30" height="50" fill="#FFD700" rx="5"/>
-    <rect x="-12" y="-35" width="6" height="40" fill="#FFA500" rx="2"/>
-    <rect x="-3" y="-38" width="6" height="43" fill="#FFA500" rx="2"/>
-    <rect x="6" y="-33" width="6" height="38" fill="#FFA500" rx="2"/>
-    <circle cx="0" cy="0" r="3" fill="#2C1810"/>
-    <path d="M -6 5 Q 0 8 6 5" stroke="#2C1810" stroke-width="1.5" fill="none"/>
-  </g>
-  
-  <!-- Ice cream -->
-  <g transform="translate(320, 200)">
-    <path d="M 0 20 L -15 -10 L 15 -10 Z" fill="#F4A460"/>
-    <circle cx="0" cy="-15" r="18" fill="#FFB6C1"/>
-    <circle cx="-8" cy="-25" r="12" fill="#98D8C8"/>
-    <circle cx="8" cy="-25" r="12" fill="#FFE4B5"/>
-    <circle cx="-3" cy="-20" r="2" fill="#8B4513"/>
-    <circle cx="5" cy="-22" r="2" fill="#8B4513"/>
-  </g>
-  
-  <!-- Sparkles -->
-  <g fill="#FFD700">
-    <circle cx="140" cy="180" r="4"/>
-    <circle cx="260" cy="380" r="4"/>
-    <circle cx="120" cy="420" r="3"/>
-  </g>
-  
-  <path d="M 0 555 Q 100 540 200 555 T 400 555 L 400 600 L 0 600 Z" 
-        fill="#FFA500" opacity="0.2"/>
+  <text x="200" y="320" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="white" text-anchor="middle">음식 BTI</text>
 </svg>

@@ -1,12 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="esteemBg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#F7B733;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#FC4A1A;stop-opacity:1" />
+    <linearGradient id="self-esteem-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#A78BFA;stop-opacity:1" />
     </linearGradient>
   </defs>
-  <rect width="400" height="400" fill="url(#esteemBg)" rx="20"/>
-  <circle cx="200" cy="200" r="80" fill="#FFD700"/>
-  <path d="M200,120 L220,180 L280,180 L230,220 L250,280 L200,240 L150,280 L170,220 L120,180 L180,180 Z" fill="#FFA500"/>
-  <circle cx="200" cy="200" r="40" fill="#FF8C00" opacity="0.5"/>
+  
+  <rect width="400" height="400" rx="40" fill="url(#self-esteem-bg)"/>
+  
+  <!-- Person with star above head -->
+  <circle cx="200" cy="180" r="40" fill="white" opacity="0.9"/>
+  <rect x="160" y="220" width="80" height="60" rx="10" fill="white" opacity="0.9"/>
+  
+  <!-- Star above head -->
+  <path d="M200 90 L210 120 L242 125 L221 145 L226 177 L200 162 L174 177 L179 145 L158 125 L190 120 Z" 
+        fill="#FFD700" opacity="0.95"/>
+  
+  <text x="200" y="350" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="white" text-anchor="middle">자존감</text>
 </svg>
