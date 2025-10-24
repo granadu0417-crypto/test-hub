@@ -96,7 +96,7 @@
 
     .featured-badge {
         display: inline-block;
-        background: linear-gradient(135deg, #FFD700, #FFA500);
+        background: linear-gradient(135deg, #0EA5E9, #14B8A6);
         color: white;
         padding: 5px 15px;
         border-radius: 20px;
@@ -104,6 +104,7 @@
         font-weight: bold;
         margin-left: 10px;
         vertical-align: middle;
+        animation: pulse 2s ease-in-out infinite;
     }
 
     .featured-grid {
@@ -138,13 +139,39 @@
 
     .category-count {
         margin-left: 16px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #0EA5E9, #14B8A6);
         color: white;
         padding: 6px 16px;
         border-radius: 24px;
         font-size: 0.85rem;
         font-weight: 600;
-        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+        box-shadow: 0 2px 8px rgba(14, 165, 233, 0.2);
+    }
+
+    /* 카테고리별 색상 */
+    .category-romance .category-count {
+        background: linear-gradient(135deg, #EC4899, #F472B6);
+        box-shadow: 0 2px 8px rgba(236, 72, 153, 0.2);
+    }
+
+    .category-personality .category-count {
+        background: linear-gradient(135deg, #8B5CF6, #A78BFA);
+        box-shadow: 0 2px 8px rgba(139, 92, 246, 0.2);
+    }
+
+    .category-career .category-count {
+        background: linear-gradient(135deg, #F59E0B, #FBBF24);
+        box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2);
+    }
+
+    .category-healing .category-count {
+        background: linear-gradient(135deg, #10B981, #34D399);
+        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
+    }
+
+    .category-fun .category-count {
+        background: linear-gradient(135deg, #3B82F6, #60A5FA);
+        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
     }
 
     .test-grid {
@@ -477,11 +504,11 @@
     </div>
 </div>
 
-<!-- 인기 TOP 5 Section -->
+<!-- 추천 테스트 Section -->
 <div id="tests" class="featured-section scroll-animate">
     <div class="featured-header">
-        <h3>🔥 인기 TOP 5</h3>
-        <span class="featured-badge">HOT</span>
+        <h3>⭐ 추천 테스트</h3>
+        <span class="featured-badge">추천</span>
     </div>
     <div class="featured-grid">
         {{ range where (where .Site.RegularPages "Section" "tests") ".Params.featured" true }}
@@ -520,7 +547,7 @@
 <!-- 💕 연애 테스트 -->
 {{ $romanceTests := where (where .Site.RegularPages "Section" "tests") ".Params.category" "romance" }}
 {{ if $romanceTests }}
-<div class="category-section">
+<div class="category-section category-romance scroll-animate">
     <div class="category-header">
         <h3>💕 연애 테스트</h3>
         <span class="category-count">{{ len $romanceTests }}개</span>
@@ -561,7 +588,7 @@
 <!-- 🎭 성격 테스트 -->
 {{ $personalityTests := where (where .Site.RegularPages "Section" "tests") ".Params.category" "personality" }}
 {{ if $personalityTests }}
-<div class="category-section">
+<div class="category-section category-personality scroll-animate">
     <div class="category-header">
         <h3>🎭 성격 테스트</h3>
         <span class="category-count">{{ len $personalityTests }}개</span>
@@ -602,7 +629,7 @@
 <!-- 💼 직업 테스트 -->
 {{ $careerTests := where (where .Site.RegularPages "Section" "tests") ".Params.category" "career" }}
 {{ if $careerTests }}
-<div class="category-section">
+<div class="category-section category-career scroll-animate">
     <div class="category-header">
         <h3>💼 직업 테스트</h3>
         <span class="category-count">{{ len $careerTests }}개</span>
@@ -643,7 +670,7 @@
 <!-- 🌱 힐링 테스트 -->
 {{ $healingTests := where (where .Site.RegularPages "Section" "tests") ".Params.category" "healing" }}
 {{ if $healingTests }}
-<div class="category-section">
+<div class="category-section category-healing scroll-animate">
     <div class="category-header">
         <h3>🌱 힐링 테스트</h3>
         <span class="category-count">{{ len $healingTests }}개</span>
@@ -684,7 +711,7 @@
 <!-- 🎉 재미 테스트 (BTI 시리즈) -->
 {{ $funTests := where (where .Site.RegularPages "Section" "tests") ".Params.category" "fun" }}
 {{ if $funTests }}
-<div class="category-section">
+<div class="category-section category-fun scroll-animate">
     <div class="category-header">
         <h3>🎉 재미 테스트</h3>
         <span class="category-count">{{ len $funTests }}개</span>
