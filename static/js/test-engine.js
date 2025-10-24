@@ -14,6 +14,14 @@ class TestEngine {
 
     // 테스트 시작
     start() {
+        // GA4 이벤트: 테스트 시작
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'test_start', {
+                test_id: this.testData.id,
+                test_name: this.testData.title || 'Unknown Test'
+            });
+        }
+
         this.showQuestion(0);
         this.updateProgress();
     }
@@ -311,6 +319,16 @@ class TestEngine {
         const testId = this.testData.id;
         const resultPageUrl = `/tests/${testId}/${result.type}/`;
 
+        // GA4 이벤트: 테스트 완료
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'test_complete', {
+                test_id: this.testData.id,
+                test_name: this.testData.title || 'Unknown Test',
+                result_type: result.type,
+                result_title: result.title
+            });
+        }
+
         // 결과 정보 저장 (리다이렉트 전)
         sessionStorage.setItem('lastTestResult', JSON.stringify({
             testId: testId,
@@ -412,6 +430,15 @@ ${result.subtitle || ''}
 
     // 페이스북 공유
     shareFacebook() {
+        // GA4 이벤트: 공유 클릭
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'share', {
+                method: 'Facebook',
+                content_type: 'test_result',
+                item_id: this.testData.id
+            });
+        }
+
         const url = encodeURIComponent(this.currentResultUrl || window.location.href);
         const result = this.currentResult;
         const text = result ? encodeURIComponent(`나는 ${result.badge} ${result.title}! 당신도 테스트해보세요`) : '';
@@ -421,6 +448,15 @@ ${result.subtitle || ''}
 
     // 링크 복사
     copyLink() {
+        // GA4 이벤트: 링크 복사
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'share', {
+                method: 'Copy Link',
+                content_type: 'test_result',
+                item_id: this.testData.id
+            });
+        }
+
         const url = this.currentResultUrl || window.location.href;
         const result = this.currentResult;
         const shareText = result ? `🎯 나는 "${result.title}" ${result.badge}\n\n${result.subtitle || ''}\n당신의 결과는? 👉\n${url}` : url;

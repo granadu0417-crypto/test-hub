@@ -6,6 +6,7 @@ title = '심리테스트 모음 - 재미있는 성격 & 심리 테스트'
   description = '무료 심리테스트, 성격 테스트, MBTI, 연애 스타일, 직업 적성 등 다양한 테스트를 즐겨보세요'
   author = '심리테스트 모음'
   keywords = '심리테스트, 성격테스트, MBTI, 연애테스트, 직업적성, 무료테스트'
+  googleAnalytics = 'G-FP3W863XX4'
 
 [markup]
   [markup.goldmark]
