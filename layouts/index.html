@@ -552,35 +552,45 @@
         <h3>💕 연애 테스트</h3>
         <span class="category-count">{{ len $romanceTests }}개</span>
     </div>
-    <div class="test-grid">
-        {{ range $romanceTests }}
-        <a href="{{ .Permalink }}" class="test-card">
-            {{ if .Params.badge }}
-                {{ if eq .Params.badge "NEW" }}
-                <span class="test-badge new">NEW</span>
-                {{ else if eq .Params.badge "UPDATE" }}
-                <span class="test-badge update">UPDATE</span>
-                {{ end }}
+    <div class="slider-wrapper">
+        <button class="slider-nav slider-nav-prev" onclick="slideLeft('romance-slider')">
+            <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        </button>
+        <div class="slider-container" id="romance-slider">
+            {{ range $romanceTests }}
+            <div class="slider-item">
+                <a href="{{ .Permalink }}" class="test-card">
+                    {{ if .Params.badge }}
+                        {{ if eq .Params.badge "NEW" }}
+                        <span class="test-badge new">NEW</span>
+                        {{ else if eq .Params.badge "UPDATE" }}
+                        <span class="test-badge update">UPDATE</span>
+                        {{ end }}
+                    {{ end }}
+                    {{ if fileExists (printf "static/images/thumbnails/%s.png" .File.BaseFileName) }}
+                    <div class="test-thumbnail">
+                        <img src="/images/thumbnails/{{ .File.BaseFileName }}.png" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
+                    </div>
+                    {{ else if fileExists (printf "static/images/thumbnails/%s.svg" .File.BaseFileName) }}
+                    <div class="test-thumbnail">
+                        <img src="/images/thumbnails/{{ .File.BaseFileName }}.svg" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
+                    </div>
+                    {{ else }}
+                    <div class="test-icon">{{ .Params.icon }}</div>
+                    {{ end }}
+                    <h3 class="test-title">{{ .Title }}</h3>
+                    <p class="test-summary">{{ .Params.summary }}</p>
+                    <div class="test-meta">
+                        <span>❓ {{ .Params.questionCount }}개 질문</span>
+                        <span>⏱️ {{ .Params.duration }}</span>
+                    </div>
+                </a>
+            </div>
             {{ end }}
-            {{ if fileExists (printf "static/images/thumbnails/%s.png" .File.BaseFileName) }}
-            <div class="test-thumbnail">
-                <img src="/images/thumbnails/{{ .File.BaseFileName }}.png" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
-            </div>
-            {{ else if fileExists (printf "static/images/thumbnails/%s.svg" .File.BaseFileName) }}
-            <div class="test-thumbnail">
-                <img src="/images/thumbnails/{{ .File.BaseFileName }}.svg" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
-            </div>
-            {{ else }}
-            <div class="test-icon">{{ .Params.icon }}</div>
-            {{ end }}
-            <h3 class="test-title">{{ .Title }}</h3>
-            <p class="test-summary">{{ .Params.summary }}</p>
-            <div class="test-meta">
-                <span>❓ {{ .Params.questionCount }}개 질문</span>
-                <span>⏱️ {{ .Params.duration }}</span>
-            </div>
-        </a>
-        {{ end }}
+        </div>
+        <button class="slider-nav slider-nav-next" onclick="slideRight('romance-slider')">
+            <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+        </button>
     </div>
 </div>
 {{ end }}
@@ -593,35 +603,45 @@
         <h3>🎭 성격 테스트</h3>
         <span class="category-count">{{ len $personalityTests }}개</span>
     </div>
-    <div class="test-grid">
-        {{ range $personalityTests }}
-        <a href="{{ .Permalink }}" class="test-card">
-            {{ if .Params.badge }}
-                {{ if eq .Params.badge "NEW" }}
-                <span class="test-badge new">NEW</span>
-                {{ else if eq .Params.badge "UPDATE" }}
-                <span class="test-badge update">UPDATE</span>
-                {{ end }}
+    <div class="slider-wrapper">
+        <button class="slider-nav slider-nav-prev" onclick="slideLeft('personality-slider')">
+            <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        </button>
+        <div class="slider-container" id="personality-slider">
+            {{ range $personalityTests }}
+            <div class="slider-item">
+                <a href="{{ .Permalink }}" class="test-card">
+                    {{ if .Params.badge }}
+                        {{ if eq .Params.badge "NEW" }}
+                        <span class="test-badge new">NEW</span>
+                        {{ else if eq .Params.badge "UPDATE" }}
+                        <span class="test-badge update">UPDATE</span>
+                        {{ end }}
+                    {{ end }}
+                    {{ if fileExists (printf "static/images/thumbnails/%s.png" .File.BaseFileName) }}
+                    <div class="test-thumbnail">
+                        <img src="/images/thumbnails/{{ .File.BaseFileName }}.png" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
+                    </div>
+                    {{ else if fileExists (printf "static/images/thumbnails/%s.svg" .File.BaseFileName) }}
+                    <div class="test-thumbnail">
+                        <img src="/images/thumbnails/{{ .File.BaseFileName }}.svg" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
+                    </div>
+                    {{ else }}
+                    <div class="test-icon">{{ .Params.icon }}</div>
+                    {{ end }}
+                    <h3 class="test-title">{{ .Title }}</h3>
+                    <p class="test-summary">{{ .Params.summary }}</p>
+                    <div class="test-meta">
+                        <span>❓ {{ .Params.questionCount }}개 질문</span>
+                        <span>⏱️ {{ .Params.duration }}</span>
+                    </div>
+                </a>
+            </div>
             {{ end }}
-            {{ if fileExists (printf "static/images/thumbnails/%s.png" .File.BaseFileName) }}
-            <div class="test-thumbnail">
-                <img src="/images/thumbnails/{{ .File.BaseFileName }}.png" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
-            </div>
-            {{ else if fileExists (printf "static/images/thumbnails/%s.svg" .File.BaseFileName) }}
-            <div class="test-thumbnail">
-                <img src="/images/thumbnails/{{ .File.BaseFileName }}.svg" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
-            </div>
-            {{ else }}
-            <div class="test-icon">{{ .Params.icon }}</div>
-            {{ end }}
-            <h3 class="test-title">{{ .Title }}</h3>
-            <p class="test-summary">{{ .Params.summary }}</p>
-            <div class="test-meta">
-                <span>❓ {{ .Params.questionCount }}개 질문</span>
-                <span>⏱️ {{ .Params.duration }}</span>
-            </div>
-        </a>
-        {{ end }}
+        </div>
+        <button class="slider-nav slider-nav-next" onclick="slideRight('personality-slider')">
+            <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+        </button>
     </div>
 </div>
 {{ end }}
@@ -634,35 +654,45 @@
         <h3>💼 직업 테스트</h3>
         <span class="category-count">{{ len $careerTests }}개</span>
     </div>
-    <div class="test-grid">
-        {{ range $careerTests }}
-        <a href="{{ .Permalink }}" class="test-card">
-            {{ if .Params.badge }}
-                {{ if eq .Params.badge "NEW" }}
-                <span class="test-badge new">NEW</span>
-                {{ else if eq .Params.badge "UPDATE" }}
-                <span class="test-badge update">UPDATE</span>
-                {{ end }}
+    <div class="slider-wrapper">
+        <button class="slider-nav slider-nav-prev" onclick="slideLeft('career-slider')">
+            <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        </button>
+        <div class="slider-container" id="career-slider">
+            {{ range $careerTests }}
+            <div class="slider-item">
+                <a href="{{ .Permalink }}" class="test-card">
+                    {{ if .Params.badge }}
+                        {{ if eq .Params.badge "NEW" }}
+                        <span class="test-badge new">NEW</span>
+                        {{ else if eq .Params.badge "UPDATE" }}
+                        <span class="test-badge update">UPDATE</span>
+                        {{ end }}
+                    {{ end }}
+                    {{ if fileExists (printf "static/images/thumbnails/%s.png" .File.BaseFileName) }}
+                    <div class="test-thumbnail">
+                        <img src="/images/thumbnails/{{ .File.BaseFileName }}.png" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
+                    </div>
+                    {{ else if fileExists (printf "static/images/thumbnails/%s.svg" .File.BaseFileName) }}
+                    <div class="test-thumbnail">
+                        <img src="/images/thumbnails/{{ .File.BaseFileName }}.svg" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
+                    </div>
+                    {{ else }}
+                    <div class="test-icon">{{ .Params.icon }}</div>
+                    {{ end }}
+                    <h3 class="test-title">{{ .Title }}</h3>
+                    <p class="test-summary">{{ .Params.summary }}</p>
+                    <div class="test-meta">
+                        <span>❓ {{ .Params.questionCount }}개 질문</span>
+                        <span>⏱️ {{ .Params.duration }}</span>
+                    </div>
+                </a>
+            </div>
             {{ end }}
-            {{ if fileExists (printf "static/images/thumbnails/%s.png" .File.BaseFileName) }}
-            <div class="test-thumbnail">
-                <img src="/images/thumbnails/{{ .File.BaseFileName }}.png" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
-            </div>
-            {{ else if fileExists (printf "static/images/thumbnails/%s.svg" .File.BaseFileName) }}
-            <div class="test-thumbnail">
-                <img src="/images/thumbnails/{{ .File.BaseFileName }}.svg" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
-            </div>
-            {{ else }}
-            <div class="test-icon">{{ .Params.icon }}</div>
-            {{ end }}
-            <h3 class="test-title">{{ .Title }}</h3>
-            <p class="test-summary">{{ .Params.summary }}</p>
-            <div class="test-meta">
-                <span>❓ {{ .Params.questionCount }}개 질문</span>
-                <span>⏱️ {{ .Params.duration }}</span>
-            </div>
-        </a>
-        {{ end }}
+        </div>
+        <button class="slider-nav slider-nav-next" onclick="slideRight('career-slider')">
+            <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+        </button>
     </div>
 </div>
 {{ end }}
@@ -675,35 +705,45 @@
         <h3>🌱 힐링 테스트</h3>
         <span class="category-count">{{ len $healingTests }}개</span>
     </div>
-    <div class="test-grid">
-        {{ range $healingTests }}
-        <a href="{{ .Permalink }}" class="test-card">
-            {{ if .Params.badge }}
-                {{ if eq .Params.badge "NEW" }}
-                <span class="test-badge new">NEW</span>
-                {{ else if eq .Params.badge "UPDATE" }}
-                <span class="test-badge update">UPDATE</span>
-                {{ end }}
+    <div class="slider-wrapper">
+        <button class="slider-nav slider-nav-prev" onclick="slideLeft('healing-slider')">
+            <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        </button>
+        <div class="slider-container" id="healing-slider">
+            {{ range $healingTests }}
+            <div class="slider-item">
+                <a href="{{ .Permalink }}" class="test-card">
+                    {{ if .Params.badge }}
+                        {{ if eq .Params.badge "NEW" }}
+                        <span class="test-badge new">NEW</span>
+                        {{ else if eq .Params.badge "UPDATE" }}
+                        <span class="test-badge update">UPDATE</span>
+                        {{ end }}
+                    {{ end }}
+                    {{ if fileExists (printf "static/images/thumbnails/%s.png" .File.BaseFileName) }}
+                    <div class="test-thumbnail">
+                        <img src="/images/thumbnails/{{ .File.BaseFileName }}.png" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
+                    </div>
+                    {{ else if fileExists (printf "static/images/thumbnails/%s.svg" .File.BaseFileName) }}
+                    <div class="test-thumbnail">
+                        <img src="/images/thumbnails/{{ .File.BaseFileName }}.svg" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
+                    </div>
+                    {{ else }}
+                    <div class="test-icon">{{ .Params.icon }}</div>
+                    {{ end }}
+                    <h3 class="test-title">{{ .Title }}</h3>
+                    <p class="test-summary">{{ .Params.summary }}</p>
+                    <div class="test-meta">
+                        <span>❓ {{ .Params.questionCount }}개 질문</span>
+                        <span>⏱️ {{ .Params.duration }}</span>
+                    </div>
+                </a>
+            </div>
             {{ end }}
-            {{ if fileExists (printf "static/images/thumbnails/%s.png" .File.BaseFileName) }}
-            <div class="test-thumbnail">
-                <img src="/images/thumbnails/{{ .File.BaseFileName }}.png" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
-            </div>
-            {{ else if fileExists (printf "static/images/thumbnails/%s.svg" .File.BaseFileName) }}
-            <div class="test-thumbnail">
-                <img src="/images/thumbnails/{{ .File.BaseFileName }}.svg" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
-            </div>
-            {{ else }}
-            <div class="test-icon">{{ .Params.icon }}</div>
-            {{ end }}
-            <h3 class="test-title">{{ .Title }}</h3>
-            <p class="test-summary">{{ .Params.summary }}</p>
-            <div class="test-meta">
-                <span>❓ {{ .Params.questionCount }}개 질문</span>
-                <span>⏱️ {{ .Params.duration }}</span>
-            </div>
-        </a>
-        {{ end }}
+        </div>
+        <button class="slider-nav slider-nav-next" onclick="slideRight('healing-slider')">
+            <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+        </button>
     </div>
 </div>
 {{ end }}
@@ -716,35 +756,45 @@
         <h3>🎉 재미 테스트</h3>
         <span class="category-count">{{ len $funTests }}개</span>
     </div>
-    <div class="test-grid">
-        {{ range $funTests }}
-        <a href="{{ .Permalink }}" class="test-card">
-            {{ if .Params.badge }}
-                {{ if eq .Params.badge "NEW" }}
-                <span class="test-badge new">NEW</span>
-                {{ else if eq .Params.badge "UPDATE" }}
-                <span class="test-badge update">UPDATE</span>
-                {{ end }}
+    <div class="slider-wrapper">
+        <button class="slider-nav slider-nav-prev" onclick="slideLeft('fun-slider')">
+            <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        </button>
+        <div class="slider-container" id="fun-slider">
+            {{ range $funTests }}
+            <div class="slider-item">
+                <a href="{{ .Permalink }}" class="test-card">
+                    {{ if .Params.badge }}
+                        {{ if eq .Params.badge "NEW" }}
+                        <span class="test-badge new">NEW</span>
+                        {{ else if eq .Params.badge "UPDATE" }}
+                        <span class="test-badge update">UPDATE</span>
+                        {{ end }}
+                    {{ end }}
+                    {{ if fileExists (printf "static/images/thumbnails/%s.png" .File.BaseFileName) }}
+                    <div class="test-thumbnail">
+                        <img src="/images/thumbnails/{{ .File.BaseFileName }}.png" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
+                    </div>
+                    {{ else if fileExists (printf "static/images/thumbnails/%s.svg" .File.BaseFileName) }}
+                    <div class="test-thumbnail">
+                        <img src="/images/thumbnails/{{ .File.BaseFileName }}.svg" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
+                    </div>
+                    {{ else }}
+                    <div class="test-icon">{{ .Params.icon }}</div>
+                    {{ end }}
+                    <h3 class="test-title">{{ .Title }}</h3>
+                    <p class="test-summary">{{ .Params.summary }}</p>
+                    <div class="test-meta">
+                        <span>❓ {{ .Params.questionCount }}개 질문</span>
+                        <span>⏱️ {{ .Params.duration }}</span>
+                    </div>
+                </a>
+            </div>
             {{ end }}
-            {{ if fileExists (printf "static/images/thumbnails/%s.png" .File.BaseFileName) }}
-            <div class="test-thumbnail">
-                <img src="/images/thumbnails/{{ .File.BaseFileName }}.png" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
-            </div>
-            {{ else if fileExists (printf "static/images/thumbnails/%s.svg" .File.BaseFileName) }}
-            <div class="test-thumbnail">
-                <img src="/images/thumbnails/{{ .File.BaseFileName }}.svg" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
-            </div>
-            {{ else }}
-            <div class="test-icon">{{ .Params.icon }}</div>
-            {{ end }}
-            <h3 class="test-title">{{ .Title }}</h3>
-            <p class="test-summary">{{ .Params.summary }}</p>
-            <div class="test-meta">
-                <span>❓ {{ .Params.questionCount }}개 질문</span>
-                <span>⏱️ {{ .Params.duration }}</span>
-            </div>
-        </a>
-        {{ end }}
+        </div>
+        <button class="slider-nav slider-nav-next" onclick="slideRight('fun-slider')">
+            <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+        </button>
     </div>
 </div>
 {{ end }}
@@ -847,6 +897,65 @@ document.addEventListener('DOMContentLoaded', () => {
     const categorySections = document.querySelectorAll('.category-section');
     categorySections.forEach(section => {
         section.classList.add('scroll-animate');
+    });
+});
+
+// 슬라이더 네비게이션 함수
+function slideLeft(sliderId) {
+    const slider = document.getElementById(sliderId);
+    if (slider) {
+        const scrollAmount = slider.offsetWidth * 0.8; // 80% 너비만큼 스크롤
+        slider.scrollBy({
+            left: -scrollAmount,
+            behavior: 'smooth'
+        });
+    }
+}
+
+function slideRight(sliderId) {
+    const slider = document.getElementById(sliderId);
+    if (slider) {
+        const scrollAmount = slider.offsetWidth * 0.8; // 80% 너비만큼 스크롤
+        slider.scrollBy({
+            left: scrollAmount,
+            behavior: 'smooth'
+        });
+    }
+}
+
+// 터치 스와이프 지원 (모바일)
+document.addEventListener('DOMContentLoaded', () => {
+    const sliders = document.querySelectorAll('.slider-container');
+
+    sliders.forEach(slider => {
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            slider.style.cursor = 'grabbing';
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+            slider.style.cursor = 'grab';
+        });
+
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+            slider.style.cursor = 'grab';
+        });
+
+        slider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2;
+            slider.scrollLeft = scrollLeft - walk;
+        });
     });
 });
 </script>
