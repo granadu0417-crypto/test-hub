@@ -332,6 +332,7 @@
     position: relative;
     max-width: 100%;
     margin: 0 auto;
+    overflow: visible;
 }
 
 /* 슬라이더 컨테이너 */
@@ -339,12 +340,13 @@
     display: flex;
     gap: 20px;
     overflow-x: auto;
+    overflow-y: visible;
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE/Edge */
-    padding: 10px 0 20px 0;
+    padding: 40px 0 50px 0;
     cursor: grab;
 }
 
