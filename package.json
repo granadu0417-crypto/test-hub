@@ -7,10 +7,14 @@
     "convert-og": "node scripts/convert-svg-to-png.js"
   },
   "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
     "sharp": "^0.33.1"
   },
-  "devDependencies": {},
-  "keywords": ["test", "psychology", "hugo"],
+  "keywords": [
+    "test",
+    "psychology",
+    "hugo"
+  ],
   "author": "",
   "license": "ISC"
 }

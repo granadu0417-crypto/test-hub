@@ -1,10 +1,10 @@
 const fs = require('fs');
 const path = require('path');
-const sharp = require('sharp');
+const { Resvg } = require('@resvg/resvg-js');
 
 const OG_DIR = path.join(__dirname, '..', 'static', 'images', 'og');
 
-console.log('🎨 SVG를 PNG로 변환 시작...\n');
+console.log('🎨 SVG를 PNG로 변환 시작 (Resvg 사용)...\n');
 
 // OG 디렉토리의 모든 SVG 파일 찾기
 const files = fs.readdirSync(OG_DIR).filter(file => file.endsWith('.svg'));
@@ -21,14 +21,25 @@ async function convertAllSvgs() {
     const pngPath = path.join(OG_DIR, file.replace('.svg', '.png'));
 
     try {
-      // SVG를 PNG로 변환 (1200x630, 고해상도)
-      await sharp(svgPath)
-        .resize(1200, 630)
-        .png({
-          quality: 90,
-          compressionLevel: 9
-        })
-        .toFile(pngPath);
+      // SVG 파일 읽기
+      const svgBuffer = fs.readFileSync(svgPath);
+
+      // Resvg로 SVG를 PNG로 변환
+      const resvg = new Resvg(svgBuffer, {
+        fitTo: {
+          mode: 'width',
+          value: 1200,
+        },
+        font: {
+          loadSystemFonts: true,
+        },
+      });
+
+      const pngData = resvg.render();
+      const pngBuffer = pngData.asPng();
+
+      // PNG 파일 저장
+      fs.writeFileSync(pngPath, pngBuffer);
 
       converted++;
       console.log(`✅ ${file} → ${file.replace('.svg', '.png')}`);
