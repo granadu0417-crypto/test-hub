@@ -356,6 +356,9 @@ class TestEngine {
                         💬 결과를 친구에게 공유하기
                     </h4>
                     <div class="share-buttons" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                        <button class="btn-share btn-download" onclick="testEngine.downloadResultImage()" style="flex: 1; min-width: 200px; max-width: 250px; padding: 15px 25px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(245, 87, 108, 0.3);">
+                            <span style="font-size: 1.3rem;">📸</span> <span class="download-text">이미지 저장</span>
+                        </button>
                         <button class="btn-share btn-facebook" onclick="testEngine.shareFacebook()" style="flex: 1; min-width: 200px; max-width: 250px; padding: 15px 25px; background: #1877f2; color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s ease;">
                             <span style="font-size: 1.3rem;">📘</span> 페이스북
                         </button>
@@ -558,6 +561,103 @@ ${result.subtitle || ''}
         }
 
         document.body.removeChild(textArea);
+    }
+
+    // 결과 이미지 다운로드 (인스타 스토리용)
+    async downloadResultImage() {
+        // GA4 이벤트: 이미지 다운로드
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'download_image', {
+                test_id: this.testData.id,
+                result_type: this.currentResult ? this.currentResult.type : 'unknown'
+            });
+        }
+
+        const downloadBtn = document.querySelector('.download-text');
+        if (downloadBtn) {
+            downloadBtn.textContent = '생성 중...';
+        }
+
+        try {
+            // html2canvas가 로드되었는지 확인
+            if (typeof html2canvas === 'undefined') {
+                throw new Error('html2canvas가 로드되지 않았습니다.');
+            }
+
+            const resultCard = document.querySelector('.result-card');
+            if (!resultCard) {
+                throw new Error('결과 카드를 찾을 수 없습니다.');
+            }
+
+            // 공유 버튼 섹션 숨기기 (캡처에서 제외)
+            const shareSection = document.querySelector('.share-section-inline');
+            const originalDisplay = shareSection ? shareSection.style.display : '';
+            if (shareSection) shareSection.style.display = 'none';
+
+            // 배경색 임시 추가 (투명 배경 방지)
+            resultCard.style.background = '#ffffff';
+            resultCard.style.padding = '40px';
+
+            // 브랜드 워터마크 추가
+            const watermark = document.createElement('div');
+            watermark.style.cssText = 'text-align: center; margin-top: 30px; padding-top: 20px; border-top: 2px solid #f0f0f0; font-size: 14px; color: #999; font-weight: 600;';
+            watermark.innerHTML = '🎯 natest.kr에서 더 많은 테스트를 만나보세요!';
+            resultCard.appendChild(watermark);
+
+            // html2canvas로 캡처
+            const canvas = await html2canvas(resultCard, {
+                backgroundColor: '#ffffff',
+                scale: 2, // 고해상도
+                logging: false,
+                useCORS: true,
+                allowTaint: true,
+                width: resultCard.scrollWidth,
+                height: resultCard.scrollHeight
+            });
+
+            // 워터마크 제거
+            resultCard.removeChild(watermark);
+
+            // 공유 버튼 섹션 복원
+            if (shareSection) shareSection.style.display = originalDisplay;
+
+            // Canvas를 Blob으로 변환
+            canvas.toBlob((blob) => {
+                if (!blob) {
+                    throw new Error('이미지 생성에 실패했습니다.');
+                }
+
+                // 파일명 생성
+                const fileName = `${this.testData.title}_결과_${this.currentResult ? this.currentResult.type : 'result'}.png`;
+
+                // 다운로드
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = fileName;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+
+                // 버튼 텍스트 변경
+                if (downloadBtn) {
+                    downloadBtn.textContent = '저장 완료!';
+                    setTimeout(() => {
+                        downloadBtn.textContent = '이미지 저장';
+                    }, 2000);
+                }
+            }, 'image/png');
+
+        } catch (error) {
+            console.error('이미지 다운로드 실패:', error);
+            alert('이미지 저장에 실패했습니다. 다시 시도해주세요.');
+
+            // 버튼 텍스트 복원
+            if (downloadBtn) {
+                downloadBtn.textContent = '이미지 저장';
+            }
+        }
     }
 }
 
