@@ -143,8 +143,12 @@ files.forEach(file => {
   // SVG 생성
   const svg = generateSVG(title, icon, category);
 
-  // SVG 파일로 저장
-  const outputFilename = ogImage.replace('.jpg', '.svg').replace('.png', '.svg');
+  // SVG 파일로 저장 (og/ 경로 제거 후 파일명만 추출)
+  let outputFilename = ogImage.replace('.jpg', '.svg').replace('.png', '.svg');
+  // og/ 접두사가 있다면 제거
+  if (outputFilename.startsWith('og/')) {
+    outputFilename = outputFilename.substring(3);
+  }
   const outputPath = path.join(outputDir, outputFilename);
 
   fs.writeFileSync(outputPath, svg);
