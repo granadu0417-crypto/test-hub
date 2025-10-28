@@ -80,7 +80,7 @@ function generateSVG(title, icon, category) {
   <circle cx="950" cy="100" r="80" fill="rgba(0,0,0,0.05)"/>
 
   <!-- 이모지 아이콘 (중앙 상단) -->
-  <text x="600" y="220" text-anchor="middle" font-size="140" font-family="Arial, sans-serif">${icon}</text>
+  <text x="600" y="220" text-anchor="middle" font-size="140" font-family="'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', Arial, sans-serif">${icon}</text>
 
   <!-- 테스트 제목 -->
   ${titleLines.length === 1 ? `
