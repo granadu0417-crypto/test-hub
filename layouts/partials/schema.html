@@ -1,0 +1,112 @@
+<!-- Schema.org JSON-LD Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "{{ .Site.BaseURL }}#website",
+      "url": "{{ .Site.BaseURL }}",
+      "name": "{{ .Site.Title }}",
+      "description": "{{ .Site.Params.description }}",
+      "publisher": {
+        "@id": "{{ .Site.BaseURL }}#organization"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "{{ .Site.BaseURL }}?s={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      },
+      "inLanguage": "ko-KR"
+    },
+    {
+      "@type": "Organization",
+      "@id": "{{ .Site.BaseURL }}#organization",
+      "name": "{{ .Site.Title }}",
+      "url": "{{ .Site.BaseURL }}",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "{{ .Site.BaseURL }}images/icon-512.png",
+        "width": 512,
+        "height": 512
+      },
+      "sameAs": []
+    }
+    {{ if eq .Section "tests" }}
+    ,{
+      "@type": "Quiz",
+      "@id": "{{ .Permalink }}#quiz",
+      "name": "{{ .Title }}",
+      "description": "{{ if .Description }}{{ .Description }}{{ else }}{{ .Params.summary }}{{ end }}",
+      "url": "{{ .Permalink }}",
+      "image": "{{ .Site.BaseURL }}images/{{ if .Params.ogImage }}{{ .Params.ogImage }}{{ else }}og-image.jpg{{ end }}",
+      "about": {
+        "@type": "Thing",
+        "name": "{{ if .Params.category }}{{ .Params.category }}{{ else }}심리테스트{{ end }}"
+      },
+      "educationalLevel": "일반",
+      "inLanguage": "ko-KR",
+      "isAccessibleForFree": true,
+      "publisher": {
+        "@id": "{{ .Site.BaseURL }}#organization"
+      },
+      {{ if .Params.questionCount }}
+      "numberOfQuestions": {{ .Params.questionCount }},
+      {{ end }}
+      {{ if .Params.duration }}
+      "timeRequired": "{{ .Params.duration }}",
+      {{ end }}
+      "interactivityType": "active",
+      "learningResourceType": "심리테스트"
+    }
+    ,{
+      "@type": "BreadcrumbList",
+      "@id": "{{ .Permalink }}#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "홈",
+          "item": "{{ .Site.BaseURL }}"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "심리테스트",
+          "item": "{{ .Site.BaseURL }}tests/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "{{ .Title }}",
+          "item": "{{ .Permalink }}"
+        }
+      ]
+    }
+    {{ end }}
+    {{ if .IsHome }}
+    ,{
+      "@type": "ItemList",
+      "@id": "{{ .Site.BaseURL }}#itemlist",
+      "name": "심리테스트 목록",
+      "description": "다양한 무료 심리테스트 모음",
+      "numberOfItems": {{ len (where .Site.RegularPages "Section" "tests") }},
+      "itemListElement": [
+        {{ $tests := where .Site.RegularPages "Section" "tests" }}
+        {{ range $index, $test := first 20 $tests }}
+        {
+          "@type": "ListItem",
+          "position": {{ add $index 1 }},
+          "url": "{{ $test.Permalink }}",
+          "name": "{{ $test.Title }}"
+        }{{ if ne (add $index 1) (len (first 20 $tests)) }},{{ end }}
+        {{ end }}
+      ]
+    }
+    {{ end }}
+  ]
+}
+</script>

@@ -10,6 +10,8 @@
     <meta name="description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
     <meta name="keywords" content="{{ if .Params.keywords }}{{ delimit .Params.keywords ", " }}{{ else }}{{ .Site.Params.keywords }}{{ end }}">
     <meta name="author" content="{{ .Site.Params.author }}">
+    <link rel="canonical" href="{{ .Permalink }}" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 
     <!-- Naver Search Advisor Verification -->
     <meta name="naver-site-verification" content="7e7758458c6c274871a58ba9d901b0d6f29d0f3e" />
@@ -48,6 +50,9 @@
     <link rel="stylesheet" href="/css/viral.css">
     <link rel="stylesheet" href="/css/modern-ui.css">
     {{ block "head" . }}{{ end }}
+
+    <!-- Schema.org Structured Data -->
+    {{ partial "schema.html" . }}
 
     <!-- Google Analytics -->
     {{ if .Site.Params.googleAnalytics }}
