@@ -4,10 +4,12 @@
   "description": "나테스트 - 심리 테스트 웹사이트",
   "scripts": {
     "generate-og": "node scripts/generate-og-images.js",
-    "convert-og": "node scripts/convert-svg-to-png.js"
+    "convert-og": "node scripts/convert-svg-to-png.js",
+    "generate-favicons": "node scripts/generate-favicons.js && node scripts/create-favicon-ico.js"
   },
   "dependencies": {
     "@resvg/resvg-js": "^2.6.2",
+    "png-to-ico": "^3.0.1",
     "sharp": "^0.33.1"
   },
   "keywords": [
