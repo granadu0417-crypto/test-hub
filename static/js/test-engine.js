@@ -315,10 +315,6 @@ class TestEngine {
             </div>
         `;
 
-        // 결과 페이지로 리다이렉트 (정적 페이지)
-        const testId = this.testData.id;
-        const resultPageUrl = `/tests/${testId}/${result.type}/`;
-
         // GA4 이벤트: 테스트 완료
         if (typeof gtag !== 'undefined') {
             gtag('event', 'test_complete', {
@@ -329,15 +325,13 @@ class TestEngine {
             });
         }
 
-        // 결과 정보 저장 (리다이렉트 전)
-        sessionStorage.setItem('lastTestResult', JSON.stringify({
-            testId: testId,
-            resultType: result.type,
-            timestamp: new Date().toISOString()
-        }));
+        // 현재 결과 저장 (공유 기능용)
+        this.currentResult = result;
 
-        // 정적 결과 페이지로 리다이렉트
-        window.location.href = resultPageUrl;
+        // URL에 결과 파라미터 추가 (페이지 리로드 없이)
+        const newUrl = window.location.origin + window.location.pathname + '?result=' + result.type;
+        this.currentResultUrl = newUrl;
+        window.history.pushState({ result: result.type }, '', newUrl);
 
         // 다른 테스트 추천 표시
         const moreTests = document.getElementById('more-tests');
@@ -516,19 +510,12 @@ let testEngine = null;
 function initTest(testData) {
     testEngine = new TestEngine(testData);
 
-    // URL 파라미터 확인 (구형 링크 backward compatibility)
+    // URL 파라미터 확인 (공유 링크)
     const urlParams = new URLSearchParams(window.location.search);
     const sharedResult = urlParams.get('result');
 
     if (sharedResult) {
-        // 구형 ?result= URL을 새 정적 페이지로 리다이렉트
-        const newResultUrl = `/tests/${testData.id}/${sharedResult}/`;
-        window.location.replace(newResultUrl);
-        return; // 리다이렉트 후 함수 종료
-    }
-
-    // 아래 코드는 더 이상 실행되지 않음 (리다이렉트됨)
-    if (false) {
+        // 공유된 결과 표시
         const result = testData.results.find(r => r.type === sharedResult);
         if (result) {
             document.getElementById('test-intro').style.display = 'none';
@@ -543,6 +530,11 @@ function initTest(testData) {
                     <div class="result-badge">${result.badge || '🎯'}</div>
                     <h1 class="result-title">${result.title}</h1>
                     <p class="result-subtitle">${result.subtitle || ''}</p>
+                    ${result.rarity ? `
+                        <div class="result-rarity" style="margin: 15px 0; padding: 10px 20px; background: linear-gradient(135deg, #667eea33, #764ba233); border-radius: 15px; display: inline-block;">
+                            <span style="font-size: 14px; color: #667eea; font-weight: bold;">✨ 희소성: 전체의 ${result.rarity}%</span>
+                        </div>
+                    ` : ''}
                     <div class="result-description">
                         ${result.description}
                     </div>
@@ -568,14 +560,16 @@ function initTest(testData) {
                 </div>
             `;
 
-            const shareSection = document.getElementById('share-section');
-            if (shareSection) {
-                shareSection.style.display = 'block';
-                testEngine.updateShareButtons(result, window.location.href);
-            }
+            // 현재 결과 저장 (공유 기능용)
+            testEngine.currentResult = result;
+            testEngine.currentResultUrl = window.location.href;
 
             const moreTests = document.getElementById('more-tests');
             if (moreTests) moreTests.style.display = 'block';
+
+            // 페이지 맨 위로 스크롤
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return; // 초기화 완료
         }
     }
 
