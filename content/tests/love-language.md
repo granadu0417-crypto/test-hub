@@ -7,7 +7,7 @@ icon: "💝"
 category: "romance"
 badge: "UPDATE"
 featured: true
-ogImage: "og/og-love-language.svg"
+ogImage: "og/og-love-language.png"
 keywords: ["사랑의언어", "애정표현", "연애", "심리테스트", "관계", "사랑의언어테스트"]
 questionCount: 12
 duration: "2-3분"

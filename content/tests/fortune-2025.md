@@ -7,7 +7,7 @@ icon: "🔮"
 category: "fun"
 badge: "HOT"
 featured: true
-ogImage: "og/og-fortune-2025.svg"
+ogImage: "og/og-fortune-2025.png"
 keywords: ["2025년운세", "신년운세", "운세테스트", "금전운", "애정운", "사주", "토정비결"]
 questionCount: 12
 duration: "2-3분"

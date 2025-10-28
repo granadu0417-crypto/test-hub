@@ -7,7 +7,7 @@ icon: "⚡"
 category: "fun"
 badge: "NEW"
 featured: true
-ogImage: "og/og-hidden-superpower.svg"
+ogImage: "og/og-hidden-superpower.png"
 keywords: ["초능력테스트", "히어로테스트", "능력테스트", "슈퍼파워", "특별한능력", "재미테스트"]
 questionCount: 12
 duration: "2-3분"

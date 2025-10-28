@@ -7,7 +7,7 @@ icon: "💼"
 category: "career"
 badge: "NEW"
 featured: true
-ogImage: "og/og-career.svg"
+ogImage: "og/og-career.png"
 keywords: ["직업적성", "진로테스트", "직업테스트", "적성검사", "진로"]
 questionCount: 12
 duration: "2-3분"

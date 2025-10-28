@@ -7,7 +7,7 @@ icon: "👤"
 category: "fun"
 badge: "HOT"
 featured: true
-ogImage: "og/og-face-reading.svg"
+ogImage: "og/og-face-reading.png"
 keywords: ["관상테스트", "얼굴상", "운세", "관상", "복상", "재물운", "귀인상"]
 questionCount: 12
 duration: "2-3분"

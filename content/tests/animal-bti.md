@@ -7,7 +7,7 @@ icon: "🦁"
 category: "fun"
 badge: "NEW"
 featured: false
-ogImage: "og/og-animal.svg"
+ogImage: "og/og-animal.png"
 keywords: ["동물BTI", "동물테스트", "재미", "심리테스트", "성격테스트"]
 questionCount: 12
 duration: "2-3분"

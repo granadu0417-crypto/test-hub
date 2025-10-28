@@ -7,7 +7,7 @@ icon: "💰"
 category: "fun"
 badge: "HOT"
 featured: true
-ogImage: "og/og-wealth-potential.svg"
+ogImage: "og/og-wealth-potential.png"
 keywords: ["부자테스트", "재물운", "부자가능성", "돈테스트", "금전운", "재테크테스트"]
 questionCount: 12
 duration: "2-3분"

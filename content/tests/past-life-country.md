@@ -7,7 +7,7 @@ icon: "🌍"
 category: "fun"
 badge: "NEW"
 featured: true
-ogImage: "og/og-past-life-country.svg"
+ogImage: "og/og-past-life-country.png"
 keywords: ["전생테스트", "전생국가", "전생나라", "국적테스트", "재미테스트", "전생여행"]
 questionCount: 12
 duration: "2-3분"

@@ -7,7 +7,7 @@ icon: "📱"
 category: "healing"
 badge: "UPDATE"
 featured: true
-ogImage: "og/og-digital-addiction.svg"
+ogImage: "og/og-digital-addiction.png"
 keywords: ["스마트폰중독", "디지털중독", "스마트폰의존도", "디지털디톡스", "SNS중독", "게임중독", "유튜브중독"]
 questionCount: 12
 duration: "2-3분"

@@ -7,7 +7,7 @@ icon: "💘"
 category: "romance"
 badge: "HOT"
 featured: true
-ogImage: "og/og-ideal-type-dna.svg"
+ogImage: "og/og-ideal-type-dna.png"
 keywords: ["이상형테스트", "이상형DNA", "이상형유형", "연애테스트", "매력테스트", "재미테스트"]
 questionCount: 12
 duration: "2-3분"

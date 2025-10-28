@@ -7,7 +7,7 @@ icon: "👥"
 category: "personality"
 badge: "NEW"
 featured: false
-ogImage: "og/og-sociability.svg"
+ogImage: "og/og-sociability.png"
 keywords: ["사회성", "사교성", "인간관계", "심리테스트", "성격테스트"]
 questionCount: 12
 duration: "2-3분"

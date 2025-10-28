@@ -7,7 +7,7 @@ icon: "🌈"
 category: "fun"
 badge: "NEW"
 featured: true
-ogImage: "og/og-soul-color.svg"
+ogImage: "og/og-soul-color.png"
 keywords: ["영혼색깔", "소울컬러", "컬러테스트", "성격색깔", "오라테스트", "재미테스트"]
 questionCount: 12
 duration: "2-3분"

@@ -7,7 +7,7 @@ icon: "🐾"
 category: "romance"
 badge: "HOT"
 featured: true
-ogImage: "og/og-love-animal-type.svg"
+ogImage: "og/og-love-animal-type.png"
 keywords: ["연애동물", "연애스타일", "동물테스트", "연애테스트", "동물유형", "재미테스트"]
 questionCount: 12
 duration: "2-3분"

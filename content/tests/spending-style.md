@@ -7,7 +7,7 @@ icon: "💰"
 category: "healing"
 badge: "NEW"
 featured: false
-ogImage: "og/og-spending.svg"
+ogImage: "og/og-spending.png"
 keywords: ["소비성향", "재테크", "돈관리", "심리테스트", "절약"]
 questionCount: 12
 duration: "2-3분"

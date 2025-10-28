@@ -7,7 +7,7 @@ icon: "💋"
 category: "fun"
 badge: "HOT"
 featured: true
-ogImage: "og/og-charm-score.svg"
+ogImage: "og/og-charm-score.png"
 keywords: ["매력지수", "매력도테스트", "매력테스트", "외모지수", "호감도", "재미테스트"]
 questionCount: 12
 duration: "2-3분"

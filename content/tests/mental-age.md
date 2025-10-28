@@ -7,7 +7,7 @@ icon: "🎂"
 category: "fun"
 badge: "HOT"
 featured: true
-ogImage: "og/og-mental-age.svg"
+ogImage: "og/og-mental-age.png"
 keywords: ["정신연령테스트", "멘탈나이", "정신나이", "실제나이", "심리나이", "재미테스트"]
 questionCount: 12
 duration: "2-3분"

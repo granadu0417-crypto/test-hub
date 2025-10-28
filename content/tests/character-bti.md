@@ -7,7 +7,7 @@ icon: "🎭"
 category: "fun"
 badge: "NEW"
 featured: false
-ogImage: "og/og-character.svg"
+ogImage: "og/og-character.png"
 keywords: ["캐릭터BTI", "성격테스트", "재미", "심리테스트", "드라마"]
 questionCount: 12
 duration: "2-3분"

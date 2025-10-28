@@ -7,7 +7,7 @@ icon: "🎬"
 category: "fun"
 badge: "HOT"
 featured: true
-ogImage: "og/og-protagonist-type.svg"
+ogImage: "og/og-protagonist-type.png"
 keywords: ["주인공테스트", "드라마테스트", "캐릭터유형", "주인공유형", "성격테스트", "재미테스트"]
 questionCount: 12
 duration: "2-3분"

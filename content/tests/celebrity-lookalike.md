@@ -7,7 +7,7 @@ icon: "⭐"
 category: "fun"
 badge: "NEW"
 featured: true
-ogImage: "og/og-celebrity-lookalike.svg"
+ogImage: "og/og-celebrity-lookalike.png"
 keywords: ["연예인테스트", "닮은꼴", "연예인닮은꼴", "페이스타입", "외모테스트", "재미테스트"]
 questionCount: 12
 duration: "2-3분"

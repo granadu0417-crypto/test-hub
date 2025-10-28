@@ -7,7 +7,7 @@ icon: "🔮"
 category: "fun"
 badge: "NEW"
 featured: true
-ogImage: "og/og-past-life.svg"
+ogImage: "og/og-past-life.png"
 keywords: ["전생테스트", "전생", "과거생", "환생", "전생유형", "재미테스트"]
 questionCount: 12
 duration: "2-3분"

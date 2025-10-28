@@ -7,7 +7,7 @@ icon: "😰"
 category: "healing"
 badge: "NEW"
 featured: true
-ogImage: "og/og-stress.svg"
+ogImage: "og/og-stress.png"
 keywords: ["스트레스테스트", "심리테스트", "정신건강", "스트레스관리", "힐링"]
 questionCount: 12
 duration: "2-3분"

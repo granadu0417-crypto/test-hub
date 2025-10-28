@@ -7,7 +7,7 @@ icon: "✈️"
 category: "fun"
 badge: "NEW"
 featured: false
-ogImage: "og/og-travel.svg"
+ogImage: "og/og-travel.png"
 keywords: ["여행BTI", "여행테스트", "재미", "심리테스트", "여행스타일"]
 questionCount: 12
 duration: "2-3분"

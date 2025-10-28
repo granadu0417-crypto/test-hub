@@ -7,7 +7,7 @@ icon: "🎬"
 category: "fun"
 badge: "NEW"
 featured: true
-ogImage: "og/og-life-movie-genre.svg"
+ogImage: "og/og-life-movie-genre.png"
 keywords: ["영화장르테스트", "인생영화", "무비테스트", "영화테스트", "장르테스트", "재미테스트"]
 questionCount: 12
 duration: "2-3분"

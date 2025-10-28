@@ -20,7 +20,7 @@
 
   <!-- 테스트 제목 -->
   
-  <text x="600" y="360" text-anchor="middle" font-size="58" font-weight="bold" fill="#FFFFFF" font-family="'Noto Sans KR', 'Malgun Gothic', sans-serif">디지털 중독도 테스트 - 스마트폰 의존도 & 유형</text>
+  <text x="600" y="360" text-anchor="middle" font-size="58" font-weight="bold" fill="#FFFFFF" font-family="'Noto Sans KR', 'Malgun Gothic', sans-serif">디지털 중독도 테스트 - 스마트폰 의존도 &amp; 유형</text>
   
 
   <!-- 브랜드 로고 (하단) -->
