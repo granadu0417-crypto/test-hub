@@ -548,13 +548,9 @@
                         <span class="test-badge update">UPDATE</span>
                         {{ end }}
                     {{ end }}
-                    {{ if fileExists (printf "static/images/thumbnails/%s.png" .File.BaseFileName) }}
+                    {{ if .Params.ogImage }}
                     <div class="test-thumbnail">
-                        <img src="/images/thumbnails/{{ .File.BaseFileName }}.png" alt="{{ .Title }}">
-                    </div>
-                    {{ else if fileExists (printf "static/images/thumbnails/%s.svg" .File.BaseFileName) }}
-                    <div class="test-thumbnail">
-                        <img src="/images/thumbnails/{{ .File.BaseFileName }}.svg" alt="{{ .Title }}">
+                        <img src="/images/{{ .Params.ogImage }}" alt="{{ .Title }}">
                     </div>
                     {{ else }}
                     <div class="test-icon">{{ .Params.icon }}</div>
@@ -600,13 +596,9 @@
                         <span class="test-badge update">UPDATE</span>
                         {{ end }}
                     {{ end }}
-                    {{ if fileExists (printf "static/images/thumbnails/%s.png" .File.BaseFileName) }}
+                    {{ if .Params.ogImage }}
                     <div class="test-thumbnail">
-                        <img src="/images/thumbnails/{{ .File.BaseFileName }}.png" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
-                    </div>
-                    {{ else if fileExists (printf "static/images/thumbnails/%s.svg" .File.BaseFileName) }}
-                    <div class="test-thumbnail">
-                        <img src="/images/thumbnails/{{ .File.BaseFileName }}.svg" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
+                        <img src="/images/{{ .Params.ogImage }}" alt="{{ .Title }}">
                     </div>
                     {{ else }}
                     <div class="test-icon">{{ .Params.icon }}</div>
@@ -651,13 +643,9 @@
                         <span class="test-badge update">UPDATE</span>
                         {{ end }}
                     {{ end }}
-                    {{ if fileExists (printf "static/images/thumbnails/%s.png" .File.BaseFileName) }}
+                    {{ if .Params.ogImage }}
                     <div class="test-thumbnail">
-                        <img src="/images/thumbnails/{{ .File.BaseFileName }}.png" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
-                    </div>
-                    {{ else if fileExists (printf "static/images/thumbnails/%s.svg" .File.BaseFileName) }}
-                    <div class="test-thumbnail">
-                        <img src="/images/thumbnails/{{ .File.BaseFileName }}.svg" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
+                        <img src="/images/{{ .Params.ogImage }}" alt="{{ .Title }}">
                     </div>
                     {{ else }}
                     <div class="test-icon">{{ .Params.icon }}</div>
@@ -702,13 +690,9 @@
                         <span class="test-badge update">UPDATE</span>
                         {{ end }}
                     {{ end }}
-                    {{ if fileExists (printf "static/images/thumbnails/%s.png" .File.BaseFileName) }}
+                    {{ if .Params.ogImage }}
                     <div class="test-thumbnail">
-                        <img src="/images/thumbnails/{{ .File.BaseFileName }}.png" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
-                    </div>
-                    {{ else if fileExists (printf "static/images/thumbnails/%s.svg" .File.BaseFileName) }}
-                    <div class="test-thumbnail">
-                        <img src="/images/thumbnails/{{ .File.BaseFileName }}.svg" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
+                        <img src="/images/{{ .Params.ogImage }}" alt="{{ .Title }}">
                     </div>
                     {{ else }}
                     <div class="test-icon">{{ .Params.icon }}</div>
@@ -753,13 +737,9 @@
                         <span class="test-badge update">UPDATE</span>
                         {{ end }}
                     {{ end }}
-                    {{ if fileExists (printf "static/images/thumbnails/%s.png" .File.BaseFileName) }}
+                    {{ if .Params.ogImage }}
                     <div class="test-thumbnail">
-                        <img src="/images/thumbnails/{{ .File.BaseFileName }}.png" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
-                    </div>
-                    {{ else if fileExists (printf "static/images/thumbnails/%s.svg" .File.BaseFileName) }}
-                    <div class="test-thumbnail">
-                        <img src="/images/thumbnails/{{ .File.BaseFileName }}.svg" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
+                        <img src="/images/{{ .Params.ogImage }}" alt="{{ .Title }}">
                     </div>
                     {{ else }}
                     <div class="test-icon">{{ .Params.icon }}</div>
@@ -804,13 +784,9 @@
                         <span class="test-badge update">UPDATE</span>
                         {{ end }}
                     {{ end }}
-                    {{ if fileExists (printf "static/images/thumbnails/%s.png" .File.BaseFileName) }}
+                    {{ if .Params.ogImage }}
                     <div class="test-thumbnail">
-                        <img src="/images/thumbnails/{{ .File.BaseFileName }}.png" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
-                    </div>
-                    {{ else if fileExists (printf "static/images/thumbnails/%s.svg" .File.BaseFileName) }}
-                    <div class="test-thumbnail">
-                        <img src="/images/thumbnails/{{ .File.BaseFileName }}.svg" alt="{{ .Title }}" style="width: 100%; max-width: 300px; height: auto; border-radius: 15px; margin-bottom: 20px;">
+                        <img src="/images/{{ .Params.ogImage }}" alt="{{ .Title }}">
                     </div>
                     {{ else }}
                     <div class="test-icon">{{ .Params.icon }}</div>
