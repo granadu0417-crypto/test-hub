@@ -32,14 +32,23 @@
 {{ end }}
 
 {{ define "scripts" }}
+<script src="/js/test-stats.js"></script>
 <script>
     // Test Data (from front matter)
     const testData = {{ dict "id" .File.BaseFileName "title" .Title "questions" .Params.questions "results" .Params.results | jsonify | safeJS }};
 
     // Initialize test engine
     document.addEventListener('DOMContentLoaded', function() {
-        // Initialize test counter
-        incrementTestCounter(testData.id);
+        // Initialize test stats
+        const stats = new TestStats(testData.id);
+        stats.display('testCount');
+        // Optional: 실시간 업데이트 (3초마다 1~3명 증가하는 효과)
+        // stats.startRealtimeUpdate('testCount', 3000);
+
+        // Initialize test counter (기존 함수)
+        if (typeof incrementTestCounter !== 'undefined') {
+            incrementTestCounter(testData.id);
+        }
 
         // Initialize test engine
         initTest(testData);

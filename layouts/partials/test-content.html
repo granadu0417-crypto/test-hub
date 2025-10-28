@@ -30,32 +30,96 @@
     }
 </style>
 
-<!-- More Tests Section -->
+<!-- Recommended Tests Section -->
 <div id="more-tests" style="display: none; max-width: 1000px; margin: 60px auto; padding: 0 20px;">
-    <h3 style="text-align: center; font-size: 1.8rem; margin-bottom: 30px; color: #333;">
-        🎯 다른 테스트도 해보세요
+    <h3 style="text-align: center; font-size: 2rem; margin-bottom: 15px; color: #333; font-weight: 800;">
+        ✨ 이런 테스트는 어때요?
     </h3>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+    <p style="text-align: center; font-size: 1rem; color: #666; margin-bottom: 40px;">
+        방금 한 테스트와 비슷한 다른 테스트들이에요
+    </p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
         {{ $currentPage := . }}
-        {{ range where .Site.RegularPages "Section" "tests" }}
-            {{ if ne .Permalink $currentPage.Permalink }}
-            <a href="{{ .Permalink }}" style="text-decoration: none; color: inherit;">
-                <div style="background: white; padding: 25px; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: all 0.3s ease; border: 2px solid transparent;">
-                    <div style="font-size: 3rem; text-align: center; margin-bottom: 15px;">
-                        {{ if .Params.icon }}{{ .Params.icon }}{{ else }}📊{{ end }}
-                    </div>
-                    <h4 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 10px; text-align: center;">
-                        {{ .Title }}
-                    </h4>
-                    <p style="font-size: 0.9rem; color: #666; line-height: 1.6; text-align: center;">
-                        {{ if .Params.summary }}{{ .Params.summary }}{{ else }}{{ .Summary }}{{ end }}
-                    </p>
-                </div>
-            </a>
+        {{ $currentFile := .File.BaseFileName }}
+        {{ $recommendations := index .Site.Data.test_recommendations.recommendations $currentFile }}
+
+        {{ if $recommendations }}
+            {{ range $recommendations }}
+                {{ $testFile := . }}
+                {{ range where $currentPage.Site.RegularPages "Section" "tests" }}
+                    {{ if eq .File.BaseFileName $testFile }}
+                    <a href="{{ .Permalink }}" style="text-decoration: none; color: inherit;">
+                        <div style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 2px solid transparent; position: relative; overflow: hidden;">
+                            <!-- Hover effect gradient -->
+                            <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); transform: scaleX(0); transition: transform 0.3s ease;"></div>
+
+                            <div style="font-size: 4rem; text-align: center; margin-bottom: 20px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1)); animation: float 3s ease-in-out infinite;">
+                                {{ if .Params.icon }}{{ .Params.icon }}{{ else }}📊{{ end }}
+                            </div>
+
+                            {{ if .Params.badge }}
+                            <div style="position: absolute; top: 15px; right: 15px; padding: 5px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 700; background: linear-gradient(135deg, #0EA5E9, #14B8A6); color: white; text-transform: uppercase;">
+                                {{ .Params.badge }}
+                            </div>
+                            {{ end }}
+
+                            <h4 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 12px; text-align: center; color: #2d3748;">
+                                {{ .Title }}
+                            </h4>
+                            <p style="font-size: 0.95rem; color: #4a5568; line-height: 1.7; text-align: center; margin-bottom: 15px;">
+                                {{ if .Params.summary }}{{ .Params.summary }}{{ else }}{{ .Summary }}{{ end }}
+                            </p>
+                            <div style="display: flex; justify-content: center; gap: 15px; font-size: 0.85rem; color: #718096; margin-top: 15px; padding-top: 15px; border-top: 1px solid #e2e8f0;">
+                                <span>❓ {{ .Params.questionCount }}문항</span>
+                                <span>⏱️ {{ .Params.duration }}</span>
+                            </div>
+                        </div>
+                    </a>
+                    {{ end }}
+                {{ end }}
+            {{ end }}
+        {{ else }}
+            <!-- Fallback: 같은 카테고리 테스트 3개 -->
+            {{ $currentCategory := .Params.category }}
+            {{ $count := 0 }}
+            {{ range where $currentPage.Site.RegularPages "Section" "tests" }}
+                {{ if and (eq .Params.category $currentCategory) (ne .Permalink $currentPage.Permalink) (lt $count 3) }}
+                    {{ $count = add $count 1 }}
+                    <a href="{{ .Permalink }}" style="text-decoration: none; color: inherit;">
+                        <div style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s ease;">
+                            <div style="font-size: 4rem; text-align: center; margin-bottom: 20px;">
+                                {{ if .Params.icon }}{{ .Params.icon }}{{ else }}📊{{ end }}
+                            </div>
+                            <h4 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 12px; text-align: center;">
+                                {{ .Title }}
+                            </h4>
+                            <p style="font-size: 0.95rem; color: #666; line-height: 1.7; text-align: center;">
+                                {{ if .Params.summary }}{{ .Params.summary }}{{ else }}{{ .Summary }}{{ end }}
+                            </p>
+                        </div>
+                    </a>
+                {{ end }}
             {{ end }}
         {{ end }}
     </div>
 </div>
+
+<style>
+    #more-tests a > div:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 40px rgba(102, 126, 234, 0.2);
+        border-color: rgba(102, 126, 234, 0.3);
+    }
+
+    #more-tests a > div:hover > div:first-child {
+        transform: scaleX(1);
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+    }
+</style>
 
 <style>
     /* Question Card Styles */

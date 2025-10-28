@@ -394,6 +394,12 @@ class TestEngine {
         // 결과를 localStorage에 저장
         this.saveResult(result);
 
+        // 참여자 수 증가 (test-stats.js가 로드되어 있으면)
+        if (typeof TestStats !== 'undefined') {
+            const stats = new TestStats(this.testData.id);
+            stats.incrementCount();
+        }
+
         // 페이지 맨 위로 스크롤
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }

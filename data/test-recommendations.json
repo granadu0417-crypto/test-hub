@@ -1,0 +1,31 @@
+{
+  "recommendations": {
+    "mbti-simple": ["character-bti", "sociability", "empathy"],
+    "psychopath-test": ["empathy", "sociability", "character-bti"],
+    "love-compatibility": ["love-style", "love-language", "mbti-simple"],
+    "love-language": ["love-compatibility", "love-style", "character-bti"],
+    "love-style": ["love-compatibility", "love-language", "mbti-simple"],
+    "animal-bti": ["animal-instinct", "character-bti", "food-bti"],
+    "animal-instinct": ["animal-bti", "character-bti", "color-bti"],
+    "character-bti": ["mbti-simple", "animal-bti", "sociability"],
+    "food-bti": ["animal-bti", "color-bti", "travel-bti"],
+    "travel-bti": ["food-bti", "spending-style", "color-bti"],
+    "color-bti": ["character-bti", "food-bti", "travel-bti"],
+    "empathy": ["psychopath-test", "sociability", "self-esteem"],
+    "sociability": ["empathy", "character-bti", "mbti-simple"],
+    "self-esteem": ["stress-level", "burnout", "empathy"],
+    "stress-level": ["burnout", "self-esteem", "digital-addiction"],
+    "burnout": ["stress-level", "self-esteem", "digital-addiction"],
+    "digital-addiction": ["burnout", "stress-level", "spending-style"],
+    "spending-style": ["digital-addiction", "travel-bti", "self-esteem"],
+    "career-aptitude": ["mbti-simple", "character-bti", "empathy"],
+    "charm-point": ["character-bti", "mbti-simple", "love-compatibility"]
+  },
+  "categories": {
+    "personality": ["mbti-simple", "psychopath-test", "character-bti", "empathy", "sociability", "charm-point"],
+    "romance": ["love-compatibility", "love-language", "love-style"],
+    "fun": ["animal-bti", "animal-instinct", "food-bti", "travel-bti", "color-bti", "character-bti"],
+    "healing": ["self-esteem", "stress-level", "burnout", "digital-addiction", "spending-style"],
+    "career": ["career-aptitude"]
+  }
+}
