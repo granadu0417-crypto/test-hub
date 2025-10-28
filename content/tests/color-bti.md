@@ -7,7 +7,7 @@ icon: "🎨"
 category: "fun"
 badge: "NEW"
 featured: false
-ogImage: "og-color.jpg"
+ogImage: "og/og-color.svg"
 keywords: ["색깔BTI", "컬러테스트", "재미", "심리테스트", "성격테스트"]
 questionCount: 12
 duration: "2-3분"

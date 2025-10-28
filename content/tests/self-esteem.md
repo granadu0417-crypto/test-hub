@@ -7,7 +7,7 @@ icon: "🧠"
 category: "healing"
 badge: "UPDATE"
 featured: false
-ogImage: "og-self-esteem.jpg"
+ogImage: "og/og-self-esteem.svg"
 keywords: ["자존감", "자아존중감", "심리테스트", "자기애", "자신감"]
 questionCount: 12
 duration: "2-3분"

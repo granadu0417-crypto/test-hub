@@ -7,7 +7,7 @@ icon: "🔥"
 category: "healing"
 badge: "UPDATE"
 featured: false
-ogImage: "og-burnout.jpg"
+ogImage: "og/og-burnout.svg"
 keywords: ["번아웃", "소진증후군", "심리테스트", "스트레스", "피로"]
 questionCount: 12
 duration: "2-3분"

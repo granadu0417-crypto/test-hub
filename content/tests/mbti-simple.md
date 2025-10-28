@@ -7,7 +7,7 @@ icon: "🎭"
 category: "personality"
 badge: ""
 featured: true
-ogImage: "og-mbti.jpg"
+ogImage: "og/og-mbti.svg"
 keywords: ["MBTI", "성격테스트", "성격유형", "심리테스트", "MBTI테스트"]
 questionCount: 12
 duration: "2-3분"

@@ -7,7 +7,7 @@ icon: "🤝"
 category: "personality"
 badge: "NEW"
 featured: true
-ogImage: "og-empathy.jpg"
+ogImage: "og/og-empathy.svg"
 keywords: ["공감능력", "감정이입", "심리테스트", "인간관계", "소통"]
 questionCount: 12
 duration: "2-3분"

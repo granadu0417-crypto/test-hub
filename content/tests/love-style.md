@@ -7,7 +7,7 @@ icon: "💕"
 category: "romance"
 badge: "UPDATE"
 featured: true
-ogImage: "og-love.jpg"
+ogImage: "og/og-love.svg"
 keywords: ["연애테스트", "연애스타일", "심리테스트", "사랑테스트", "이상형"]
 questionCount: 12
 duration: "2-3분"

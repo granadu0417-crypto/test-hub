@@ -7,7 +7,7 @@ icon: "✨"
 category: "personality"
 badge: "NEW"
 featured: true
-ogImage: "og-charm.jpg"
+ogImage: "og/og-charm.svg"
 keywords: ["매력테스트", "매력포인트", "성격테스트", "장점테스트", "자존감테스트", "나의장점"]
 questionCount: 12
 duration: "2-3분"

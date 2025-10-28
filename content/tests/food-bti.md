@@ -7,7 +7,7 @@ icon: "🍕"
 category: "fun"
 badge: "NEW"
 featured: true
-ogImage: "og-food.jpg"
+ogImage: "og/og-food.svg"
 keywords: ["음식BTI", "음식테스트", "재미", "심리테스트", "성격테스트"]
 questionCount: 12
 duration: "2-3분"

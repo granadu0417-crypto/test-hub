@@ -7,7 +7,7 @@ icon: "😈"
 category: "personality"
 badge: "NEW"
 featured: true
-ogImage: "og-psychopath.jpg"
+ogImage: "og/og-psychopath.svg"
 keywords: ["사이코패스테스트", "사이코패스", "심리테스트", "성격테스트", "공감능력테스트", "냉정한성격"]
 questionCount: 12
 duration: "2-3분"

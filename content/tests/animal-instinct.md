@@ -7,7 +7,7 @@ icon: "🐺"
 category: "fun"
 badge: "NEW"
 featured: true
-ogImage: "og-animal-instinct.jpg"
+ogImage: "og/og-animal-instinct.svg"
 keywords: ["동물본능테스트", "동물테스트", "본능테스트", "성격테스트", "동물성격", "야생본능"]
 questionCount: 12
 duration: "2-3분"

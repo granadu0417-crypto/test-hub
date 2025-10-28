@@ -1,0 +1,29 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <!-- 그라데이션 배경 -->
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F59E0B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#EF4444;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- 배경 -->
+  <rect width="1200" height="630" fill="url(#grad)"/>
+
+  <!-- 반투명 오버레이 패턴 -->
+  <circle cx="150" cy="150" r="100" fill="rgba(255,255,255,0.05)"/>
+  <circle cx="1050" cy="480" r="120" fill="rgba(255,255,255,0.05)"/>
+  <circle cx="950" cy="100" r="80" fill="rgba(0,0,0,0.05)"/>
+
+  <!-- 이모지 아이콘 (중앙 상단) -->
+  <text x="600" y="220" text-anchor="middle" font-size="140" font-family="Arial, sans-serif">🦁</text>
+
+  <!-- 테스트 제목 -->
+  
+  <text x="600" y="360" text-anchor="middle" font-size="58" font-weight="bold" fill="#FFFFFF" font-family="'Noto Sans KR', 'Malgun Gothic', sans-serif">동물BTI 테스트</text>
+  
+
+  <!-- 브랜드 로고 (하단) -->
+  <text x="600" y="540" text-anchor="middle" font-size="32" fill="rgba(255,255,255,0.9)" font-weight="500" font-family="'Noto Sans KR', Arial, sans-serif">natest.kr</text>
+  <line x1="480" y1="560" x2="720" y2="560" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+</svg>

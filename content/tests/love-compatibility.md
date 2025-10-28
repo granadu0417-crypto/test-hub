@@ -7,7 +7,7 @@ icon: "💕"
 category: "romance"
 badge: "NEW"
 featured: true
-ogImage: "og-love-compatibility.jpg"
+ogImage: "og/og-love-compatibility.svg"
 keywords: ["연애궁합", "연애테스트", "연애스타일", "이상형테스트", "궁합테스트", "MBTI궁합", "천생연분"]
 questionCount: 12
 duration: "2-3분"
