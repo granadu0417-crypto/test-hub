@@ -85,6 +85,11 @@ class TestEngine {
         if (progressText) {
             progressText.textContent = `${this.currentQuestion} / ${this.testData.questions.length}`;
         }
+
+        const progressPercentage = document.getElementById('progress-percentage');
+        if (progressPercentage) {
+            progressPercentage.textContent = Math.round(progress) + '%';
+        }
     }
 
     // 2D 점수 시스템 매핑 정의
@@ -250,7 +255,6 @@ class TestEngine {
 
     // 결과 표시
     showResult() {
-        const result = this.calculateResult();
         const container = document.getElementById('question-container');
         const progressBar = document.getElementById('progress-bar-container');
 
@@ -258,15 +262,63 @@ class TestEngine {
             progressBar.style.display = 'none';
         }
 
+        // 로딩 애니메이션 표시
+        container.innerHTML = `
+            <div class="loading-animation" style="text-align: center; padding: 60px 20px; animation: fadeIn 0.5s ease;">
+                <div class="loading-spinner" style="width: 80px; height: 80px; margin: 0 auto 30px; border: 5px solid #f3f3f3; border-top: 5px solid #667eea; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                <h2 style="font-size: 1.8rem; color: #333; margin-bottom: 15px; animation: pulse 1.5s ease-in-out infinite;">결과 분석 중...</h2>
+                <p style="font-size: 1.1rem; color: #666; animation: pulse 1.5s ease-in-out infinite;">당신의 성격을 정확하게 분석하고 있어요 🧠</p>
+            </div>
+            <style>
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+                @keyframes pulse {
+                    0%, 100% { opacity: 1; }
+                    50% { opacity: 0.5; }
+                }
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(20px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+            </style>
+        `;
+
+        // 1.5초 후 실제 결과 표시
+        setTimeout(() => {
+            this.displayResult();
+        }, 1500);
+    }
+
+    // 실제 결과 표시
+    displayResult() {
+        const result = this.calculateResult();
+        const container = document.getElementById('question-container');
+
         container.innerHTML = `
             <div class="result-card">
                 <div class="result-badge">${result.badge || '🎯'}</div>
                 <h1 class="result-title">${result.title}</h1>
                 <p class="result-subtitle">${result.subtitle || ''}</p>
                 ${result.rarity ? `
-                    <div class="result-rarity" style="margin: 15px 0; padding: 10px 20px; background: linear-gradient(135deg, #667eea33, #764ba233); border-radius: 15px; display: inline-block;">
-                        <span style="font-size: 14px; color: #667eea; font-weight: bold;">✨ 희소성: 전체의 ${result.rarity}%</span>
+                    <div class="result-rarity" style="margin: 20px 0; padding: 20px 30px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 20px; display: inline-block; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3); animation: rarityPulse 2s ease-in-out infinite;">
+                        ${parseFloat(result.rarity) <= 10 ?
+                            `<div style="font-size: 1.3rem; color: #fff; font-weight: 800; margin-bottom: 5px;">🏆 상위 ${result.rarity}%의 초희귀 유형!</div>
+                             <div style="font-size: 0.95rem; color: #fff; opacity: 0.9;">100명 중 ${Math.round(parseFloat(result.rarity) / 10)}명만 가진 특별한 성격이에요!</div>` :
+                         parseFloat(result.rarity) <= 20 ?
+                            `<div style="font-size: 1.2rem; color: #fff; font-weight: 800; margin-bottom: 5px;">✨ 상위 ${result.rarity}%의 희귀한 유형!</div>
+                             <div style="font-size: 0.95rem; color: #fff; opacity: 0.9;">5명 중 1명만 가진 특별한 당신!</div>` :
+                            `<div style="font-size: 1.1rem; color: #fff; font-weight: 700;">✨ 전체의 ${result.rarity}%</div>
+                             <div style="font-size: 0.9rem; color: #fff; opacity: 0.9;">당신만의 독특한 매력이 있어요!</div>`
+                        }
                     </div>
+                    <style>
+                        @keyframes rarityPulse {
+                            0%, 100% { transform: scale(1); box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3); }
+                            50% { transform: scale(1.05); box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5); }
+                        }
+                    </style>
                 ` : ''}
                 <div class="result-description">
                     ${result.description}
