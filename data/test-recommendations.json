@@ -24,12 +24,22 @@
     "celebrity-lookalike": ["character-bti", "past-life", "charm-point"],
     "fortune-2025": ["past-life", "protagonist-type", "love-compatibility"],
     "hidden-superpower": ["character-bti", "past-life", "protagonist-type"],
-    "protagonist-type": ["character-bti", "hidden-superpower", "past-life"]
+    "protagonist-type": ["character-bti", "hidden-superpower", "past-life"],
+    "face-reading": ["charm-score", "celebrity-lookalike", "fortune-2025"],
+    "past-life-country": ["past-life", "soul-color", "life-movie-genre"],
+    "mental-age": ["character-bti", "life-movie-genre", "soul-color"],
+    "soul-color": ["mental-age", "past-life-country", "protagonist-type"],
+    "food-personality": ["food-bti", "character-bti", "charm-score"],
+    "charm-score": ["face-reading", "celebrity-lookalike", "ideal-type-dna"],
+    "ideal-type-dna": ["love-compatibility", "love-animal-type", "charm-score"],
+    "life-movie-genre": ["protagonist-type", "mental-age", "soul-color"],
+    "wealth-potential": ["fortune-2025", "career-aptitude", "spending-style"],
+    "love-animal-type": ["love-style", "ideal-type-dna", "love-compatibility"]
   },
   "categories": {
-    "personality": ["mbti-simple", "psychopath-test", "character-bti", "empathy", "sociability", "charm-point"],
-    "romance": ["love-compatibility", "love-language", "love-style"],
-    "fun": ["animal-bti", "animal-instinct", "food-bti", "travel-bti", "color-bti", "character-bti", "past-life", "celebrity-lookalike", "fortune-2025", "hidden-superpower", "protagonist-type"],
+    "personality": ["mbti-simple", "psychopath-test", "character-bti", "empathy", "sociability", "charm-point", "mental-age", "soul-color"],
+    "romance": ["love-compatibility", "love-language", "love-style", "ideal-type-dna", "love-animal-type"],
+    "fun": ["animal-bti", "animal-instinct", "food-bti", "travel-bti", "color-bti", "character-bti", "past-life", "celebrity-lookalike", "fortune-2025", "hidden-superpower", "protagonist-type", "face-reading", "past-life-country", "food-personality", "charm-score", "life-movie-genre", "wealth-potential"],
     "healing": ["self-esteem", "stress-level", "burnout", "digital-addiction", "spending-style"],
     "career": ["career-aptitude"]
   }
