@@ -1222,3 +1222,278 @@ function generateComprehensiveAnalysis(found) {
 
   return analysis;
 }
+
+// 💕 궁합 엔진
+
+// 생년월일로 별자리 찾기
+function getZodiacSignByDate(month, day) {
+  for (const key in WESTERN_ZODIAC) {
+    const zodiac = WESTERN_ZODIAC[key];
+    const [startMonth, startDay] = zodiac.startDate;
+    const [endMonth, endDay] = zodiac.endDate;
+
+    // 연말-연초를 걸치는 경우 (염소자리)
+    if (startMonth > endMonth) {
+      if (month === startMonth && day >= startDay) {
+        return { key, data: zodiac };
+      }
+      if (month === endMonth && day <= endDay) {
+        return { key, data: zodiac };
+      }
+    } else {
+      // 일반적인 경우
+      if (month === startMonth && day >= startDay) {
+        if (month === endMonth) {
+          if (day <= endDay) return { key, data: zodiac };
+        } else {
+          return { key, data: zodiac };
+        }
+      }
+      if (month > startMonth && month < endMonth) {
+        return { key, data: zodiac };
+      }
+      if (month === endMonth && day <= endDay) {
+        return { key, data: zodiac };
+      }
+    }
+  }
+  return null;
+}
+
+// 별자리 원소 궁합 계산
+function calculateZodiacElementCompatibility(element1, element2) {
+  const compatibility = {
+    '불-불': { score: 95, desc: '뜨거운 열정이 만나 폭발적인 에너지를 발휘합니다' },
+    '불-공기': { score: 90, desc: '불이 공기를 만나 더욱 활활 타오릅니다' },
+    '불-흙': { score: 65, desc: '불이 흙을 따뜻하게 하지만 때로는 긴장감이 있습니다' },
+    '불-물': { score: 55, desc: '불과 물은 서로 다른 성향이지만 균형을 이룰 수 있습니다' },
+
+    '공기-공기': { score: 90, desc: '자유로운 영혼들이 만나 창의적인 관계를 만듭니다' },
+    '공기-흙': { score: 60, desc: '현실적인 흙과 이상적인 공기가 조화를 이루려 노력합니다' },
+    '공기-물': { score: 70, desc: '지적인 공기와 감성적인 물이 서로를 보완합니다' },
+
+    '흙-흙': { score: 85, desc: '안정적이고 실용적인 관계를 구축합니다' },
+    '흙-물': { score: 88, desc: '물이 흙을 적셔주며 서로에게 필요한 존재입니다' },
+
+    '물-물': { score: 92, desc: '깊은 감성적 유대감으로 서로를 이해합니다' }
+  };
+
+  const key1 = `${element1}-${element2}`;
+  const key2 = `${element2}-${element1}`;
+
+  return compatibility[key1] || compatibility[key2] || { score: 70, desc: '서로 다른 매력으로 끌립니다' };
+}
+
+// 띠 원소 궁합 계산
+function calculateChineseZodiacCompatibility(zodiac1Key, zodiac2Key) {
+  const zodiac1 = CHINESE_ZODIAC[zodiac1Key];
+  const zodiac2 = CHINESE_ZODIAC[zodiac2Key];
+
+  // 삼합 (최고 궁합)
+  const samhap = {
+    'rat-dragon-monkey': 95,
+    'ox-snake-rooster': 95,
+    'tiger-horse-dog': 95,
+    'rabbit-goat-pig': 95
+  };
+
+  // 육합 (좋은 궁합)
+  const yukhap = {
+    'rat-ox': 90,
+    'tiger-pig': 90,
+    'rabbit-dog': 90,
+    'dragon-rooster': 90,
+    'snake-monkey': 88,
+    'horse-goat': 88
+  };
+
+  // 삼합 체크
+  for (const group in samhap) {
+    const animals = group.split('-');
+    if (animals.includes(zodiac1Key) && animals.includes(zodiac2Key)) {
+      return {
+        score: samhap[group],
+        type: '삼합',
+        desc: `${zodiac1.name}과 ${zodiac2.name}은 삼합 관계로 최고의 궁합입니다! 서로에게 큰 행운과 도움을 주는 관계입니다.`
+      };
+    }
+  }
+
+  // 육합 체크
+  const key1 = `${zodiac1Key}-${zodiac2Key}`;
+  const key2 = `${zodiac2Key}-${zodiac1Key}`;
+  if (yukhap[key1] || yukhap[key2]) {
+    return {
+      score: yukhap[key1] || yukhap[key2],
+      type: '육합',
+      desc: `${zodiac1.name}과 ${zodiac2.name}은 육합 관계로 매우 좋은 궁합입니다! 서로를 보완하며 발전하는 관계입니다.`
+    };
+  }
+
+  // 원소 기반 궁합
+  const elementScore = {
+    '물-물': 85,
+    '물-나무': 90,
+    '물-금속': 88,
+    '나무-나무': 80,
+    '나무-불': 85,
+    '불-불': 83,
+    '불-흙': 78,
+    '흙-흙': 80,
+    '흙-금속': 85,
+    '금속-금속': 82
+  };
+
+  const elemKey1 = `${zodiac1.element}-${zodiac2.element}`;
+  const elemKey2 = `${zodiac2.element}-${zodiac1.element}`;
+  const score = elementScore[elemKey1] || elementScore[elemKey2] || 75;
+
+  return {
+    score: score,
+    type: '일반',
+    desc: `${zodiac1.name}의 ${zodiac1.element} 기운과 ${zodiac2.name}의 ${zodiac2.element} 기운이 조화를 이룹니다.`
+  };
+}
+
+// 종합 궁합 분석
+function getCompatibilityAnalysis(birthDate1, birthDate2) {
+  // 날짜 파싱
+  const date1 = new Date(birthDate1);
+  const date2 = new Date(birthDate2);
+
+  if (isNaN(date1.getTime()) || isNaN(date2.getTime())) {
+    return {
+      found: false,
+      message: '올바른 생년월일 형식이 아닙니다. (예: 1990-01-15)'
+    };
+  }
+
+  const year1 = date1.getFullYear();
+  const month1 = date1.getMonth() + 1;
+  const day1 = date1.getDate();
+
+  const year2 = date2.getFullYear();
+  const month2 = date2.getMonth() + 1;
+  const day2 = date2.getDate();
+
+  // 별자리 찾기
+  const zodiacSign1 = getZodiacSignByDate(month1, day1);
+  const zodiacSign2 = getZodiacSignByDate(month2, day2);
+
+  if (!zodiacSign1 || !zodiacSign2) {
+    return {
+      found: false,
+      message: '별자리를 찾을 수 없습니다.'
+    };
+  }
+
+  // 띠 찾기
+  const chineseZodiac1Key = getZodiacByYear(year1);
+  const chineseZodiac2Key = getZodiacByYear(year2);
+  const chineseZodiac1 = CHINESE_ZODIAC[chineseZodiac1Key];
+  const chineseZodiac2 = CHINESE_ZODIAC[chineseZodiac2Key];
+
+  // 별자리 궁합
+  const zodiacCompat = calculateZodiacElementCompatibility(
+    zodiacSign1.data.symbol,
+    zodiacSign2.data.symbol
+  );
+
+  // 띠 궁합
+  const chineseCompat = calculateChineseZodiacCompatibility(
+    chineseZodiac1Key,
+    chineseZodiac2Key
+  );
+
+  // 종합 점수 (별자리 40% + 띠 60%)
+  const totalScore = Math.round(zodiacCompat.score * 0.4 + chineseCompat.score * 0.6);
+
+  // 궁합 등급
+  let grade, gradeDesc, loveAdvice;
+  if (totalScore >= 90) {
+    grade = '천생연분 ❤️❤️❤️';
+    gradeDesc = '이보다 더 좋을 수 없는 최고의 궁합입니다!';
+    loveAdvice = '서로를 믿고 함께 나아가세요. 두 분은 정말 특별한 인연입니다.';
+  } else if (totalScore >= 80) {
+    grade = '찰떡궁합 ❤️❤️';
+    gradeDesc = '매우 좋은 궁합으로 서로에게 큰 행운을 가져다줍니다.';
+    loveAdvice = '서로의 장점을 살리고 단점을 보완하면 완벽한 관계가 됩니다.';
+  } else if (totalScore >= 70) {
+    grade = '좋은궁합 ❤️';
+    gradeDesc = '서로를 이해하고 노력한다면 행복한 관계를 만들 수 있습니다.';
+    loveAdvice = '소통과 이해를 바탕으로 관계를 발전시켜 나가세요.';
+  } else if (totalScore >= 60) {
+    grade = '보통궁합 💛';
+    gradeDesc = '서로 다른 매력이 있지만 노력이 필요한 관계입니다.';
+    loveAdvice = '차이를 인정하고 서로를 존중하는 것이 중요합니다.';
+  } else {
+    grade = '노력필요 💙';
+    gradeDesc = '많은 노력과 이해가 필요하지만 불가능한 것은 아닙니다.';
+    loveAdvice = '서로의 차이를 극복하려는 진심어린 노력이 필요합니다.';
+  }
+
+  // 각 사람의 특성
+  const person1Traits = `${zodiacSign1.data.name}의 ${zodiacSign1.data.trait}과 ${chineseZodiac1.name}의 ${chineseZodiac1.trait}`;
+  const person2Traits = `${zodiacSign2.data.name}의 ${zodiacSign2.data.trait}과 ${chineseZodiac2.name}의 ${chineseZodiac2.trait}`;
+
+  // 장점
+  const strengths = [];
+  if (zodiacCompat.score >= 85) {
+    strengths.push('별자리 궁합이 매우 좋아 서로의 생각과 가치관이 잘 맞습니다');
+  }
+  if (chineseCompat.score >= 85) {
+    strengths.push(`띠 궁합이 매우 좋아 (${chineseCompat.type}) 서로에게 행운을 가져다줍니다`);
+  }
+  if (zodiacSign1.data.symbol === zodiacSign2.data.symbol) {
+    strengths.push('같은 원소로 서로를 깊이 이해할 수 있습니다');
+  }
+  if (strengths.length === 0) {
+    strengths.push('서로 다른 매력으로 새로운 것을 배울 수 있습니다');
+  }
+
+  // 주의사항
+  const cautions = [];
+  if (zodiacCompat.score < 70) {
+    cautions.push('서로 다른 성향으로 인한 갈등에 주의하세요');
+  }
+  if (chineseCompat.score < 70) {
+    cautions.push('생활 방식의 차이를 이해하고 존중해야 합니다');
+  }
+  if (cautions.length === 0) {
+    cautions.push('큰 문제는 없지만 항상 서로를 배려하세요');
+  }
+
+  return {
+    found: true,
+    person1: {
+      birthDate: birthDate1,
+      zodiacSign: zodiacSign1.data,
+      chineseZodiac: chineseZodiac1,
+      traits: person1Traits
+    },
+    person2: {
+      birthDate: birthDate2,
+      zodiacSign: zodiacSign2.data,
+      chineseZodiac: chineseZodiac2,
+      traits: person2Traits
+    },
+    zodiacCompatibility: {
+      score: zodiacCompat.score,
+      description: zodiacCompat.desc,
+      element1: zodiacSign1.data.symbol,
+      element2: zodiacSign2.data.symbol
+    },
+    chineseCompatibility: {
+      score: chineseCompat.score,
+      type: chineseCompat.type,
+      description: chineseCompat.desc
+    },
+    totalScore: totalScore,
+    grade: grade,
+    gradeDescription: gradeDesc,
+    strengths: strengths,
+    cautions: cautions,
+    loveAdvice: loveAdvice,
+    dateKorean: `${new Date().getFullYear()}년 ${new Date().getMonth() + 1}월 ${new Date().getDate()}일`
+  };
+}
