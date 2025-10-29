@@ -52,6 +52,32 @@ class TestEngine {
         const question = this.testData.questions[this.currentQuestion];
         const option = question.options[optionIndex];
 
+        // 선택된 버튼과 모든 버튼 가져오기
+        const buttons = document.querySelectorAll('.option-btn');
+        const selectedButton = buttons[optionIndex];
+
+        // 이미 애니메이션 중이면 무시
+        if (selectedButton.classList.contains('selecting')) {
+            return;
+        }
+
+        // 선택 애니메이션
+        selectedButton.classList.add('selecting');
+
+        // 선택된 버튼 강조
+        selectedButton.style.transform = 'scale(1.05)';
+        selectedButton.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+        selectedButton.style.boxShadow = '0 8px 32px rgba(102, 126, 234, 0.4)';
+
+        // 다른 버튼들 페이드 아웃
+        buttons.forEach((btn, i) => {
+            if (i !== optionIndex) {
+                btn.style.opacity = '0.3';
+                btn.style.transform = 'scale(0.95)';
+                btn.style.pointerEvents = 'none';
+            }
+        });
+
         // 답변 저장
         this.answers[this.currentQuestion] = optionIndex;
 
@@ -62,15 +88,17 @@ class TestEngine {
             });
         }
 
-        // 다음 질문으로
-        this.currentQuestion++;
+        // 다음 질문으로 (애니메이션 후)
+        setTimeout(() => {
+            this.currentQuestion++;
 
-        if (this.currentQuestion < this.testData.questions.length) {
-            this.showQuestion(this.currentQuestion);
-            this.updateProgress();
-        } else {
-            this.showResult();
-        }
+            if (this.currentQuestion < this.testData.questions.length) {
+                this.showQuestion(this.currentQuestion);
+                this.updateProgress();
+            } else {
+                this.showResult();
+            }
+        }, 400);
     }
 
     // 진행 상황 업데이트

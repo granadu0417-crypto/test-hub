@@ -75,6 +75,101 @@
         {{ block "main" . }}{{ end }}
     </main>
 
+    <!-- 모바일 하단 네비게이션 -->
+    {{ $isFortuneSection := or (eq .Section "fortune") (hasPrefix .RelPermalink "/fortune/") }}
+    {{ $isMyResults := hasPrefix .RelPermalink "/my-results/" }}
+    {{ $isBadges := hasPrefix .RelPermalink "/my-badges/" }}
+    {{ $isHome := and .IsHome (not $isFortuneSection) }}
+
+    <nav class="mobile-bottom-nav" style="position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(180deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.98)); backdrop-filter: blur(10px); border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-around; align-items: center; padding: 8px 0 calc(8px + env(safe-area-inset-bottom)); z-index: 1000; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);">
+
+        <!-- 홈 (심리테스트) -->
+        <a href="/" class="nav-item {{ if $isHome }}active{{ end }}" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: {{ if $isHome }}#667eea{{ else }}rgba(255,255,255,0.6){{ end }}; padding: 8px 16px; transition: all 0.3s ease; flex: 1; max-width: 100px;">
+            <span style="font-size: 1.5rem; margin-bottom: 4px; transition: transform 0.3s ease; {{ if $isHome }}transform: scale(1.1);{{ end }}">🎯</span>
+            <span style="font-size: 0.7rem; font-weight: {{ if $isHome }}700{{ else }}500{{ end }}; letter-spacing: -0.02em;">심리테스트</span>
+        </a>
+
+        <!-- 운세 -->
+        <a href="/fortune/" class="nav-item {{ if $isFortuneSection }}active{{ end }}" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: {{ if $isFortuneSection }}#fbbf24{{ else }}rgba(255,255,255,0.6){{ end }}; padding: 8px 16px; transition: all 0.3s ease; flex: 1; max-width: 100px;">
+            <span style="font-size: 1.5rem; margin-bottom: 4px; transition: transform 0.3s ease; {{ if $isFortuneSection }}transform: scale(1.1);{{ end }}">🌙</span>
+            <span style="font-size: 0.7rem; font-weight: {{ if $isFortuneSection }}700{{ else }}500{{ end }}; letter-spacing: -0.02em;">운세</span>
+        </a>
+
+        <!-- 내 결과 -->
+        <a href="/my-results/" class="nav-item {{ if $isMyResults }}active{{ end }}" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: {{ if $isMyResults }}#8b5cf6{{ else }}rgba(255,255,255,0.6){{ end }}; padding: 8px 16px; transition: all 0.3s ease; flex: 1; max-width: 100px; position: relative;">
+            <span style="font-size: 1.5rem; margin-bottom: 4px; transition: transform 0.3s ease; {{ if $isMyResults }}transform: scale(1.1);{{ end }}">📋</span>
+            <span style="font-size: 0.7rem; font-weight: {{ if $isMyResults }}700{{ else }}500{{ end }}; letter-spacing: -0.02em;">내 결과</span>
+            <span id="mobileResultsBadge" style="position: absolute; top: 4px; right: 8px; background: #ef4444; color: white; font-size: 0.65rem; padding: 2px 5px; border-radius: 10px; font-weight: 700; display: none;"></span>
+        </a>
+
+        <!-- 뱃지 -->
+        <a href="/my-badges/" class="nav-item {{ if $isBadges }}active{{ end }}" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: {{ if $isBadges }}#f59e0b{{ else }}rgba(255,255,255,0.6){{ end }}; padding: 8px 16px; transition: all 0.3s ease; flex: 1; max-width: 100px; position: relative;">
+            <span style="font-size: 1.5rem; margin-bottom: 4px; transition: transform 0.3s ease; {{ if $isBadges }}transform: scale(1.1);{{ end }}">🏆</span>
+            <span style="font-size: 0.7rem; font-weight: {{ if $isBadges }}700{{ else }}500{{ end }}; letter-spacing: -0.02em;">뱃지</span>
+            <span id="mobileBadgesBadge" style="position: absolute; top: 4px; right: 8px; background: #f59e0b; color: white; font-size: 0.65rem; padding: 2px 5px; border-radius: 10px; font-weight: 700; display: none;"></span>
+        </a>
+    </nav>
+
+    <style>
+        /* 모바일 하단 네비게이션 - 768px 이하에서만 표시 */
+        .mobile-bottom-nav {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-bottom-nav {
+                display: flex;
+            }
+
+            /* 하단 네비게이션 높이만큼 body에 패딩 추가 */
+            body {
+                padding-bottom: calc(70px + env(safe-area-inset-bottom));
+            }
+
+            /* 네비게이션 아이템 호버 효과 */
+            .mobile-bottom-nav .nav-item:active {
+                transform: scale(0.95);
+            }
+        }
+
+        /* iOS Safe Area 지원 */
+        @supports (padding-bottom: env(safe-area-inset-bottom)) {
+            @media (max-width: 768px) {
+                body {
+                    padding-bottom: calc(70px + env(safe-area-inset-bottom));
+                }
+            }
+        }
+    </style>
+
+    <script>
+        // 모바일 하단 네비게이션 뱃지 업데이트
+        (function() {
+            // 내 결과 뱃지
+            const savedResults = JSON.parse(localStorage.getItem('test_results') || '{}');
+            const resultsCount = Object.keys(savedResults).length;
+            const mobileResultsBadge = document.getElementById('mobileResultsBadge');
+
+            if (mobileResultsBadge && resultsCount > 0) {
+                mobileResultsBadge.textContent = resultsCount;
+                mobileResultsBadge.style.display = 'block';
+            }
+
+            // 뱃지 컬렉션 뱃지
+            try {
+                const unlockedBadges = JSON.parse(localStorage.getItem('user_badges') || '[]');
+                const mobileBadgesBadge = document.getElementById('mobileBadgesBadge');
+
+                if (mobileBadgesBadge && unlockedBadges.length > 0) {
+                    mobileBadgesBadge.textContent = unlockedBadges.length;
+                    mobileBadgesBadge.style.display = 'block';
+                }
+            } catch (e) {
+                console.error('Failed to update mobile badges badge:', e);
+            }
+        })();
+    </script>
+
     <!-- Bookmark Popup -->
     <div id="bookmarkPopup" class="bookmark-popup" style="display: none;">
         <h4>⭐ 북마크 추가</h4>
