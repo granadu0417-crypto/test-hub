@@ -355,14 +355,32 @@
         </div>
     </div>
 
-    <!-- 타로 운세 섹션 (준비 중) -->
-    <div class="fortune-category-section">
+    <!-- 타로 운세 섹션 -->
+    <div id="tarot" class="fortune-category-section">
         <div class="fortune-category-header">
             <h3>🃏 타로 운세</h3>
-            <span class="fortune-category-count">준비중</span>
+            <span class="fortune-category-count">1개</span>
         </div>
-        <div class="quick-fortune-card" style="margin-top: 20px;">
-            <p style="color: #cbd5e1; font-size: 1.1rem;">타로 운세는 곧 추가될 예정입니다</p>
+
+        <!-- 시간대별 탭 -->
+        <div class="fortune-time-tabs">
+            <a href="#" class="fortune-time-tab active" data-period="today">오늘</a>
+            <a href="#" class="fortune-time-tab" data-period="week">이번주</a>
+            <a href="#" class="fortune-time-tab" data-period="month">이번달</a>
+            <a href="#" class="fortune-time-tab" data-period="year">올해</a>
+        </div>
+
+        <div class="fortune-grid">
+            <!-- 원카드 타로 -->
+            <a href="/fortune/tarot/" class="fortune-card" data-tarot="onecard">
+                <div class="fortune-icon">🃏</div>
+                <h3 class="fortune-title">원카드 타로</h3>
+                <p class="fortune-summary">마음을 편안하게 하고<br>직관을 따라 카드를 선택하세요</p>
+                <div class="fortune-meta">
+                    <span>✨ 22장</span>
+                    <span>🔮 메이저 아르카나</span>
+                </div>
+            </a>
         </div>
     </div>
 </div>
