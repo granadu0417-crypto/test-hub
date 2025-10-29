@@ -467,44 +467,77 @@
                 <div id="resultTotalStars" class="result-overall-score-stars"></div>
             </div>
 
-            <div class="result-scores-grid">
-                <div class="result-score-item">
-                    <div class="result-score-label">💕 애정운</div>
-                    <div id="resultLoveScore" class="result-score-value"></div>
-                    <div id="resultLoveStars" class="result-score-stars"></div>
-                </div>
-                <div class="result-score-item">
-                    <div class="result-score-label">💰 금전운</div>
-                    <div id="resultMoneyScore" class="result-score-value"></div>
-                    <div id="resultMoneyStars" class="result-score-stars"></div>
-                </div>
-                <div class="result-score-item">
-                    <div class="result-score-label">💼 직장운</div>
-                    <div id="resultWorkScore" class="result-score-value"></div>
-                    <div id="resultWorkStars" class="result-score-stars"></div>
+            <!-- 세부 운세 아코디언 -->
+            <div class="accordion-section" style="margin-bottom: 24px;">
+                <button class="accordion-header" onclick="toggleAccordion('detailFortune')" style="width: 100%; background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2)); border: 2px solid rgba(251, 191, 36, 0.4); border-radius: 16px; padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;" onmouseover="this.style.background='linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(245, 158, 11, 0.3))'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(251, 191, 36, 0.3)';" onmouseout="this.style.background='linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2))'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                    <span style="font-size: 1.2rem; color: #fbbf24; font-weight: 700;">💫 세부 운세 보기</span>
+                    <span class="accordion-icon" style="font-size: 1.5rem; color: #fbbf24; transition: transform 0.3s ease;">▼</span>
+                </button>
+                <div id="detailFortune" class="accordion-content" style="overflow: hidden; transition: max-height 0.4s ease, opacity 0.3s ease;">
+                    <div class="accordion-inner" style="padding-top: 20px;">
+                        <div class="result-scores-grid">
+                            <div class="result-score-item">
+                                <div class="result-score-label">💕 애정운</div>
+                                <div id="resultLoveScore" class="result-score-value"></div>
+                                <div id="resultLoveStars" class="result-score-stars"></div>
+                            </div>
+                            <div class="result-score-item">
+                                <div class="result-score-label">💰 금전운</div>
+                                <div id="resultMoneyScore" class="result-score-value"></div>
+                                <div id="resultMoneyStars" class="result-score-stars"></div>
+                            </div>
+                            <div class="result-score-item">
+                                <div class="result-score-label">💼 직장운</div>
+                                <div id="resultWorkScore" class="result-score-value"></div>
+                                <div id="resultWorkStars" class="result-score-stars"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="result-lucky-section">
-                <div class="result-lucky-item">
-                    <div class="result-lucky-label">🎨 럭키 컬러</div>
-                    <div id="resultLuckyColorBox" class="result-lucky-color-box"></div>
-                    <div id="resultLuckyColor" class="result-lucky-value"></div>
-                </div>
-                <div class="result-lucky-item">
-                    <div class="result-lucky-label">🔢 럭키 넘버</div>
-                    <div id="resultLuckyNumber" class="result-lucky-value"></div>
+            <!-- 행운 아이템 아코디언 -->
+            <div class="accordion-section" style="margin-bottom: 24px;">
+                <button class="accordion-header" onclick="toggleAccordion('luckyItems')" style="width: 100%; background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2)); border: 2px solid rgba(251, 191, 36, 0.4); border-radius: 16px; padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;" onmouseover="this.style.background='linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(245, 158, 11, 0.3))'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(251, 191, 36, 0.3)';" onmouseout="this.style.background='linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2))'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                    <span style="font-size: 1.2rem; color: #fbbf24; font-weight: 700;">🍀 행운의 아이템 보기</span>
+                    <span class="accordion-icon" style="font-size: 1.5rem; color: #fbbf24; transition: transform 0.3s ease;">▼</span>
+                </button>
+                <div id="luckyItems" class="accordion-content" style="overflow: hidden; transition: max-height 0.4s ease, opacity 0.3s ease;">
+                    <div class="accordion-inner" style="padding-top: 20px;">
+                        <div class="result-lucky-section">
+                            <div class="result-lucky-item">
+                                <div class="result-lucky-label">🎨 럭키 컬러</div>
+                                <div id="resultLuckyColorBox" class="result-lucky-color-box"></div>
+                                <div id="resultLuckyColor" class="result-lucky-value"></div>
+                            </div>
+                            <div class="result-lucky-item">
+                                <div class="result-lucky-label">🔢 럭키 넘버</div>
+                                <div id="resultLuckyNumber" class="result-lucky-value"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="result-messages">
-                <div class="result-message-box">
-                    <div class="result-message-title">📋 오늘의 운세</div>
-                    <p id="resultOverallMessage" class="result-message-text"></p>
-                </div>
-                <div class="result-message-box">
-                    <div class="result-message-title">✨ 특별 메시지</div>
-                    <p id="resultSpecialMessage" class="result-message-text"></p>
+            <!-- 상세 메시지 아코디언 -->
+            <div class="accordion-section" style="margin-bottom: 24px;">
+                <button class="accordion-header" onclick="toggleAccordion('fortuneMessages')" style="width: 100%; background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2)); border: 2px solid rgba(251, 191, 36, 0.4); border-radius: 16px; padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;" onmouseover="this.style.background='linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(245, 158, 11, 0.3))'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(251, 191, 36, 0.3)';" onmouseout="this.style.background='linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2))'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                    <span style="font-size: 1.2rem; color: #fbbf24; font-weight: 700;">📝 상세 메시지 보기</span>
+                    <span class="accordion-icon" style="font-size: 1.5rem; color: #fbbf24; transition: transform 0.3s ease;">▼</span>
+                </button>
+                <div id="fortuneMessages" class="accordion-content" style="overflow: hidden; transition: max-height 0.4s ease, opacity 0.3s ease;">
+                    <div class="accordion-inner" style="padding-top: 20px;">
+                        <div class="result-messages">
+                            <div class="result-message-box">
+                                <div class="result-message-title">📋 오늘의 운세</div>
+                                <p id="resultOverallMessage" class="result-message-text"></p>
+                            </div>
+                            <div class="result-message-box">
+                                <div class="result-message-title">✨ 특별 메시지</div>
+                                <p id="resultSpecialMessage" class="result-message-text"></p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -872,5 +905,65 @@
             }
         }
     }
+
+    // 아코디언 시스템
+    function toggleAccordion(id) {
+        const content = document.getElementById(id);
+        const button = content.previousElementSibling;
+        const icon = button.querySelector('.accordion-icon');
+
+        if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+            content.style.maxHeight = '0px';
+            content.style.opacity = '0';
+            icon.style.transform = 'rotate(0deg)';
+        } else {
+            content.style.maxHeight = (content.scrollHeight + 50) + 'px';
+            content.style.opacity = '1';
+            icon.style.transform = 'rotate(180deg)';
+            setTimeout(() => {
+                content.style.maxHeight = (content.scrollHeight + 50) + 'px';
+            }, 100);
+        }
+    }
+
+    function initializeAccordions() {
+        const isMobile = window.innerWidth <= 768;
+        const accordions = ['detailFortune', 'luckyItems', 'fortuneMessages'];
+
+        accordions.forEach(id => {
+            const content = document.getElementById(id);
+            const button = content.previousElementSibling;
+            const icon = button.querySelector('.accordion-icon');
+
+            if (isMobile) {
+                content.style.maxHeight = '0px';
+                content.style.opacity = '0';
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                content.style.maxHeight = (content.scrollHeight + 50) + 'px';
+                content.style.opacity = '1';
+                icon.style.transform = 'rotate(180deg)';
+            }
+        });
+    }
+
+    // 결과 표시 후 아코디언 초기화
+    const originalDisplayResult = window.displayChineseZodiacResult;
+    window.displayChineseZodiacResult = function() {
+        if (originalDisplayResult) originalDisplayResult.apply(this, arguments);
+        setTimeout(initializeAccordions, 100);
+    };
+
+    window.addEventListener('resize', () => {
+        clearTimeout(window.resizeTimer);
+        window.resizeTimer = setTimeout(() => {
+            ['detailFortune', 'luckyItems', 'fortuneMessages'].forEach(id => {
+                const content = document.getElementById(id);
+                if (content.style.opacity === '1') {
+                    content.style.maxHeight = (content.scrollHeight + 50) + 'px';
+                }
+            });
+        }, 250);
+    });
 </script>
 {{ end }}
