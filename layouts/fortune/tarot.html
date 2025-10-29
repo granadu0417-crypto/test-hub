@@ -225,7 +225,7 @@
 
             <!-- 운세 해석 -->
             <div class="tarot-interpretation">
-                <!-- 오늘의 메시지 -->
+                <!-- 오늘의 메시지 (항상 표시) -->
                 <div class="tarot-section">
                     <div class="tarot-section-title">
                         <span>✨</span>
@@ -234,40 +234,57 @@
                     <div id="resultShort" class="tarot-section-content"></div>
                 </div>
 
-                <!-- 애정운 -->
-                <div class="tarot-section">
-                    <div class="tarot-section-title">
-                        <span>💖</span>
-                        <span>애정운</span>
+                <!-- 세부 운세 아코디언 -->
+                <div class="accordion-section" style="margin: 24px 0;">
+                    <button class="accordion-header" onclick="toggleAccordion('detailFortune')" style="width: 100%; background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2)); border: 2px solid rgba(251, 191, 36, 0.4); border-radius: 16px; padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;" onmouseover="this.style.background='linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(245, 158, 11, 0.3))'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(251, 191, 36, 0.3)';" onmouseout="this.style.background='linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2))'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                        <span style="font-size: 1.2rem; color: #fbbf24; font-weight: 700;">💫 세부 운세 보기</span>
+                        <span class="accordion-icon" style="font-size: 1.5rem; color: #fbbf24; transition: transform 0.3s ease;">▼</span>
+                    </button>
+                    <div id="detailFortune" class="accordion-content" style="overflow: hidden; transition: max-height 0.4s ease, opacity 0.3s ease;">
+                        <div class="accordion-inner" style="padding-top: 20px;">
+                            <!-- 애정운 -->
+                            <div class="tarot-section">
+                                <div class="tarot-section-title">
+                                    <span>💖</span>
+                                    <span>애정운</span>
+                                </div>
+                                <div id="resultLove" class="tarot-section-content"></div>
+                            </div>
+
+                            <!-- 금전운 -->
+                            <div class="tarot-section">
+                                <div class="tarot-section-title">
+                                    <span>💰</span>
+                                    <span>금전운</span>
+                                </div>
+                                <div id="resultMoney" class="tarot-section-content"></div>
+                            </div>
+
+                            <!-- 직업운 -->
+                            <div class="tarot-section">
+                                <div class="tarot-section-title">
+                                    <span>💼</span>
+                                    <span>직업운</span>
+                                </div>
+                                <div id="resultWork" class="tarot-section-content"></div>
+                            </div>
+                        </div>
                     </div>
-                    <div id="resultLove" class="tarot-section-content"></div>
                 </div>
 
-                <!-- 금전운 -->
-                <div class="tarot-section">
-                    <div class="tarot-section-title">
-                        <span>💰</span>
-                        <span>금전운</span>
+                <!-- 조언 아코디언 -->
+                <div class="accordion-section" style="margin: 24px 0;">
+                    <button class="accordion-header" onclick="toggleAccordion('tarotAdvice')" style="width: 100%; background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2)); border: 2px solid rgba(251, 191, 36, 0.4); border-radius: 16px; padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;" onmouseover="this.style.background='linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(245, 158, 11, 0.3))'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(251, 191, 36, 0.3)';" onmouseout="this.style.background='linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2))'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                        <span style="font-size: 1.2rem; color: #fbbf24; font-weight: 700;">🌟 타로 카드의 조언</span>
+                        <span class="accordion-icon" style="font-size: 1.5rem; color: #fbbf24; transition: transform 0.3s ease;">▼</span>
+                    </button>
+                    <div id="tarotAdvice" class="accordion-content" style="overflow: hidden; transition: max-height 0.4s ease, opacity 0.3s ease;">
+                        <div class="accordion-inner" style="padding-top: 20px;">
+                            <div class="tarot-section" style="background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(245, 158, 11, 0.15)); border-left-color: #f59e0b;">
+                                <div id="resultAdvice" class="tarot-section-content" style="font-weight: 600; font-size: 1.1rem;"></div>
+                            </div>
+                        </div>
                     </div>
-                    <div id="resultMoney" class="tarot-section-content"></div>
-                </div>
-
-                <!-- 직업운 -->
-                <div class="tarot-section">
-                    <div class="tarot-section-title">
-                        <span>💼</span>
-                        <span>직업운</span>
-                    </div>
-                    <div id="resultWork" class="tarot-section-content"></div>
-                </div>
-
-                <!-- 조언 -->
-                <div class="tarot-section" style="background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(245, 158, 11, 0.15)); border-left-color: #f59e0b;">
-                    <div class="tarot-section-title">
-                        <span>🌟</span>
-                        <span>타로 카드의 조언</span>
-                    </div>
-                    <div id="resultAdvice" class="tarot-section-content" style="font-weight: 600; font-size: 1.1rem;"></div>
                 </div>
             </div>
 
@@ -503,6 +520,66 @@
             }
         }
     }
+
+    // 아코디언 시스템
+    function toggleAccordion(id) {
+        const content = document.getElementById(id);
+        const button = content.previousElementSibling;
+        const icon = button.querySelector('.accordion-icon');
+
+        if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+            content.style.maxHeight = '0px';
+            content.style.opacity = '0';
+            icon.style.transform = 'rotate(0deg)';
+        } else {
+            content.style.maxHeight = (content.scrollHeight + 50) + 'px';
+            content.style.opacity = '1';
+            icon.style.transform = 'rotate(180deg)';
+            setTimeout(() => {
+                content.style.maxHeight = (content.scrollHeight + 50) + 'px';
+            }, 100);
+        }
+    }
+
+    function initializeAccordions() {
+        const isMobile = window.innerWidth <= 768;
+        const accordions = ['detailFortune', 'tarotAdvice'];
+
+        accordions.forEach(id => {
+            const content = document.getElementById(id);
+            const button = content.previousElementSibling;
+            const icon = button.querySelector('.accordion-icon');
+
+            if (isMobile) {
+                content.style.maxHeight = '0px';
+                content.style.opacity = '0';
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                content.style.maxHeight = (content.scrollHeight + 50) + 'px';
+                content.style.opacity = '1';
+                icon.style.transform = 'rotate(180deg)';
+            }
+        });
+    }
+
+    // 결과 표시 후 아코디언 초기화
+    const originalSelectCard = window.selectCard;
+    window.selectCard = function() {
+        if (originalSelectCard) originalSelectCard.apply(this, arguments);
+        setTimeout(initializeAccordions, 300);
+    };
+
+    window.addEventListener('resize', () => {
+        clearTimeout(window.resizeTimer);
+        window.resizeTimer = setTimeout(() => {
+            ['detailFortune', 'tarotAdvice'].forEach(id => {
+                const content = document.getElementById(id);
+                if (content.style.opacity === '1') {
+                    content.style.maxHeight = (content.scrollHeight + 50) + 'px';
+                }
+            });
+        }, 250);
+    });
 
     // 페이지 로드 시 카드 초기화
     initTarotCards();
