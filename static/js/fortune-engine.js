@@ -76,6 +76,38 @@ function deterministicRandom(seed, min = 0, max = 1) {
   return Math.floor(normalized * (max - min + 1)) + min;
 }
 
+// 현재 주차 계산 (ISO 8601 기준)
+function getWeekNumber(date) {
+  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  const dayNum = d.getUTCDay() || 7;
+  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+  return weekNo;
+}
+
+// 시간대별 시드 생성
+function getPeriodSeed(baseKey, period) {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const day = today.getDate();
+
+  switch (period) {
+    case 'today':
+      return `${baseKey}-${year}-${month}-${day}`;
+    case 'week':
+      const weekNum = getWeekNumber(today);
+      return `${baseKey}-${year}-week-${weekNum}`;
+    case 'month':
+      return `${baseKey}-${year}-${month}`;
+    case 'year':
+      return `${baseKey}-${year}`;
+    default:
+      return `${baseKey}-${year}-${month}-${day}`;
+  }
+}
+
 // 배열에서 결정론적으로 선택
 function deterministicChoice(seed, array) {
   const index = deterministicRandom(seed, 0, array.length - 1);
@@ -83,17 +115,14 @@ function deterministicChoice(seed, array) {
 }
 
 // 오늘의 운세 생성
-function getTodayFortune(birthYear) {
+// 띠별 운세 생성 (시간대별)
+function getChineseZodiacFortune(birthYear, period = 'today') {
   // 띠 계산
   const zodiacKey = getZodiacByYear(birthYear);
   const zodiac = CHINESE_ZODIAC[zodiacKey];
 
-  // 오늘 날짜
-  const today = new Date();
-  const dateStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-
-  // 시드 생성: 띠 + 날짜
-  const seed = `${zodiacKey}-${dateStr}`;
+  // 시드 생성: 띠 + 시간대
+  const seed = getPeriodSeed(zodiacKey, period);
 
   // 점수 생성 (0-100)
   const totalScore = deterministicRandom(`${seed}-total`, 60, 100);
@@ -107,13 +136,32 @@ function getTodayFortune(birthYear) {
   // 럭키 넘버
   const luckyNumber = deterministicRandom(`${seed}-number`, 1, 99);
 
-  // 운세 메시지 선택 (나중에 더 추가)
-  const messages = getFortuneMessages(zodiacKey, totalScore);
+  // 운세 메시지 선택
+  const messages = getFortuneMessages(zodiacKey, totalScore, period);
+
+  // 시간대별 날짜 표시
+  const today = new Date();
+  let periodLabel = '';
+  switch (period) {
+    case 'today':
+      periodLabel = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
+      break;
+    case 'week':
+      periodLabel = `${today.getFullYear()}년 ${getWeekNumber(today)}주차`;
+      break;
+    case 'month':
+      periodLabel = `${today.getFullYear()}년 ${today.getMonth() + 1}월`;
+      break;
+    case 'year':
+      periodLabel = `${today.getFullYear()}년`;
+      break;
+  }
 
   return {
     zodiac,
-    date: dateStr,
-    dateKorean: `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`,
+    period,
+    periodLabel,
+    birthYear,
     scores: {
       total: totalScore,
       love: loveScore,
@@ -126,20 +174,35 @@ function getTodayFortune(birthYear) {
   };
 }
 
+// 띠별 오늘의 운세 (하위 호환성)
+function getTodayFortune(birthYear) {
+  return getChineseZodiacFortune(birthYear, 'today');
+}
+
 // 운세 메시지 생성 (점수 기반)
-function getFortuneMessages(zodiacKey, totalScore) {
+function getFortuneMessages(zodiacKey, totalScore, period = 'today') {
   const zodiac = CHINESE_ZODIAC[zodiacKey];
+
+  // 시간대별 문구
+  const periodTexts = {
+    today: { name: '오늘', ending: '날', future: '내일은' },
+    week: { name: '이번주', ending: '한 주', future: '다음주는' },
+    month: { name: '이번달', ending: '한 달', future: '다음달은' },
+    year: { name: '올해', ending: '한 해', future: '내년은' }
+  };
+
+  const pt = periodTexts[period] || periodTexts.today;
 
   // 종합 운세 (점수별)
   let overall = '';
   if (totalScore >= 90) {
-    overall = `오늘은 ${zodiac.name}에게 최고의 날입니다! 모든 일이 순조롭게 풀릴 것입니다. 자신감을 가지고 중요한 결정을 내리기 좋은 날입니다.`;
+    overall = `${pt.name}는 ${zodiac.name}에게 최고의 ${pt.ending}입니다! 모든 일이 순조롭게 풀릴 것입니다. 자신감을 가지고 중요한 결정을 내리기 좋은 시기입니다.`;
   } else if (totalScore >= 80) {
-    overall = `${zodiac.name}에게 좋은 하루가 될 것입니다. 평소 하고 싶었던 일을 시작하기 좋은 날입니다. 긍정적인 마음가짐을 유지하세요.`;
+    overall = `${zodiac.name}에게 좋은 ${pt.ending}가 될 것입니다. 평소 하고 싶었던 일을 시작하기 좋은 시기입니다. 긍정적인 마음가짐을 유지하세요.`;
   } else if (totalScore >= 70) {
-    overall = `무난한 하루가 될 것입니다. 큰 변화보다는 안정적으로 하루를 보내는 것이 좋습니다. 작은 행복을 찾아보세요.`;
+    overall = `무난한 ${pt.ending}가 될 것입니다. 큰 변화보다는 안정적으로 지내는 것이 좋습니다. 작은 행복을 찾아보세요.`;
   } else {
-    overall = `조금 조심스러운 하루입니다. 서두르지 말고 천천히 신중하게 행동하세요. 내일은 더 좋은 날이 올 것입니다.`;
+    overall = `조금 조심스러운 ${pt.ending}입니다. 서두르지 말고 천천히 신중하게 행동하세요. ${pt.future} 더 좋은 시기가 올 것입니다.`;
   }
 
   // 띠별 특별 메시지
@@ -205,18 +268,14 @@ function getZodiacByBirthdate(month, day) {
   return 'aries'; // 기본값
 }
 
-// ⭐ 별자리 오늘의 운세 생성
-function getTodayZodiacFortune(month, day) {
+// ⭐ 별자리 운세 생성 (시간대별)
+function getZodiacFortune(month, day, period = 'today') {
   // 별자리 계산
   const zodiacKey = getZodiacByBirthdate(month, day);
   const zodiac = WESTERN_ZODIAC[zodiacKey];
 
-  // 오늘 날짜
-  const today = new Date();
-  const dateStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-
-  // 시드 생성: 별자리 + 날짜
-  const seed = `${zodiacKey}-${dateStr}`;
+  // 시드 생성: 별자리 + 시간대
+  const seed = getPeriodSeed(zodiacKey, period);
 
   // 점수 생성 (0-100)
   const totalScore = deterministicRandom(`${seed}-total`, 60, 100);
@@ -231,12 +290,30 @@ function getTodayZodiacFortune(month, day) {
   const luckyNumber = deterministicRandom(`${seed}-number`, 1, 99);
 
   // 운세 메시지 선택
-  const messages = getZodiacFortuneMessages(zodiacKey, totalScore);
+  const messages = getZodiacFortuneMessages(zodiacKey, totalScore, period);
+
+  // 시간대별 날짜 표시
+  const today = new Date();
+  let periodLabel = '';
+  switch (period) {
+    case 'today':
+      periodLabel = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
+      break;
+    case 'week':
+      periodLabel = `${today.getFullYear()}년 ${getWeekNumber(today)}주차`;
+      break;
+    case 'month':
+      periodLabel = `${today.getFullYear()}년 ${today.getMonth() + 1}월`;
+      break;
+    case 'year':
+      periodLabel = `${today.getFullYear()}년`;
+      break;
+  }
 
   return {
     zodiac,
-    date: dateStr,
-    dateKorean: `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`,
+    period,
+    periodLabel,
     birthdate: `${month}월 ${day}일`,
     scores: {
       total: totalScore,
@@ -250,20 +327,35 @@ function getTodayZodiacFortune(month, day) {
   };
 }
 
+// 별자리 오늘의 운세 (하위 호환성)
+function getTodayZodiacFortune(month, day) {
+  return getZodiacFortune(month, day, 'today');
+}
+
 // ⭐ 별자리 운세 메시지 생성
-function getZodiacFortuneMessages(zodiacKey, totalScore) {
+function getZodiacFortuneMessages(zodiacKey, totalScore, period = 'today') {
   const zodiac = WESTERN_ZODIAC[zodiacKey];
+
+  // 시간대별 문구
+  const periodTexts = {
+    today: { name: '오늘', ending: '하루', future: '내일은' },
+    week: { name: '이번주', ending: '한 주', future: '다음주는' },
+    month: { name: '이번달', ending: '한 달', future: '다음달은' },
+    year: { name: '올해', ending: '한 해', future: '내년은' }
+  };
+
+  const pt = periodTexts[period] || periodTexts.today;
 
   // 종합 운세 (점수별)
   let overall = '';
   if (totalScore >= 90) {
-    overall = `오늘은 ${zodiac.name}에게 최고의 날입니다! 모든 일이 순조롭게 풀릴 것입니다. 자신감을 가지고 중요한 결정을 내리기 좋은 날입니다.`;
+    overall = `${pt.name}는 ${zodiac.name}에게 최고의 ${pt.ending}입니다! 모든 일이 순조롭게 풀릴 것입니다. 자신감을 가지고 중요한 결정을 내리기 좋은 시기입니다.`;
   } else if (totalScore >= 80) {
-    overall = `${zodiac.name}에게 좋은 하루가 될 것입니다. 평소 하고 싶었던 일을 시작하기 좋은 날입니다. 긍정적인 마음가짐을 유지하세요.`;
+    overall = `${zodiac.name}에게 좋은 ${pt.ending}가 될 것입니다. 평소 하고 싶었던 일을 시작하기 좋은 시기입니다. 긍정적인 마음가짐을 유지하세요.`;
   } else if (totalScore >= 70) {
-    overall = `무난한 하루가 될 것입니다. 큰 변화보다는 안정적으로 하루를 보내는 것이 좋습니다. 작은 행복을 찾아보세요.`;
+    overall = `무난한 ${pt.ending}가 될 것입니다. 큰 변화보다는 안정적으로 지내는 것이 좋습니다. 작은 행복을 찾아보세요.`;
   } else {
-    overall = `조금 조심스러운 하루입니다. 서두르지 말고 천천히 신중하게 행동하세요. 내일은 더 좋은 날이 올 것입니다.`;
+    overall = `조금 조심스러운 ${pt.ending}입니다. 서두르지 말고 천천히 신중하게 행동하세요. ${pt.future} 더 좋은 시기가 올 것입니다.`;
   }
 
   // 별자리별 특별 메시지
