@@ -1252,11 +1252,32 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
+// Initialize dynamic content
+function initializeDynamicContent() {
+    // Load Today's Pick
+    loadTodayPickTest();
+
+    // Load Popular Tests
+    loadPopularTests();
+
+    // Add hover effects to cards (only if not already added)
+    const cards = document.querySelectorAll('.test-card:not(.hover-initialized)');
+    cards.forEach(card => {
+        card.classList.add('hover-initialized');
+        card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-12px) scale(1.02)';
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
+        });
+    });
+}
+
 // Observe all scroll-animate elements
 document.addEventListener('DOMContentLoaded', () => {
     const animatedElements = document.querySelectorAll('.scroll-animate');
     animatedElements.forEach(el => observer.observe(el));
-    
+
     // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -1270,23 +1291,24 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-    
-    // Add hover effects to cards
-    const cards = document.querySelectorAll('.test-card');
-    cards.forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            card.style.transform = 'translateY(-12px) scale(1.02)';
-        });
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = '';
-        });
-    });
-    
+
     // Category sections scroll animations
     const categorySections = document.querySelectorAll('.category-section');
     categorySections.forEach(section => {
         section.classList.add('scroll-animate');
     });
+
+    // Initialize dynamic content on first load
+    initializeDynamicContent();
+});
+
+// Handle page show event (fires when page loads from cache too)
+window.addEventListener('pageshow', function(event) {
+    // If page was loaded from cache, reinitialize dynamic content
+    if (event.persisted) {
+        console.log('Page loaded from cache, reinitializing content...');
+        initializeDynamicContent();
+    }
 });
 
 // 슬라이더 네비게이션 함수
@@ -1439,138 +1461,151 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 1000); // 1초 후 재생 재개
         });
     });
-
-    // 오늘의 추천 테스트 로직
-    loadTodayPickTest();
-
-    // 인기 테스트 TOP 10 로직
-    loadPopularTests();
 });
 
 // 오늘의 추천 테스트 선택
 function loadTodayPickTest() {
-    const allTests = [
-        {{ range where .Site.RegularPages "Section" "tests" }}
-        {
-            title: {{ .Title | jsonify }},
-            summary: {{ .Params.summary | jsonify }},
-            icon: {{ if .Params.icon }}{{ .Params.icon | jsonify }}{{ else }}"🎯"{{ end }},
-            questionCount: {{ if .Params.questionCount }}{{ .Params.questionCount }}{{ else }}10{{ end }},
-            duration: {{ if .Params.duration }}{{ .Params.duration | jsonify }}{{ else }}"약 3분"{{ end }},
-            url: {{ .Permalink | jsonify }}
-        },
-        {{ end }}
-    ];
+    try {
+        const allTests = [
+            {{ range where .Site.RegularPages "Section" "tests" }}
+            {
+                title: {{ .Title | jsonify }},
+                summary: {{ .Params.summary | jsonify }},
+                icon: {{ if .Params.icon }}{{ .Params.icon | jsonify }}{{ else }}"🎯"{{ end }},
+                questionCount: {{ if .Params.questionCount }}{{ .Params.questionCount }}{{ else }}10{{ end }},
+                duration: {{ if .Params.duration }}{{ .Params.duration | jsonify }}{{ else }}"약 3분"{{ end }},
+                url: {{ .Permalink | jsonify }}
+            },
+            {{ end }}
+        ];
 
-    // 오늘 날짜를 기반으로 결정론적으로 테스트 선택
-    const today = new Date();
-    const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
-    const testIndex = dayOfYear % allTests.length;
-    const pickedTest = allTests[testIndex];
+        // 오늘 날짜를 기반으로 결정론적으로 테스트 선택
+        const today = new Date();
+        const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+        const testIndex = dayOfYear % allTests.length;
+        const pickedTest = allTests[testIndex];
 
-    // HTML 생성
-    const container = document.getElementById('todayPickTest');
-    if (container && pickedTest) {
-        const questionCount = pickedTest.questionCount || 10;
-        const duration = pickedTest.duration || '약 3분';
+        // HTML 생성
+        const container = document.getElementById('todayPickTest');
+        if (container && pickedTest) {
+            const questionCount = pickedTest.questionCount || 10;
+            const duration = pickedTest.duration || '약 3분';
 
-        const metaHTML = `
-            <div class="today-pick-test-meta">
-                <span>❓ ${questionCount}개 질문</span>
-                <span>⏱️ ${duration}</span>
-            </div>
-        `;
+            const metaHTML = `
+                <div class="today-pick-test-meta">
+                    <span>❓ ${questionCount}개 질문</span>
+                    <span>⏱️ ${duration}</span>
+                </div>
+            `;
 
-        container.innerHTML = `
-            <div class="today-pick-icon">${pickedTest.icon}</div>
-            <h3 class="today-pick-test-title">${pickedTest.title}</h3>
-            <p class="today-pick-test-summary">${pickedTest.summary || ''}</p>
-            ${metaHTML}
-            <div class="today-pick-cta">
-                <a href="${pickedTest.url}" class="today-pick-btn">지금 바로 시작하기 →</a>
-            </div>
-        `;
+            container.innerHTML = `
+                <div class="today-pick-icon">${pickedTest.icon}</div>
+                <h3 class="today-pick-test-title">${pickedTest.title}</h3>
+                <p class="today-pick-test-summary">${pickedTest.summary || ''}</p>
+                ${metaHTML}
+                <div class="today-pick-cta">
+                    <a href="${pickedTest.url}" class="today-pick-btn">지금 바로 시작하기 →</a>
+                </div>
+            `;
+            console.log('✅ Today\'s Pick loaded:', pickedTest.title);
+        } else {
+            console.error('❌ Today\'s Pick container not found or no test selected');
+        }
+    } catch (error) {
+        console.error('❌ Error loading Today\'s Pick:', error);
     }
 }
 
 // 인기 테스트 TOP 10 로드
 function loadPopularTests() {
-    const allTests = [
-        {{ range where .Site.RegularPages "Section" "tests" }}
-        {
-            id: {{ path.Base .File.Path | jsonify }},
-            title: {{ .Title | jsonify }},
-            summary: {{ .Params.summary | jsonify }},
-            icon: {{ if .Params.icon }}{{ .Params.icon | jsonify }}{{ else }}"🎯"{{ end }},
-            questionCount: {{ if .Params.questionCount }}{{ .Params.questionCount }}{{ else }}10{{ end }},
-            duration: {{ if .Params.duration }}{{ .Params.duration | jsonify }}{{ else }}"약 3분"{{ end }},
-            url: {{ .Permalink | jsonify }}
-        },
-        {{ end }}
-    ];
+    try {
+        const allTests = [
+            {{ range where .Site.RegularPages "Section" "tests" }}
+            {
+                id: {{ path.Base .File.Path | jsonify }},
+                title: {{ .Title | jsonify }},
+                summary: {{ .Params.summary | jsonify }},
+                icon: {{ if .Params.icon }}{{ .Params.icon | jsonify }}{{ else }}"🎯"{{ end }},
+                questionCount: {{ if .Params.questionCount }}{{ .Params.questionCount }}{{ else }}10{{ end }},
+                duration: {{ if .Params.duration }}{{ .Params.duration | jsonify }}{{ else }}"약 3분"{{ end }},
+                url: {{ .Permalink | jsonify }}
+            },
+            {{ end }}
+        ];
 
-    // localStorage에서 조회수 가져오기
-    const testsWithStats = allTests.map(test => {
-        const storageKey = `test_stats_${test.id}`;
-        const stored = localStorage.getItem(storageKey);
-        let count = 0;
+        console.log('📊 Loading popular tests from', allTests.length, 'total tests');
 
-        if (stored) {
-            try {
-                const data = JSON.parse(stored);
-                count = data.count || 0;
-            } catch (e) {
-                count = 0;
+        // localStorage에서 조회수 가져오기
+        const testsWithStats = allTests.map(test => {
+            const storageKey = `test_stats_${test.id}`;
+            const stored = localStorage.getItem(storageKey);
+            let count = 0;
+
+            if (stored) {
+                try {
+                    const data = JSON.parse(stored);
+                    count = data.count || 0;
+                } catch (e) {
+                    count = 0;
+                }
+            } else {
+                // 저장된 통계가 없으면 초기값 생성
+                let hash = 0;
+                for (let i = 0; i < test.id.length; i++) {
+                    hash = ((hash << 5) - hash) + test.id.charCodeAt(i);
+                    hash = hash & hash;
+                }
+                count = 20000 + Math.abs(hash % 80000);
             }
+
+            return {
+                ...test,
+                count
+            };
+        });
+
+        // 조회수로 정렬 (많은 순)
+        testsWithStats.sort((a, b) => b.count - a.count);
+
+        // 상위 10개 선택
+        const top10 = testsWithStats.slice(0, 10);
+
+        console.log('🏆 Top 10 tests selected:', top10.map(t => t.title).join(', '));
+
+        // HTML 생성
+        const container = document.getElementById('popular-slider');
+        if (container) {
+            container.innerHTML = top10.map((test, index) => `
+                <div class="slider-item">
+                    <a href="${test.url}" class="test-card">
+                        <span class="test-badge" style="background: linear-gradient(135deg, ${getRankColor(index)}); animation: pulse 2s ease-in-out infinite;">
+                            🏆 ${index + 1}위
+                        </span>
+                        <div class="test-icon">${test.icon}</div>
+                        <h3 class="test-title">${test.title}</h3>
+                        <p class="test-summary">${test.summary || ''}</p>
+                        <div class="test-meta">
+                            <span>❓ ${test.questionCount}개 질문</span>
+                            <span>⏱️ ${test.duration}</span>
+                        </div>
+                        <div class="test-meta" style="border-top: 1px solid #e2e8f0; padding-top: 12px; margin-top: 12px;">
+                            <span style="color: #EF4444; font-weight: 700;">🔥 ${test.count.toLocaleString()}명 참여</span>
+                        </div>
+                    </a>
+                </div>
+            `).join('');
+
+            // IntersectionObserver에 등록 (자동 슬라이드용)
+            if (typeof sliderObserver !== 'undefined') {
+                sliderObserver.observe(container);
+            }
+
+            console.log('✅ Popular tests loaded successfully');
         } else {
-            // 저장된 통계가 없으면 초기값 생성
-            let hash = 0;
-            for (let i = 0; i < test.id.length; i++) {
-                hash = ((hash << 5) - hash) + test.id.charCodeAt(i);
-                hash = hash & hash;
-            }
-            count = 20000 + Math.abs(hash % 80000);
+            console.error('❌ Popular tests container (#popular-slider) not found');
         }
-
-        return {
-            ...test,
-            count
-        };
-    });
-
-    // 조회수로 정렬 (많은 순)
-    testsWithStats.sort((a, b) => b.count - a.count);
-
-    // 상위 10개 선택
-    const top10 = testsWithStats.slice(0, 10);
-
-    // HTML 생성
-    const container = document.getElementById('popular-slider');
-    if (container) {
-        container.innerHTML = top10.map((test, index) => `
-            <div class="slider-item">
-                <a href="${test.url}" class="test-card">
-                    <span class="test-badge" style="background: linear-gradient(135deg, ${getRankColor(index)}); animation: pulse 2s ease-in-out infinite;">
-                        🏆 ${index + 1}위
-                    </span>
-                    <div class="test-icon">${test.icon}</div>
-                    <h3 class="test-title">${test.title}</h3>
-                    <p class="test-summary">${test.summary || ''}</p>
-                    <div class="test-meta">
-                        <span>❓ ${test.questionCount}개 질문</span>
-                        <span>⏱️ ${test.duration}</span>
-                    </div>
-                    <div class="test-meta" style="border-top: 1px solid #e2e8f0; padding-top: 12px; margin-top: 12px;">
-                        <span style="color: #EF4444; font-weight: 700;">🔥 ${test.count.toLocaleString()}명 참여</span>
-                    </div>
-                </a>
-            </div>
-        `).join('');
-
-        // IntersectionObserver에 등록 (자동 슬라이드용)
-        if (typeof sliderObserver !== 'undefined') {
-            sliderObserver.observe(container);
-        }
+    } catch (error) {
+        console.error('❌ Error loading popular tests:', error);
     }
 }
 
