@@ -231,6 +231,22 @@
                 <div id="resultInfo" style="font-size: 1.1rem; color: #cbd5e1; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;"></div>
             </div>
 
+            <!-- 결과 화면 시간대 선택 탭 -->
+            <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 40px; flex-wrap: wrap;">
+                <button class="result-period-tab active" data-period="today" style="padding: 12px 28px; background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #1e1b4b; border: none; border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);">
+                    오늘
+                </button>
+                <button class="result-period-tab" data-period="week" style="padding: 12px 28px; background: rgba(251, 191, 36, 0.1); color: #fbbf24; border: 2px solid rgba(251, 191, 36, 0.3); border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease;">
+                    이번주
+                </button>
+                <button class="result-period-tab" data-period="month" style="padding: 12px 28px; background: rgba(251, 191, 36, 0.1); color: #fbbf24; border: 2px solid rgba(251, 191, 36, 0.3); border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease;">
+                    이번달
+                </button>
+                <button class="result-period-tab" data-period="year" style="padding: 12px 28px; background: rgba(251, 191, 36, 0.1); color: #fbbf24; border: 2px solid rgba(251, 191, 36, 0.3); border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease;">
+                    올해
+                </button>
+            </div>
+
             <!-- 종합 운세 -->
             <div style="text-align: center; background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(245, 158, 11, 0.15)); border-radius: 24px; padding: 40px; margin-bottom: 40px; border: 2px solid rgba(251, 191, 36, 0.3);">
                 <h4 id="resultPeriodTitle" style="font-size: 1.3rem; color: #fbbf24; margin-bottom: 16px; font-weight: 700;">🌟 오늘의 종합 운세</h4>
@@ -317,10 +333,12 @@
     const inputSection = document.getElementById('inputSection');
     const resultSection = document.getElementById('resultSection');
 
-    // 선택된 시간대
+    // 선택된 시간대 및 저장된 생년월일
     let selectedPeriod = 'today';
+    let savedMonth = null;
+    let savedDay = null;
 
-    // 시간대 탭 전환
+    // 시간대 탭 전환 (입력 화면)
     document.querySelectorAll('.period-tab').forEach(tab => {
         tab.addEventListener('click', function() {
             // 모든 탭 비활성화 스타일
@@ -342,6 +360,36 @@
             selectedPeriod = this.dataset.period;
         });
     });
+
+    // 시간대 탭 전환 (결과 화면) - 즉시 업데이트
+    function initResultPeriodTabs() {
+        document.querySelectorAll('.result-period-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // 모든 탭 비활성화 스타일
+                document.querySelectorAll('.result-period-tab').forEach(t => {
+                    t.style.background = 'rgba(251, 191, 36, 0.1)';
+                    t.style.color = '#fbbf24';
+                    t.style.border = '2px solid rgba(251, 191, 36, 0.3)';
+                    t.style.boxShadow = 'none';
+                    t.classList.remove('active');
+                });
+
+                // 현재 탭 활성화
+                this.style.background = 'linear-gradient(135deg, #fbbf24, #f59e0b)';
+                this.style.color = '#1e1b4b';
+                this.style.border = 'none';
+                this.style.boxShadow = '0 4px 12px rgba(251, 191, 36, 0.3)';
+                this.classList.add('active');
+
+                selectedPeriod = this.dataset.period;
+
+                // 저장된 월/일로 운세 즉시 업데이트
+                if (savedMonth && savedDay) {
+                    updateFortuneResult(savedMonth, savedDay, selectedPeriod);
+                }
+            });
+        });
+    }
 
     // 입력값 검증 및 미리보기 업데이트
     function updatePreview() {
@@ -401,7 +449,71 @@
     // 운세 확인 버튼
     submitButton.addEventListener('click', showFortune);
 
-    // 운세 결과 표시
+    // 운세 결과 렌더링 (공통 함수)
+    function renderFortuneResult(fortune, period) {
+        // 시간대별 제목
+        const periodTitles = {
+            today: '🌟 오늘의 종합 운세',
+            week: '🌟 이번주 종합 운세',
+            month: '🌟 이번달 종합 운세',
+            year: '🌟 올해 종합 운세'
+        };
+        document.getElementById('resultPeriodTitle').textContent = periodTitles[period];
+
+        // 별자리 정보
+        document.getElementById('resultIcon').textContent = fortune.zodiac.icon;
+        document.getElementById('resultName').textContent = fortune.zodiac.name;
+        document.getElementById('resultInfo').innerHTML = `
+            <span><strong>원소:</strong> ${fortune.zodiac.symbol}</span>
+            <span><strong>특성:</strong> ${fortune.zodiac.trait}</span>
+            <span><strong>기간:</strong> ${fortune.periodLabel}</span>
+        `;
+
+        // 종합 점수
+        document.getElementById('resultTotalScore').textContent = fortune.scores.total + '점';
+        document.getElementById('resultTotalStars').textContent = getStars(fortune.scores.total);
+
+        // 세부 점수
+        document.getElementById('resultLoveScore').textContent = fortune.scores.love + '점';
+        document.getElementById('resultLoveStars').textContent = getStars(fortune.scores.love);
+
+        document.getElementById('resultMoneyScore').textContent = fortune.scores.money + '점';
+        document.getElementById('resultMoneyStars').textContent = getStars(fortune.scores.money);
+
+        document.getElementById('resultWorkScore').textContent = fortune.scores.work + '점';
+        document.getElementById('resultWorkStars').textContent = getStars(fortune.scores.work);
+
+        // 행운의 아이템
+        document.getElementById('resultLuckyColor').textContent = fortune.luckyColor.name;
+        document.getElementById('resultLuckyNumber').textContent = fortune.luckyNumber;
+
+        // 운세 메시지
+        const messagesHtml = fortune.messages.map(msg => `
+            <div style="background: rgba(251, 191, 36, 0.1); border-left: 4px solid #fbbf24; border-radius: 12px; padding: 20px; color: #e2e8f0; font-size: 1.05rem; line-height: 1.8;">
+                ${msg}
+            </div>
+        `).join('');
+        document.getElementById('resultMessages').innerHTML = messagesHtml;
+
+        // 결과 화면 탭의 active 상태 업데이트
+        document.querySelectorAll('.result-period-tab').forEach(tab => {
+            if (tab.dataset.period === period) {
+                tab.style.background = 'linear-gradient(135deg, #fbbf24, #f59e0b)';
+                tab.style.color = '#1e1b4b';
+                tab.style.border = 'none';
+                tab.style.boxShadow = '0 4px 12px rgba(251, 191, 36, 0.3)';
+                tab.classList.add('active');
+            } else {
+                tab.style.background = 'rgba(251, 191, 36, 0.1)';
+                tab.style.color = '#fbbf24';
+                tab.style.border = '2px solid rgba(251, 191, 36, 0.3)';
+                tab.style.boxShadow = 'none';
+                tab.classList.remove('active');
+            }
+        });
+    }
+
+    // 처음 운세 확인 (화면 전환)
     function showFortune() {
         const month = parseInt(birthMonthInput.value);
         const day = parseInt(birthDayInput.value);
@@ -409,60 +521,41 @@
         console.log('운세 확인:', month, day, '기간:', selectedPeriod);
 
         try {
+            // 월/일 저장
+            savedMonth = month;
+            savedDay = day;
+
             const fortune = getZodiacFortune(month, day, selectedPeriod);
             console.log('운세 결과:', fortune);
 
-            // 시간대별 제목
-            const periodTitles = {
-                today: '🌟 오늘의 종합 운세',
-                week: '🌟 이번주 종합 운세',
-                month: '🌟 이번달 종합 운세',
-                year: '🌟 올해 종합 운세'
-            };
-            document.getElementById('resultPeriodTitle').textContent = periodTitles[selectedPeriod];
-
-            // 별자리 정보
-            document.getElementById('resultIcon').textContent = fortune.zodiac.icon;
-            document.getElementById('resultName').textContent = fortune.zodiac.name;
-            document.getElementById('resultInfo').innerHTML = `
-                <span><strong>원소:</strong> ${fortune.zodiac.symbol}</span>
-                <span><strong>특성:</strong> ${fortune.zodiac.trait}</span>
-                <span><strong>기간:</strong> ${fortune.periodLabel}</span>
-            `;
-
-            // 종합 점수
-            document.getElementById('resultTotalScore').textContent = fortune.scores.total + '점';
-            document.getElementById('resultTotalStars').textContent = getStars(fortune.scores.total);
-
-            // 세부 점수
-            document.getElementById('resultLoveScore').textContent = fortune.scores.love + '점';
-            document.getElementById('resultLoveStars').textContent = getStars(fortune.scores.love);
-
-            document.getElementById('resultMoneyScore').textContent = fortune.scores.money + '점';
-            document.getElementById('resultMoneyStars').textContent = getStars(fortune.scores.money);
-
-            document.getElementById('resultWorkScore').textContent = fortune.scores.work + '점';
-            document.getElementById('resultWorkStars').textContent = getStars(fortune.scores.work);
-
-            // 행운의 아이템
-            document.getElementById('resultLuckyColor').textContent = fortune.luckyColor.name;
-            document.getElementById('resultLuckyNumber').textContent = fortune.luckyNumber;
-
-            // 운세 메시지
-            const messagesHtml = fortune.messages.map(msg => `
-                <div style="background: rgba(251, 191, 36, 0.1); border-left: 4px solid #fbbf24; border-radius: 12px; padding: 20px; color: #e2e8f0; font-size: 1.05rem; line-height: 1.8;">
-                    ${msg}
-                </div>
-            `).join('');
-            document.getElementById('resultMessages').innerHTML = messagesHtml;
+            renderFortuneResult(fortune, selectedPeriod);
 
             // 화면 전환
             inputSection.style.display = 'none';
             resultSection.style.display = 'block';
             window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // 결과 화면 탭 이벤트 초기화
+            initResultPeriodTabs();
         } catch (error) {
             console.error('운세 생성 오류:', error);
             alert('운세를 생성하는 중 오류가 발생했습니다. 다시 시도해주세요.');
+        }
+    }
+
+    // 결과 화면에서 시간대만 변경 (스크롤 유지)
+    function updateFortuneResult(month, day, period) {
+        console.log('운세 업데이트:', month, day, '기간:', period);
+
+        try {
+            const fortune = getZodiacFortune(month, day, period);
+            console.log('운세 결과:', fortune);
+
+            renderFortuneResult(fortune, period);
+            // 스크롤은 유지됨 (화면 전환 없음)
+        } catch (error) {
+            console.error('운세 업데이트 오류:', error);
+            alert('운세를 업데이트하는 중 오류가 발생했습니다. 다시 시도해주세요.');
         }
     }
 

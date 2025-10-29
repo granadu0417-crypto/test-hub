@@ -445,6 +445,22 @@
                 <p id="resultDate" class="result-date"></p>
             </div>
 
+            <!-- 결과 화면 시간대 선택 탭 -->
+            <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 32px; flex-wrap: wrap;">
+                <button class="result-period-tab active" data-period="today" style="padding: 12px 28px; background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #1e1b4b; border: none; border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);">
+                    오늘
+                </button>
+                <button class="result-period-tab" data-period="week" style="padding: 12px 28px; background: rgba(251, 191, 36, 0.1); color: #fbbf24; border: 2px solid rgba(251, 191, 36, 0.3); border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease;">
+                    이번주
+                </button>
+                <button class="result-period-tab" data-period="month" style="padding: 12px 28px; background: rgba(251, 191, 36, 0.1); color: #fbbf24; border: 2px solid rgba(251, 191, 36, 0.3); border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease;">
+                    이번달
+                </button>
+                <button class="result-period-tab" data-period="year" style="padding: 12px 28px; background: rgba(251, 191, 36, 0.1); color: #fbbf24; border: 2px solid rgba(251, 191, 36, 0.3); border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease;">
+                    올해
+                </button>
+            </div>
+
             <div class="result-overall-score">
                 <div id="resultPeriodTitle" class="result-overall-score-label">종합 운세</div>
                 <div id="resultTotalScore" class="result-overall-score-value"></div>
@@ -523,10 +539,11 @@
     const inputSection = document.getElementById('inputSection');
     const resultSection = document.getElementById('resultSection');
 
-    // 선택된 시간대
+    // 선택된 시간대 및 저장된 생년
     let selectedPeriod = 'today';
+    let savedYear = null;
 
-    // 시간대 탭 전환
+    // 시간대 탭 전환 (입력 화면)
     document.querySelectorAll('.period-tab').forEach(tab => {
         tab.addEventListener('click', function() {
             // 모든 탭 비활성화 스타일
@@ -548,6 +565,36 @@
             selectedPeriod = this.dataset.period;
         });
     });
+
+    // 시간대 탭 전환 (결과 화면) - 즉시 업데이트
+    function initResultPeriodTabs() {
+        document.querySelectorAll('.result-period-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // 모든 탭 비활성화 스타일
+                document.querySelectorAll('.result-period-tab').forEach(t => {
+                    t.style.background = 'rgba(251, 191, 36, 0.1)';
+                    t.style.color = '#fbbf24';
+                    t.style.border = '2px solid rgba(251, 191, 36, 0.3)';
+                    t.style.boxShadow = 'none';
+                    t.classList.remove('active');
+                });
+
+                // 현재 탭 활성화
+                this.style.background = 'linear-gradient(135deg, #fbbf24, #f59e0b)';
+                this.style.color = '#1e1b4b';
+                this.style.border = 'none';
+                this.style.boxShadow = '0 4px 12px rgba(251, 191, 36, 0.3)';
+                this.classList.add('active');
+
+                selectedPeriod = this.dataset.period;
+
+                // 저장된 생년으로 운세 즉시 업데이트
+                if (savedYear) {
+                    updateFortuneResult(savedYear, selectedPeriod);
+                }
+            });
+        });
+    }
 
     // 입력 감지
     birthYearInput.addEventListener('input', function() {
@@ -581,13 +628,8 @@
     // 운세 보기
     submitButton.addEventListener('click', showFortune);
 
-    function showFortune() {
-        const year = parseInt(birthYearInput.value);
-        if (!year) return;
-
-        // 운세 계산
-        const fortune = getChineseZodiacFortune(year, selectedPeriod);
-
+    // 운세 결과 렌더링 (공통 함수)
+    function renderFortuneResult(fortune, period) {
         // 시간대별 제목
         const periodTitles = {
             today: '오늘의 종합 운세',
@@ -595,7 +637,7 @@
             month: '이번달 종합 운세',
             year: '올해 종합 운세'
         };
-        document.getElementById('resultPeriodTitle').textContent = periodTitles[selectedPeriod];
+        document.getElementById('resultPeriodTitle').textContent = periodTitles[period];
 
         // 결과 표시
         document.getElementById('resultIcon').textContent = fortune.zodiac.icon;
@@ -622,12 +664,53 @@
         document.getElementById('resultOverallMessage').textContent = fortune.messages.overall;
         document.getElementById('resultSpecialMessage').textContent = fortune.messages.special;
 
+        // 결과 화면 탭의 active 상태 업데이트
+        document.querySelectorAll('.result-period-tab').forEach(tab => {
+            if (tab.dataset.period === period) {
+                tab.style.background = 'linear-gradient(135deg, #fbbf24, #f59e0b)';
+                tab.style.color = '#1e1b4b';
+                tab.style.border = 'none';
+                tab.style.boxShadow = '0 4px 12px rgba(251, 191, 36, 0.3)';
+                tab.classList.add('active');
+            } else {
+                tab.style.background = 'rgba(251, 191, 36, 0.1)';
+                tab.style.color = '#fbbf24';
+                tab.style.border = '2px solid rgba(251, 191, 36, 0.3)';
+                tab.style.boxShadow = 'none';
+                tab.classList.remove('active');
+            }
+        });
+    }
+
+    // 처음 운세 확인 (화면 전환)
+    function showFortune() {
+        const year = parseInt(birthYearInput.value);
+        if (!year) return;
+
+        // 생년 저장
+        savedYear = year;
+
+        // 운세 계산
+        const fortune = getChineseZodiacFortune(year, selectedPeriod);
+
+        renderFortuneResult(fortune, selectedPeriod);
+
         // 화면 전환
         inputSection.style.display = 'none';
         resultSection.style.display = 'block';
 
         // 스크롤 to top
         window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        // 결과 화면 탭 이벤트 초기화
+        initResultPeriodTabs();
+    }
+
+    // 결과 화면에서 시간대만 변경 (스크롤 유지)
+    function updateFortuneResult(year, period) {
+        const fortune = getChineseZodiacFortune(year, period);
+        renderFortuneResult(fortune, period);
+        // 스크롤은 유지됨 (화면 전환 없음)
     }
 
     function resetFortune() {
