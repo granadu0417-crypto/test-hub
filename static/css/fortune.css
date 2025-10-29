@@ -381,13 +381,56 @@
         font-size: 2rem;
     }
 
+    /* 🎨 3열 그리드 레이아웃 (모바일 최적화) */
     .fortune-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
     }
 
+    /* 🎴 컴팩트한 카드 디자인 */
     .fortune-card {
-        padding: 30px;
+        padding: 16px 12px;
+        border-radius: 16px;
+        min-height: 140px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* ✨ 아이콘 크기 조정 */
+    .fortune-icon {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+
+    /* 📝 제목 크기 조정 */
+    .fortune-title {
+        font-size: 0.95rem;
+        margin-bottom: 6px;
+        line-height: 1.3;
+    }
+
+    /* 📄 설명 텍스트 숨김 (공간 절약) */
+    .fortune-summary {
+        display: none;
+    }
+
+    /* 🏷️ 메타 정보 숨김 (모바일에서는 불필요) */
+    .fortune-meta {
+        display: none;
+    }
+
+    /* 🎯 호버 효과 조정 (모바일 터치 친화적) */
+    .fortune-card:hover {
+        transform: translateY(-6px) scale(1.03);
+        box-shadow: 0 12px 40px rgba(251, 191, 36, 0.35);
+    }
+
+    /* 💫 애니메이션 최적화 */
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
     }
 
     .quick-fortune-card {
