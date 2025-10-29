@@ -429,46 +429,106 @@
                 <div id="chineseCompat" class="compat-detail-content"></div>
             </div>
 
-            <!-- 장점 -->
-            <div class="compat-detail-box">
-                <div class="compat-detail-title">✨ 이 관계의 장점</div>
-                <ul id="strengthsList" class="compat-detail-list"></ul>
+            <!-- 관계 분석 아코디언 -->
+            <div class="accordion-section" style="margin-bottom: 24px;">
+                <button class="accordion-header" onclick="toggleAccordion('relationshipAnalysis')"
+                        style="width: 100%; background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2));
+                        border: 2px solid rgba(251, 191, 36, 0.4); border-radius: 16px; padding: 20px; cursor: pointer;
+                        display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;"
+                        onmouseover="this.style.background='linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(245, 158, 11, 0.3))';
+                                     this.style.transform='translateY(-2px)';
+                                     this.style.boxShadow='0 6px 20px rgba(251, 191, 36, 0.3)';"
+                        onmouseout="this.style.background='linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2))';
+                                    this.style.transform='translateY(0)';
+                                    this.style.boxShadow='none';">
+                    <span style="font-size: 1.2rem; color: #fbbf24; font-weight: 700;">💎 관계 분석 보기</span>
+                    <span class="accordion-icon" style="font-size: 1.5rem; color: #fbbf24; transition: transform 0.3s ease;">▼</span>
+                </button>
+                <div id="relationshipAnalysis" class="accordion-content" style="overflow: hidden; transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.3s ease;">
+                    <div class="accordion-inner" style="padding-top: 20px;">
+                        <!-- 장점 -->
+                        <div class="compat-detail-box">
+                            <div class="compat-detail-title">✨ 이 관계의 장점</div>
+                            <ul id="strengthsList" class="compat-detail-list"></ul>
+                        </div>
+
+                        <!-- 주의사항 -->
+                        <div class="compat-detail-box">
+                            <div class="compat-detail-title">⚠️ 주의할 점</div>
+                            <ul id="cautionsList" class="compat-detail-list"></ul>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- 주의사항 -->
-            <div class="compat-detail-box">
-                <div class="compat-detail-title">⚠️ 주의할 점</div>
-                <ul id="cautionsList" class="compat-detail-list"></ul>
+            <!-- 연애 가이드 아코디언 -->
+            <div class="accordion-section" style="margin-bottom: 24px;">
+                <button class="accordion-header" onclick="toggleAccordion('loveGuide')"
+                        style="width: 100%; background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2));
+                        border: 2px solid rgba(251, 191, 36, 0.4); border-radius: 16px; padding: 20px; cursor: pointer;
+                        display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;"
+                        onmouseover="this.style.background='linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(245, 158, 11, 0.3))';
+                                     this.style.transform='translateY(-2px)';
+                                     this.style.boxShadow='0 6px 20px rgba(251, 191, 36, 0.3)';"
+                        onmouseout="this.style.background='linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2))';
+                                    this.style.transform='translateY(0)';
+                                    this.style.boxShadow='none';">
+                    <span style="font-size: 1.2rem; color: #fbbf24; font-weight: 700;">💕 연애 가이드 보기</span>
+                    <span class="accordion-icon" style="font-size: 1.5rem; color: #fbbf24; transition: transform 0.3s ease;">▼</span>
+                </button>
+                <div id="loveGuide" class="accordion-content" style="overflow: hidden; transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.3s ease;">
+                    <div class="accordion-inner" style="padding-top: 20px;">
+                        <!-- 조언 -->
+                        <div class="compat-detail-box">
+                            <div class="compat-detail-title">💡 연애 조언</div>
+                            <div id="loveAdvice" class="compat-detail-content"></div>
+                        </div>
+
+                        <!-- 데이트 아이디어 -->
+                        <div class="compat-detail-box">
+                            <div class="compat-detail-title">💑 추천 데이트 아이디어</div>
+                            <ul id="dateIdeasList" class="compat-detail-list"></ul>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- 조언 -->
-            <div class="compat-detail-box">
-                <div class="compat-detail-title">💡 연애 조언</div>
-                <div id="loveAdvice" class="compat-detail-content"></div>
-            </div>
+            <!-- 심화 조언 아코디언 -->
+            <div class="accordion-section" style="margin-bottom: 40px;">
+                <button class="accordion-header" onclick="toggleAccordion('advancedTips')"
+                        style="width: 100%; background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2));
+                        border: 2px solid rgba(251, 191, 36, 0.4); border-radius: 16px; padding: 20px; cursor: pointer;
+                        display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;"
+                        onmouseover="this.style.background='linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(245, 158, 11, 0.3))';
+                                     this.style.transform='translateY(-2px)';
+                                     this.style.boxShadow='0 6px 20px rgba(251, 191, 36, 0.3)';"
+                        onmouseout="this.style.background='linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2))';
+                                    this.style.transform='translateY(0)';
+                                    this.style.boxShadow='none';">
+                    <span style="font-size: 1.2rem; color: #fbbf24; font-weight: 700;">🔮 심화 조언 보기</span>
+                    <span class="accordion-icon" style="font-size: 1.5rem; color: #fbbf24; transition: transform 0.3s ease;">▼</span>
+                </button>
+                <div id="advancedTips" class="accordion-content" style="overflow: hidden; transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.3s ease;">
+                    <div class="accordion-inner" style="padding-top: 20px;">
+                        <!-- 커뮤니케이션 팁 -->
+                        <div class="compat-detail-box">
+                            <div class="compat-detail-title">💬 소통 비법</div>
+                            <ul id="communicationTipsList" class="compat-detail-list"></ul>
+                        </div>
 
-            <!-- 데이트 아이디어 -->
-            <div class="compat-detail-box">
-                <div class="compat-detail-title">💑 추천 데이트 아이디어</div>
-                <ul id="dateIdeasList" class="compat-detail-list"></ul>
-            </div>
+                        <!-- 갈등 해결 방법 -->
+                        <div class="compat-detail-box">
+                            <div class="compat-detail-title">🤝 갈등 해결 가이드</div>
+                            <ul id="conflictResolutionList" class="compat-detail-list"></ul>
+                        </div>
 
-            <!-- 커뮤니케이션 팁 -->
-            <div class="compat-detail-box">
-                <div class="compat-detail-title">💬 소통 비법</div>
-                <ul id="communicationTipsList" class="compat-detail-list"></ul>
-            </div>
-
-            <!-- 갈등 해결 방법 -->
-            <div class="compat-detail-box">
-                <div class="compat-detail-title">🤝 갈등 해결 가이드</div>
-                <ul id="conflictResolutionList" class="compat-detail-list"></ul>
-            </div>
-
-            <!-- 장기적 전망 -->
-            <div class="compat-detail-box">
-                <div class="compat-detail-title">🔮 장기적 관계 전망</div>
-                <ul id="longTermOutlookList" class="compat-detail-list"></ul>
+                        <!-- 장기적 전망 -->
+                        <div class="compat-detail-box">
+                            <div class="compat-detail-title">🔮 장기적 관계 전망</div>
+                            <ul id="longTermOutlookList" class="compat-detail-list"></ul>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- 공유하기 -->
@@ -531,6 +591,11 @@
             inputSection.style.display = 'none';
             resultSection.style.display = 'block';
             window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // 아코디언 초기화
+            setTimeout(() => {
+                initializeAccordions();
+            }, 100);
 
         } catch (error) {
             console.error('궁합 분석 오류:', error);
@@ -765,6 +830,76 @@
             }
         }
     }
+
+    // 아코디언 시스템
+    function toggleAccordion(id) {
+        const content = document.getElementById(id);
+        const button = content.previousElementSibling;
+        const icon = button.querySelector('.accordion-icon');
+
+        if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+            // 접기
+            content.style.maxHeight = '0px';
+            content.style.opacity = '0';
+            content.style.paddingTop = '0';
+            content.style.paddingBottom = '0';
+            icon.style.transform = 'rotate(0deg)';
+            button.setAttribute('aria-expanded', 'false');
+        } else {
+            // 펼치기
+            content.style.maxHeight = content.scrollHeight + 'px';
+            content.style.opacity = '1';
+            content.style.paddingTop = '0';
+            content.style.paddingBottom = '0';
+            icon.style.transform = 'rotate(180deg)';
+            button.setAttribute('aria-expanded', 'true');
+
+            // 약간의 여유 공간 추가
+            setTimeout(() => {
+                content.style.maxHeight = (content.scrollHeight + 50) + 'px';
+            }, 100);
+        }
+    }
+
+    function initializeAccordions() {
+        const isMobile = window.innerWidth <= 768;
+        const accordions = ['relationshipAnalysis', 'loveGuide', 'advancedTips'];
+
+        accordions.forEach(id => {
+            const content = document.getElementById(id);
+            const button = content.previousElementSibling;
+            const icon = button.querySelector('.accordion-icon');
+
+            if (isMobile) {
+                // 모바일: 기본 접힘
+                content.style.maxHeight = '0px';
+                content.style.opacity = '0';
+                icon.style.transform = 'rotate(0deg)';
+                button.setAttribute('aria-expanded', 'false');
+            } else {
+                // PC: 기본 펼침
+                content.style.maxHeight = (content.scrollHeight + 50) + 'px';
+                content.style.opacity = '1';
+                icon.style.transform = 'rotate(180deg)';
+                button.setAttribute('aria-expanded', 'true');
+            }
+        });
+    }
+
+    // Resize handler with debounce
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            const accordions = ['relationshipAnalysis', 'loveGuide', 'advancedTips'];
+            accordions.forEach(id => {
+                const content = document.getElementById(id);
+                if (content.style.opacity === '1') {
+                    content.style.maxHeight = (content.scrollHeight + 50) + 'px';
+                }
+            });
+        }, 250);
+    });
 </script>
 
 {{ end }}
