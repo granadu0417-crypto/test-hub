@@ -21,7 +21,7 @@
     <meta property="og:url" content="{{ .Permalink }}">
     <meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
     <meta property="og:description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
-    <meta property="og:image" content="{{ .Site.BaseURL }}images/{{ if .Params.ogImage }}{{ .Params.ogImage }}{{ else }}og-image.jpg{{ end }}">
+    <meta property="og:image" content="{{ .Site.BaseURL }}{{ if .Params.ogImage }}{{ strings.TrimPrefix "/" .Params.ogImage }}{{ else }}images/og-image.jpg{{ end }}">
     <meta property="og:site_name" content="{{ .Site.Title }}">
     <meta property="og:locale" content="ko_KR">
 
@@ -29,7 +29,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
     <meta name="twitter:description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
-    <meta name="twitter:image" content="{{ .Site.BaseURL }}images/{{ if .Params.ogImage }}{{ .Params.ogImage }}{{ else }}og-image.jpg{{ end }}">
+    <meta name="twitter:image" content="{{ .Site.BaseURL }}{{ if .Params.ogImage }}{{ strings.TrimPrefix "/" .Params.ogImage }}{{ else }}images/og-image.jpg{{ end }}">
 
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#667eea">

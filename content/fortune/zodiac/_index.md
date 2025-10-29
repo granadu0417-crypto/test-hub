@@ -5,6 +5,7 @@ keywords: "별자리운세, 오늘의운세, 12별자리, 양자리, 황소자�
 type: "fortune"
 layout: "zodiac"
 date: 2025-10-29
+ogImage: "/images/og/og-fortune-zodiac.png"
 ---
 
 생년월일로 나의 별자리를 확인하고 오늘의 운세를 확인해보세요!
