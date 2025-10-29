@@ -266,9 +266,12 @@
             </div>
 
             <!-- 공유하기 섹션 -->
-            <div style="background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(245, 158, 11, 0.15)); border-radius: 20px; padding: 36px; text-align: center; border: 2px solid rgba(251, 191, 36, 0.3);">
+            <div class="share-section-fortune" style="background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(245, 158, 11, 0.15)); border-radius: 20px; padding: 36px; text-align: center; border: 2px solid rgba(251, 191, 36, 0.3);">
                 <h4 style="font-size: 1.4rem; color: #fbbf24; margin-bottom: 24px; font-weight: 800;">💬 결과를 친구에게 공유하기</h4>
                 <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+                    <button onclick="downloadFortuneImage()" style="padding: 14px 32px; background: linear-gradient(135deg, #f093fb, #f5576c); color: white; border: none; border-radius: 50px; font-size: 1.05rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 16px rgba(245, 87, 108, 0.3);" id="downloadBtn">
+                        <span style="font-size: 1.3rem;">📸</span> <span class="download-text">이미지 저장</span>
+                    </button>
                     <button onclick="shareFacebook()" style="padding: 14px 32px; background: linear-gradient(135deg, #3b5998, #2d4373); color: white; border: none; border-radius: 50px; font-size: 1.05rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 16px rgba(59, 89, 152, 0.3);">
                         <span style="font-size: 1.3rem;">📘</span> 페이스북 공유
                     </button>
@@ -465,6 +468,111 @@
         }
 
         document.body.removeChild(textArea);
+    }
+
+    // 이미지 저장 함수
+    async function downloadFortuneImage() {
+        const downloadBtn = document.querySelector('.download-text');
+        if (downloadBtn) {
+            downloadBtn.textContent = '생성 중...';
+        }
+
+        try {
+            // html2canvas가 로드되었는지 확인
+            if (typeof html2canvas === 'undefined') {
+                throw new Error('html2canvas가 로드되지 않았습니다.');
+            }
+
+            const resultContainer = document.querySelector('.fortune-result-container');
+            if (!resultContainer) {
+                throw new Error('결과를 찾을 수 없습니다.');
+            }
+
+            // 공유 버튼 섹션 숨기기 (캡처에서 제외)
+            const shareSection = document.querySelector('.share-section-fortune');
+            const originalDisplay = shareSection ? shareSection.style.display : '';
+            if (shareSection) shareSection.style.display = 'none';
+
+            // 다시하기 버튼 숨기기
+            const resetBtn = resultContainer.nextElementSibling;
+            const resetBtnDisplay = resetBtn ? resetBtn.style.display : '';
+            if (resetBtn && resetBtn.querySelector('button[onclick="resetFortune()"]')) {
+                resetBtn.style.display = 'none';
+            }
+
+            // 배경색 임시 설정
+            const originalBg = resultContainer.style.background;
+            resultContainer.style.background = 'linear-gradient(135deg, #1e1b4b, #312e81)';
+
+            // 브랜드 워터마크 추가
+            const watermark = document.createElement('div');
+            watermark.style.cssText = 'text-align: center; margin-top: 30px; padding-top: 20px; border-top: 2px solid rgba(251, 191, 36, 0.3); font-size: 14px; color: #fbbf24; font-weight: 600;';
+            watermark.innerHTML = '✨ natest.kr에서 더 많은 운세를 확인하세요!';
+            resultContainer.appendChild(watermark);
+
+            // html2canvas로 캡처
+            const canvas = await html2canvas(resultContainer, {
+                backgroundColor: '#1e1b4b',
+                scale: 2, // 고해상도
+                logging: false,
+                useCORS: true,
+                allowTaint: true,
+                width: resultContainer.scrollWidth,
+                height: resultContainer.scrollHeight
+            });
+
+            // 워터마크 제거
+            resultContainer.removeChild(watermark);
+
+            // 공유 버튼 섹션 복원
+            if (shareSection) shareSection.style.display = originalDisplay;
+
+            // 다시하기 버튼 복원
+            if (resetBtn) resetBtn.style.display = resetBtnDisplay;
+
+            // 배경 복원
+            resultContainer.style.background = originalBg;
+
+            // Canvas를 Blob으로 변환
+            canvas.toBlob((blob) => {
+                if (!blob) {
+                    throw new Error('이미지 생성에 실패했습니다.');
+                }
+
+                // 파일명 생성
+                const zodiacName = document.getElementById('resultName').textContent || '별자리';
+                const today = new Date();
+                const dateStr = `${today.getMonth() + 1}월${today.getDate()}일`;
+                const fileName = `${zodiacName}_오늘의운세_${dateStr}.png`;
+
+                // 다운로드
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = fileName;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+
+                // 버튼 텍스트 변경
+                if (downloadBtn) {
+                    downloadBtn.textContent = '저장 완료!';
+                    setTimeout(() => {
+                        downloadBtn.textContent = '이미지 저장';
+                    }, 2000);
+                }
+            }, 'image/png');
+
+        } catch (error) {
+            console.error('이미지 다운로드 실패:', error);
+            alert('이미지 저장에 실패했습니다. 다시 시도해주세요.');
+
+            // 버튼 텍스트 복원
+            if (downloadBtn) {
+                downloadBtn.textContent = '이미지 저장';
+            }
+        }
     }
 </script>
 

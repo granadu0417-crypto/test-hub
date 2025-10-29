@@ -480,6 +480,9 @@
             <div class="share-section">
                 <h4>💬 결과를 친구에게 공유하기</h4>
                 <div class="share-buttons">
+                    <button class="btn-share btn-download" onclick="downloadChineseZodiacImage()" style="background: linear-gradient(135deg, #f093fb, #f5576c); box-shadow: 0 4px 15px rgba(245, 87, 108, 0.3);">
+                        <span>📸</span> <span class="download-text">이미지 저장</span>
+                    </button>
                     <button class="btn-share btn-facebook" onclick="shareFacebook()">
                         <span>📘</span> 페이스북
                     </button>
@@ -635,6 +638,99 @@
         }
 
         document.body.removeChild(textArea);
+    }
+
+    // 이미지 저장 함수
+    async function downloadChineseZodiacImage() {
+        const downloadBtn = document.querySelector('.download-text');
+        if (downloadBtn) {
+            downloadBtn.textContent = '생성 중...';
+        }
+
+        try {
+            // html2canvas가 로드되었는지 확인
+            if (typeof html2canvas === 'undefined') {
+                throw new Error('html2canvas가 로드되지 않았습니다.');
+            }
+
+            const resultSection = document.getElementById('resultSection');
+            if (!resultSection) {
+                throw new Error('결과를 찾을 수 없습니다.');
+            }
+
+            // 공유 버튼 섹션과 다시하기 버튼 숨기기
+            const shareSection = document.querySelector('.share-section');
+            const resultActions = document.querySelector('.result-actions');
+            const shareSectionDisplay = shareSection ? shareSection.style.display : '';
+            const resultActionsDisplay = resultActions ? resultActions.style.display : '';
+
+            if (shareSection) shareSection.style.display = 'none';
+            if (resultActions) resultActions.style.display = 'none';
+
+            // 브랜드 워터마크 추가
+            const watermark = document.createElement('div');
+            watermark.style.cssText = 'text-align: center; margin-top: 30px; padding-top: 20px; border-top: 2px solid rgba(251, 191, 36, 0.3); font-size: 14px; color: #fbbf24; font-weight: 600;';
+            watermark.innerHTML = '✨ natest.kr에서 더 많은 운세를 확인하세요!';
+            resultSection.appendChild(watermark);
+
+            // html2canvas로 캡처
+            const canvas = await html2canvas(resultSection, {
+                backgroundColor: '#1e1b4b',
+                scale: 2, // 고해상도
+                logging: false,
+                useCORS: true,
+                allowTaint: true,
+                width: resultSection.scrollWidth,
+                height: resultSection.scrollHeight
+            });
+
+            // 워터마크 제거
+            resultSection.removeChild(watermark);
+
+            // 공유 버튼 섹션과 다시하기 버튼 복원
+            if (shareSection) shareSection.style.display = shareSectionDisplay;
+            if (resultActions) resultActions.style.display = resultActionsDisplay;
+
+            // Canvas를 Blob으로 변환
+            canvas.toBlob((blob) => {
+                if (!blob) {
+                    throw new Error('이미지 생성에 실패했습니다.');
+                }
+
+                // 파일명 생성
+                const zodiacName = document.getElementById('resultName').textContent || '띠';
+                const today = new Date();
+                const dateStr = `${today.getMonth() + 1}월${today.getDate()}일`;
+                const fileName = `${zodiacName}_오늘의운세_${dateStr}.png`;
+
+                // 다운로드
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = fileName;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+
+                // 버튼 텍스트 변경
+                if (downloadBtn) {
+                    downloadBtn.textContent = '저장 완료!';
+                    setTimeout(() => {
+                        downloadBtn.textContent = '이미지 저장';
+                    }, 2000);
+                }
+            }, 'image/png');
+
+        } catch (error) {
+            console.error('이미지 다운로드 실패:', error);
+            alert('이미지 저장에 실패했습니다. 다시 시도해주세요.');
+
+            // 버튼 텍스트 복원
+            if (downloadBtn) {
+                downloadBtn.textContent = '이미지 저장';
+            }
+        }
     }
 </script>
 {{ end }}
