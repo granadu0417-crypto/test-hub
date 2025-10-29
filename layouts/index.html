@@ -1454,9 +1454,9 @@ function loadTodayPickTest() {
         {
             title: {{ .Title | jsonify }},
             summary: {{ .Params.summary | jsonify }},
-            icon: {{ .Params.icon | jsonify }},
-            questionCount: {{ .Params.questionCount | default 10 }},
-            duration: {{ .Params.duration | default "약 3분" | jsonify }},
+            icon: {{ if .Params.icon }}{{ .Params.icon | jsonify }}{{ else }}"🎯"{{ end }},
+            questionCount: {{ if .Params.questionCount }}{{ .Params.questionCount }}{{ else }}10{{ end }},
+            duration: {{ if .Params.duration }}{{ .Params.duration | jsonify }}{{ else }}"약 3분"{{ end }},
             url: {{ .Permalink | jsonify }}
         },
         {{ end }}
@@ -1471,17 +1471,18 @@ function loadTodayPickTest() {
     // HTML 생성
     const container = document.getElementById('todayPickTest');
     if (container && pickedTest) {
-        const questionText = pickedTest.questionCount ? `❓ ${pickedTest.questionCount}개 질문` : '';
-        const durationText = pickedTest.duration ? `⏱️ ${pickedTest.duration}` : '';
-        const metaHTML = (questionText || durationText) ? `
+        const questionCount = pickedTest.questionCount || 10;
+        const duration = pickedTest.duration || '약 3분';
+
+        const metaHTML = `
             <div class="today-pick-test-meta">
-                ${questionText ? `<span>${questionText}</span>` : ''}
-                ${durationText ? `<span>${durationText}</span>` : ''}
+                <span>❓ ${questionCount}개 질문</span>
+                <span>⏱️ ${duration}</span>
             </div>
-        ` : '';
+        `;
 
         container.innerHTML = `
-            <div class="today-pick-icon">${pickedTest.icon || '🎯'}</div>
+            <div class="today-pick-icon">${pickedTest.icon}</div>
             <h3 class="today-pick-test-title">${pickedTest.title}</h3>
             <p class="today-pick-test-summary">${pickedTest.summary || ''}</p>
             ${metaHTML}
@@ -1489,14 +1490,6 @@ function loadTodayPickTest() {
                 <a href="${pickedTest.url}" class="today-pick-btn">지금 바로 시작하기 →</a>
             </div>
         `;
-
-        // 클릭 이벤트 추가
-        container.style.cursor = 'default';
-        container.addEventListener('click', (e) => {
-            if (e.target.tagName !== 'A') {
-                window.location.href = pickedTest.url;
-            }
-        });
     }
 }
 
@@ -1508,9 +1501,9 @@ function loadPopularTests() {
             id: {{ path.Base .File.Path | jsonify }},
             title: {{ .Title | jsonify }},
             summary: {{ .Params.summary | jsonify }},
-            icon: {{ .Params.icon | jsonify }},
-            questionCount: {{ .Params.questionCount | default 10 }},
-            duration: {{ .Params.duration | default "약 3분" | jsonify }},
+            icon: {{ if .Params.icon }}{{ .Params.icon | jsonify }}{{ else }}"🎯"{{ end }},
+            questionCount: {{ if .Params.questionCount }}{{ .Params.questionCount }}{{ else }}10{{ end }},
+            duration: {{ if .Params.duration }}{{ .Params.duration | jsonify }}{{ else }}"약 3분"{{ end }},
             url: {{ .Permalink | jsonify }}
         },
         {{ end }}
@@ -1560,12 +1553,12 @@ function loadPopularTests() {
                     <span class="test-badge" style="background: linear-gradient(135deg, ${getRankColor(index)}); animation: pulse 2s ease-in-out infinite;">
                         🏆 ${index + 1}위
                     </span>
-                    <div class="test-icon">${test.icon || '🎯'}</div>
+                    <div class="test-icon">${test.icon}</div>
                     <h3 class="test-title">${test.title}</h3>
                     <p class="test-summary">${test.summary || ''}</p>
                     <div class="test-meta">
-                        ${test.questionCount ? `<span>❓ ${test.questionCount}개 질문</span>` : ''}
-                        ${test.duration ? `<span>⏱️ ${test.duration}</span>` : ''}
+                        <span>❓ ${test.questionCount}개 질문</span>
+                        <span>⏱️ ${test.duration}</span>
                     </div>
                     <div class="test-meta" style="border-top: 1px solid #e2e8f0; padding-top: 12px; margin-top: 12px;">
                         <span style="color: #EF4444; font-weight: 700;">🔥 ${test.count.toLocaleString()}명 참여</span>
