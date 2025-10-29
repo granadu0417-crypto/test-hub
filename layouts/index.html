@@ -1411,38 +1411,68 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // 드래그 기능
+        // 드래그 기능 (링크 클릭 보호)
         let isDown = false;
         let startX;
         let scrollLeft;
+        let hasMoved = false;
 
         slider.addEventListener('mousedown', (e) => {
+            // 링크나 버튼을 직접 클릭한 경우 드래그 방지
+            if (e.target.closest('a') || e.target.closest('button')) {
+                return;
+            }
+
             isDown = true;
+            hasMoved = false;
             slider.style.cursor = 'grabbing';
             startX = e.pageX - slider.offsetLeft;
             scrollLeft = slider.scrollLeft;
-            stopAutoSlide(slider.id); // 드래그 시작 시 자동 재생 중지
         });
 
         slider.addEventListener('mouseleave', () => {
             if (isDown) {
                 isDown = false;
+                hasMoved = false;
                 slider.style.cursor = 'grab';
             }
         });
 
         slider.addEventListener('mouseup', () => {
             isDown = false;
+            hasMoved = false;
             slider.style.cursor = 'grab';
         });
 
         slider.addEventListener('mousemove', (e) => {
             if (!isDown) return;
-            e.preventDefault();
+
             const x = e.pageX - slider.offsetLeft;
-            const walk = (x - startX) * 2;
-            slider.scrollLeft = scrollLeft - walk;
+            const distance = Math.abs(x - startX);
+
+            // 5px 이상 움직였을 때만 실제 드래그로 인식
+            if (distance > 5) {
+                hasMoved = true;
+                e.preventDefault();
+                const walk = (x - startX) * 2;
+                slider.scrollLeft = scrollLeft - walk;
+
+                // 드래그 중일 때만 자동 재생 중지
+                if (hasMoved) {
+                    stopAutoSlide(slider.id);
+                }
+            }
         });
+
+        // 클릭 이벤트 보호
+        slider.addEventListener('click', (e) => {
+            // 드래그했으면 클릭 이벤트 차단
+            if (hasMoved) {
+                e.preventDefault();
+                e.stopPropagation();
+                hasMoved = false;
+            }
+        }, true);
 
         // 터치 이벤트로 자동 재생 제어
         slider.addEventListener('touchstart', () => {
@@ -1479,11 +1509,16 @@ function loadTodayPickTest() {
             {{ end }}
         ];
 
+        console.log('🔍 Total tests loaded:', allTests.length);
+        console.log('🔍 Sample test URL:', allTests[0]?.url);
+
         // 오늘 날짜를 기반으로 결정론적으로 테스트 선택
         const today = new Date();
         const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
         const testIndex = dayOfYear % allTests.length;
         const pickedTest = allTests[testIndex];
+
+        console.log('🔍 Today\'s Pick URL:', pickedTest?.url);
 
         // HTML 생성
         const container = document.getElementById('todayPickTest');
