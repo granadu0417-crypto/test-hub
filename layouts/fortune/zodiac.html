@@ -180,11 +180,27 @@
 
         <!-- 입력 섹션 -->
         <div id="inputSection" class="fortune-input-container">
-            <h2 class="fortune-input-title">♈ 별자리 오늘의 운세</h2>
+            <h2 class="fortune-input-title">♈ 별자리 운세</h2>
             <p class="fortune-input-subtitle">
                 생년월일을 입력하시면 자동으로 별자리를 확인하고<br>
-                오늘의 운세를 알려드립니다 ✨
+                선택한 시간대의 운세를 알려드립니다 ✨
             </p>
+
+            <!-- 시간대 선택 탭 -->
+            <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 40px; flex-wrap: wrap;">
+                <button class="period-tab active" data-period="today" style="padding: 12px 28px; background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #1e1b4b; border: none; border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);">
+                    오늘
+                </button>
+                <button class="period-tab" data-period="week" style="padding: 12px 28px; background: rgba(251, 191, 36, 0.1); color: #fbbf24; border: 2px solid rgba(251, 191, 36, 0.3); border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease;">
+                    이번주
+                </button>
+                <button class="period-tab" data-period="month" style="padding: 12px 28px; background: rgba(251, 191, 36, 0.1); color: #fbbf24; border: 2px solid rgba(251, 191, 36, 0.3); border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease;">
+                    이번달
+                </button>
+                <button class="period-tab" data-period="year" style="padding: 12px 28px; background: rgba(251, 191, 36, 0.1); color: #fbbf24; border: 2px solid rgba(251, 191, 36, 0.3); border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease;">
+                    올해
+                </button>
+            </div>
 
             <div class="birth-date-inputs">
                 <div class="input-group">
@@ -215,9 +231,9 @@
                 <div id="resultInfo" style="font-size: 1.1rem; color: #cbd5e1; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;"></div>
             </div>
 
-            <!-- 오늘의 종합 운세 -->
+            <!-- 종합 운세 -->
             <div style="text-align: center; background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(245, 158, 11, 0.15)); border-radius: 24px; padding: 40px; margin-bottom: 40px; border: 2px solid rgba(251, 191, 36, 0.3);">
-                <h4 style="font-size: 1.3rem; color: #fbbf24; margin-bottom: 16px; font-weight: 700;">🌟 오늘의 종합 운세</h4>
+                <h4 id="resultPeriodTitle" style="font-size: 1.3rem; color: #fbbf24; margin-bottom: 16px; font-weight: 700;">🌟 오늘의 종합 운세</h4>
                 <div id="resultTotalScore" style="font-size: 4rem; font-weight: 900; background: linear-gradient(135deg, #fbbf24, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 16px;"></div>
                 <div id="resultTotalStars" style="font-size: 2rem; letter-spacing: 4px;"></div>
             </div>
@@ -301,6 +317,32 @@
     const inputSection = document.getElementById('inputSection');
     const resultSection = document.getElementById('resultSection');
 
+    // 선택된 시간대
+    let selectedPeriod = 'today';
+
+    // 시간대 탭 전환
+    document.querySelectorAll('.period-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            // 모든 탭 비활성화 스타일
+            document.querySelectorAll('.period-tab').forEach(t => {
+                t.style.background = 'rgba(251, 191, 36, 0.1)';
+                t.style.color = '#fbbf24';
+                t.style.border = '2px solid rgba(251, 191, 36, 0.3)';
+                t.style.boxShadow = 'none';
+                t.classList.remove('active');
+            });
+
+            // 현재 탭 활성화
+            this.style.background = 'linear-gradient(135deg, #fbbf24, #f59e0b)';
+            this.style.color = '#1e1b4b';
+            this.style.border = 'none';
+            this.style.boxShadow = '0 4px 12px rgba(251, 191, 36, 0.3)';
+            this.classList.add('active');
+
+            selectedPeriod = this.dataset.period;
+        });
+    });
+
     // 입력값 검증 및 미리보기 업데이트
     function updatePreview() {
         const month = parseInt(birthMonthInput.value);
@@ -364,11 +406,20 @@
         const month = parseInt(birthMonthInput.value);
         const day = parseInt(birthDayInput.value);
 
-        console.log('운세 확인:', month, day);
+        console.log('운세 확인:', month, day, '기간:', selectedPeriod);
 
         try {
-            const fortune = getTodayZodiacFortune(month, day);
+            const fortune = getZodiacFortune(month, day, selectedPeriod);
             console.log('운세 결과:', fortune);
+
+            // 시간대별 제목
+            const periodTitles = {
+                today: '🌟 오늘의 종합 운세',
+                week: '🌟 이번주 종합 운세',
+                month: '🌟 이번달 종합 운세',
+                year: '🌟 올해 종합 운세'
+            };
+            document.getElementById('resultPeriodTitle').textContent = periodTitles[selectedPeriod];
 
             // 별자리 정보
             document.getElementById('resultIcon').textContent = fortune.zodiac.icon;
@@ -376,6 +427,7 @@
             document.getElementById('resultInfo').innerHTML = `
                 <span><strong>원소:</strong> ${fortune.zodiac.symbol}</span>
                 <span><strong>특성:</strong> ${fortune.zodiac.trait}</span>
+                <span><strong>기간:</strong> ${fortune.periodLabel}</span>
             `;
 
             // 종합 점수
@@ -543,7 +595,13 @@
                 const zodiacName = document.getElementById('resultName').textContent || '별자리';
                 const today = new Date();
                 const dateStr = `${today.getMonth() + 1}월${today.getDate()}일`;
-                const fileName = `${zodiacName}_오늘의운세_${dateStr}.png`;
+                const periodNames = {
+                    today: '오늘의운세',
+                    week: '이번주운세',
+                    month: '이번달운세',
+                    year: '올해운세'
+                };
+                const fileName = `${zodiacName}_${periodNames[selectedPeriod]}_${dateStr}.png`;
 
                 // 다운로드
                 const url = URL.createObjectURL(blob);
