@@ -296,6 +296,13 @@ class TestEngine {
         const result = this.calculateResult();
         const container = document.getElementById('question-container');
 
+        // 결과 통계 HTML 생성 (result-stats.js가 로드되어 있으면)
+        let statsHTML = '';
+        if (typeof ResultStats !== 'undefined') {
+            const resultStats = new ResultStats();
+            statsHTML = resultStats.generateStatsHTML(this.testData.id, result.type);
+        }
+
         container.innerHTML = `
             <div class="result-card">
                 <div class="result-badge">${result.badge || '🎯'}</div>
@@ -320,6 +327,7 @@ class TestEngine {
                         }
                     </style>
                 ` : ''}
+                ${statsHTML}
                 <div class="result-description">
                     ${result.description}
                 </div>
@@ -397,6 +405,18 @@ class TestEngine {
         // 결과를 localStorage에 저장
         this.saveResult(result);
 
+        // 뱃지 체크 (badge-system.js가 로드되어 있으면)
+        if (typeof BadgeSystem !== 'undefined') {
+            const badgeSystem = new BadgeSystem();
+            badgeSystem.checkNewBadges();
+        }
+
+        // 결과 통계 기록 (result-stats.js가 로드되어 있으면)
+        if (typeof ResultStats !== 'undefined') {
+            const resultStats = new ResultStats();
+            resultStats.recordResult(this.testData.id, result.type);
+        }
+
         // 참여자 수 증가 (test-stats.js가 로드되어 있으면)
         if (typeof TestStats !== 'undefined') {
             const stats = new TestStats(this.testData.id);
@@ -440,8 +460,13 @@ ${result.subtitle || ''}
         const savedResults = JSON.parse(localStorage.getItem('test_results') || '{}');
 
         savedResults[testId] = {
+            testId: testId,
             type: result.type,
-            title: result.title,
+            title: this.testData.title || result.title,
+            resultType: result.title,
+            category: this.testData.category || 'test',
+            badge: result.badge,
+            rarity: result.rarity,
             date: new Date().toISOString(),
             answers: this.answers
         };

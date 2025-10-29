@@ -25,6 +25,10 @@
                 📋 내 결과
                 <span id="resultsBadge" style="position: absolute; top: -8px; right: -8px; background: #ef4444; color: white; font-size: 0.75rem; padding: 2px 6px; border-radius: 10px; font-weight: 700; display: none;"></span>
             </a>
+            <a href="/my-badges/" class="tab-link" style="padding: 12px 32px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 1.05rem; transition: all 0.3s ease; background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.9); position: relative;">
+                🏆 뱃지
+                <span id="badgesBadge" style="position: absolute; top: -8px; right: -8px; background: #f59e0b; color: white; font-size: 0.75rem; padding: 2px 6px; border-radius: 10px; font-weight: 700; display: none;"></span>
+            </a>
         </nav>
 
         <!-- Usage Counter -->
@@ -79,6 +83,21 @@
             if (badge && count > 0) {
                 badge.textContent = count;
                 badge.style.display = 'block';
+            }
+        })();
+
+        // 뱃지 컬렉션 뱃지 업데이트
+        (function() {
+            try {
+                const unlockedBadges = JSON.parse(localStorage.getItem('user_badges') || '[]');
+                const badge = document.getElementById('badgesBadge');
+
+                if (badge && unlockedBadges.length > 0) {
+                    badge.textContent = unlockedBadges.length;
+                    badge.style.display = 'block';
+                }
+            } catch (e) {
+                console.error('Failed to update badges badge:', e);
             }
         })();
     </script>

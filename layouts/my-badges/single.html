@@ -1,0 +1,569 @@
+{{ define "head" }}
+<style>
+    body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+        background: linear-gradient(135deg, #EFF6FF 0%, #E0F2FE 50%, #D1FAE5 100%);
+        min-height: 100vh;
+    }
+
+    .badges-container {
+        max-width: 1200px;
+        margin: 60px auto;
+        padding: 0 20px;
+    }
+
+    .badges-header {
+        text-align: center;
+        margin-bottom: 60px;
+    }
+
+    .badges-title {
+        font-size: 3rem;
+        background: linear-gradient(135deg, #F59E0B, #EF4444);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 900;
+        margin-bottom: 16px;
+    }
+
+    .badges-subtitle {
+        font-size: 1.2rem;
+        color: #4B5563;
+        margin-bottom: 32px;
+    }
+
+    .badges-stats {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        flex-wrap: wrap;
+        margin-bottom: 40px;
+    }
+
+    .stat-box {
+        background: white;
+        padding: 24px 32px;
+        border-radius: 20px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        text-align: center;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #F59E0B, #EF4444);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .stat-label {
+        font-size: 0.95rem;
+        color: #6B7280;
+        margin-top: 8px;
+        font-weight: 600;
+    }
+
+    .rarity-filter {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 40px;
+        flex-wrap: wrap;
+    }
+
+    .filter-btn {
+        padding: 12px 24px;
+        border: 2px solid transparent;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: white;
+        color: #4B5563;
+    }
+
+    .filter-btn.active {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .filter-btn.all.active {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border-color: #667eea;
+    }
+
+    .filter-btn.legendary.active {
+        background: linear-gradient(135deg, #FFD700, #FFA500);
+        color: #1e1b4b;
+        border-color: #FFA500;
+    }
+
+    .filter-btn.epic.active {
+        background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+        color: white;
+        border-color: #8B5CF6;
+    }
+
+    .filter-btn.rare.active {
+        background: linear-gradient(135deg, #3B82F6, #2563EB);
+        color: white;
+        border-color: #3B82F6;
+    }
+
+    .filter-btn.uncommon.active {
+        background: linear-gradient(135deg, #10B981, #059669);
+        color: white;
+        border-color: #10B981;
+    }
+
+    .filter-btn.common.active {
+        background: linear-gradient(135deg, #9CA3AF, #6B7280);
+        color: white;
+        border-color: #9CA3AF;
+    }
+
+    .badges-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 24px;
+        margin-bottom: 40px;
+    }
+
+    .badge-card {
+        background: white;
+        border-radius: 24px;
+        padding: 32px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        border: 3px solid transparent;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .badge-card::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        border-radius: 24px;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .badge-card.unlocked {
+        cursor: pointer;
+    }
+
+    .badge-card.unlocked:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    }
+
+    .badge-card.unlocked::before {
+        opacity: 1;
+    }
+
+    .badge-card.locked {
+        opacity: 0.5;
+        filter: grayscale(80%);
+    }
+
+    .badge-icon {
+        font-size: 4rem;
+        margin-bottom: 16px;
+        display: block;
+    }
+
+    .badge-card.locked .badge-icon {
+        filter: grayscale(100%);
+    }
+
+    .badge-name {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: #2d3748;
+        margin-bottom: 8px;
+    }
+
+    .badge-description {
+        font-size: 0.95rem;
+        color: #6B7280;
+        margin-bottom: 16px;
+        line-height: 1.5;
+    }
+
+    .badge-rarity {
+        display: inline-block;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: white;
+        margin-bottom: 12px;
+    }
+
+    .badge-date {
+        font-size: 0.85rem;
+        color: #9CA3AF;
+        font-weight: 500;
+    }
+
+    .lock-icon {
+        font-size: 2rem;
+        opacity: 0.3;
+        margin-top: 8px;
+    }
+
+    .progress-section {
+        background: white;
+        border-radius: 24px;
+        padding: 32px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+        margin-bottom: 40px;
+    }
+
+    .progress-title {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #2d3748;
+        margin-bottom: 24px;
+        text-align: center;
+    }
+
+    .progress-bar-container {
+        background: #E5E7EB;
+        height: 32px;
+        border-radius: 16px;
+        overflow: hidden;
+        position: relative;
+        margin-bottom: 16px;
+    }
+
+    .progress-bar {
+        height: 100%;
+        background: linear-gradient(90deg, #F59E0B, #EF4444);
+        transition: width 1s ease-out;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        color: white;
+        font-size: 0.9rem;
+    }
+
+    .rarity-progress {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 24px;
+    }
+
+    .rarity-stat {
+        text-align: center;
+        padding: 16px;
+        border-radius: 12px;
+        background: #F9FAFB;
+    }
+
+    .rarity-stat-count {
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 4px;
+    }
+
+    .rarity-stat-label {
+        font-size: 0.9rem;
+        color: #6B7280;
+        font-weight: 600;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 80px 20px;
+    }
+
+    .empty-icon {
+        font-size: 6rem;
+        margin-bottom: 24px;
+        opacity: 0.5;
+    }
+
+    .empty-title {
+        font-size: 2rem;
+        color: #4B5563;
+        font-weight: 800;
+        margin-bottom: 16px;
+    }
+
+    .empty-text {
+        font-size: 1.2rem;
+        color: #9CA3AF;
+        margin-bottom: 32px;
+    }
+
+    .btn-start {
+        display: inline-block;
+        padding: 16px 40px;
+        background: linear-gradient(135deg, #F59E0B, #EF4444);
+        color: white;
+        border-radius: 50px;
+        text-decoration: none;
+        font-size: 1.1rem;
+        font-weight: 800;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 24px rgba(245, 158, 11, 0.4);
+    }
+
+    .btn-start:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 32px rgba(245, 158, 11, 0.6);
+    }
+
+    @media (max-width: 768px) {
+        .badges-title {
+            font-size: 2rem;
+        }
+
+        .badges-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .badges-stats {
+            gap: 20px;
+        }
+
+        .stat-box {
+            padding: 20px 24px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
+    }
+</style>
+{{ end }}
+
+{{ define "main" }}
+<div class="badges-container">
+    <div class="badges-header">
+        <h1 class="badges-title">🏆 뱃지 컬렉션</h1>
+        <p class="badges-subtitle">테스트를 진행하며 다양한 뱃지를 모아보세요!</p>
+
+        <div class="badges-stats">
+            <div class="stat-box">
+                <div class="stat-number" id="unlockedCount">0</div>
+                <div class="stat-label">획득한 뱃지</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="totalCount">15</div>
+                <div class="stat-label">전체 뱃지</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="completionRate">0%</div>
+                <div class="stat-label">달성률</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="progress-section">
+        <h2 class="progress-title">📊 수집 진행률</h2>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar" style="width: 0%;">
+                <span id="progressText">0%</span>
+            </div>
+        </div>
+
+        <div class="rarity-progress">
+            <div class="rarity-stat">
+                <div class="rarity-stat-count" style="color: #FFD700;" id="legendaryCount">0/2</div>
+                <div class="rarity-stat-label">🌟 레전더리</div>
+            </div>
+            <div class="rarity-stat">
+                <div class="rarity-stat-count" style="color: #8B5CF6;" id="epicCount">0/2</div>
+                <div class="rarity-stat-label">💜 에픽</div>
+            </div>
+            <div class="rarity-stat">
+                <div class="rarity-stat-count" style="color: #3B82F6;" id="rareCount">0/4</div>
+                <div class="rarity-stat-label">💎 레어</div>
+            </div>
+            <div class="rarity-stat">
+                <div class="rarity-stat-count" style="color: #10B981;" id="uncommonCount">0/4</div>
+                <div class="rarity-stat-label">🌿 언커먼</div>
+            </div>
+            <div class="rarity-stat">
+                <div class="rarity-stat-count" style="color: #9CA3AF;" id="commonCount">0/3</div>
+                <div class="rarity-stat-label">⚪ 커먼</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="rarity-filter">
+        <button class="filter-btn all active" onclick="filterBadges('all')">전체</button>
+        <button class="filter-btn legendary" onclick="filterBadges('legendary')">🌟 레전더리</button>
+        <button class="filter-btn epic" onclick="filterBadges('epic')">💜 에픽</button>
+        <button class="filter-btn rare" onclick="filterBadges('rare')">💎 레어</button>
+        <button class="filter-btn uncommon" onclick="filterBadges('uncommon')">🌿 언커먼</button>
+        <button class="filter-btn common" onclick="filterBadges('common')">⚪ 커먼</button>
+    </div>
+
+    <div id="badgesContent" class="badges-grid">
+        <!-- JavaScript로 동적으로 채워집니다 -->
+    </div>
+</div>
+
+<script>
+let badgeSystem;
+let currentFilter = 'all';
+
+document.addEventListener('DOMContentLoaded', () => {
+    badgeSystem = new BadgeSystem();
+    loadBadges();
+});
+
+function loadBadges() {
+    const unlocked = badgeSystem.getUnlockedBadges();
+    const allBadges = Object.values(badgeSystem.badges);
+
+    // 통계 업데이트
+    document.getElementById('unlockedCount').textContent = unlocked.length;
+    document.getElementById('totalCount').textContent = allBadges.length;
+
+    const completionRate = Math.round((unlocked.length / allBadges.length) * 100);
+    document.getElementById('completionRate').textContent = completionRate + '%';
+
+    // 진행률 바 애니메이션
+    setTimeout(() => {
+        document.getElementById('progressBar').style.width = completionRate + '%';
+        document.getElementById('progressText').textContent = completionRate + '%';
+    }, 100);
+
+    // 희귀도별 통계
+    updateRarityStats(unlocked, allBadges);
+
+    // 뱃지 카드 렌더링
+    renderBadges(allBadges, unlocked);
+}
+
+function updateRarityStats(unlocked, allBadges) {
+    const rarityCount = {
+        legendary: { total: 0, unlocked: 0 },
+        epic: { total: 0, unlocked: 0 },
+        rare: { total: 0, unlocked: 0 },
+        uncommon: { total: 0, unlocked: 0 },
+        common: { total: 0, unlocked: 0 }
+    };
+
+    allBadges.forEach(badge => {
+        rarityCount[badge.rarity].total++;
+        if (unlocked.find(b => b.id === badge.id)) {
+            rarityCount[badge.rarity].unlocked++;
+        }
+    });
+
+    document.getElementById('legendaryCount').textContent =
+        `${rarityCount.legendary.unlocked}/${rarityCount.legendary.total}`;
+    document.getElementById('epicCount').textContent =
+        `${rarityCount.epic.unlocked}/${rarityCount.epic.total}`;
+    document.getElementById('rareCount').textContent =
+        `${rarityCount.rare.unlocked}/${rarityCount.rare.total}`;
+    document.getElementById('uncommonCount').textContent =
+        `${rarityCount.uncommon.unlocked}/${rarityCount.uncommon.total}`;
+    document.getElementById('commonCount').textContent =
+        `${rarityCount.common.unlocked}/${rarityCount.common.total}`;
+}
+
+function renderBadges(allBadges, unlocked) {
+    const container = document.getElementById('badgesContent');
+
+    // 필터링
+    let filteredBadges = allBadges;
+    if (currentFilter !== 'all') {
+        filteredBadges = allBadges.filter(badge => badge.rarity === currentFilter);
+    }
+
+    // 희귀도순 정렬 (레전더리 -> 커먼)
+    const rarityOrder = { legendary: 0, epic: 1, rare: 2, uncommon: 3, common: 4 };
+    filteredBadges.sort((a, b) => rarityOrder[a.rarity] - rarityOrder[b.rarity]);
+
+    const cardsHTML = filteredBadges.map(badge => {
+        const isUnlocked = unlocked.find(b => b.id === badge.id);
+        const gradient = badgeSystem.getRarityGradient(badge.rarity);
+
+        if (isUnlocked) {
+            const unlockedDate = new Date(isUnlocked.unlockedAt);
+            const dateStr = formatDate(unlockedDate);
+
+            return `
+                <div class="badge-card unlocked" data-rarity="${badge.rarity}" style="border-image: ${gradient} 1;">
+                    <div class="badge-icon">${badge.icon}</div>
+                    <div class="badge-rarity" style="background: ${gradient};">${getRarityName(badge.rarity)}</div>
+                    <h3 class="badge-name">${badge.name}</h3>
+                    <p class="badge-description">${badge.description}</p>
+                    <div class="badge-date">🎉 ${dateStr} 획득</div>
+                </div>
+            `;
+        } else {
+            return `
+                <div class="badge-card locked" data-rarity="${badge.rarity}">
+                    <div class="badge-icon">🔒</div>
+                    <div class="badge-rarity" style="background: #9CA3AF;">${getRarityName(badge.rarity)}</div>
+                    <h3 class="badge-name">???</h3>
+                    <p class="badge-description">${badge.description}</p>
+                    <div class="lock-icon">🔒</div>
+                </div>
+            `;
+        }
+    }).join('');
+
+    container.innerHTML = cardsHTML;
+}
+
+function getRarityName(rarity) {
+    const names = {
+        common: '커먼',
+        uncommon: '언커먼',
+        rare: '레어',
+        epic: '에픽',
+        legendary: '레전더리'
+    };
+    return names[rarity] || rarity;
+}
+
+function filterBadges(rarity) {
+    currentFilter = rarity;
+
+    // 버튼 활성화 상태 업데이트
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    document.querySelector(`.filter-btn.${rarity}`).classList.add('active');
+
+    // 뱃지 다시 렌더링
+    const unlocked = badgeSystem.getUnlockedBadges();
+    const allBadges = Object.values(badgeSystem.badges);
+    renderBadges(allBadges, unlocked);
+}
+
+function formatDate(date) {
+    const now = new Date();
+    const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+
+    if (diffDays === 0) return '오늘';
+    if (diffDays === 1) return '어제';
+    if (diffDays < 7) return `${diffDays}일 전`;
+    if (diffDays < 30) return `${Math.floor(diffDays / 7)}주 전`;
+    if (diffDays < 365) return `${Math.floor(diffDays / 30)}개월 전`;
+    return `${Math.floor(diffDays / 365)}년 전`;
+}
+</script>
+{{ end }}

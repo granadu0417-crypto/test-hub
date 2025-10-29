@@ -1,0 +1,613 @@
+{{ define "head" }}
+<style>
+    body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+        background: linear-gradient(135deg, #EFF6FF 0%, #E0F2FE 50%, #D1FAE5 100%);
+        min-height: 100vh;
+    }
+
+    .compare-container {
+        max-width: 1400px;
+        margin: 60px auto;
+        padding: 0 20px;
+    }
+
+    .compare-header {
+        text-align: center;
+        margin-bottom: 60px;
+    }
+
+    .compare-title {
+        font-size: 3rem;
+        background: linear-gradient(135deg, #0EA5E9, #14B8A6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 900;
+        margin-bottom: 16px;
+    }
+
+    .compare-subtitle {
+        font-size: 1.2rem;
+        color: #4B5563;
+        margin-bottom: 32px;
+    }
+
+    /* 선택 UI */
+    .selection-section {
+        background: white;
+        border-radius: 24px;
+        padding: 40px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+        margin-bottom: 40px;
+    }
+
+    .selection-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 32px;
+    }
+
+    .selector-box {
+        border: 3px dashed #CBD5E1;
+        border-radius: 20px;
+        padding: 32px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .selector-box.selected {
+        border-color: #0EA5E9;
+        background: rgba(14, 165, 233, 0.05);
+        border-style: solid;
+    }
+
+    .selector-label {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: #2d3748;
+        margin-bottom: 20px;
+    }
+
+    .result-select {
+        width: 100%;
+        padding: 16px;
+        border: 2px solid #E2E8F0;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        background: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .result-select:focus {
+        outline: none;
+        border-color: #0EA5E9;
+        box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
+    }
+
+    .selected-preview {
+        margin-top: 20px;
+        padding: 20px;
+        background: rgba(14, 165, 233, 0.1);
+        border-radius: 12px;
+        display: none;
+    }
+
+    .selected-preview.show {
+        display: block;
+    }
+
+    .compare-btn {
+        display: block;
+        width: 100%;
+        max-width: 400px;
+        margin: 32px auto 0;
+        padding: 20px 48px;
+        background: linear-gradient(135deg, #0EA5E9, #14B8A6);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.3rem;
+        font-weight: 800;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 24px rgba(14, 165, 233, 0.4);
+    }
+
+    .compare-btn:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 32px rgba(14, 165, 233, 0.6);
+    }
+
+    .compare-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    /* 비교 결과 */
+    .comparison-section {
+        display: none;
+    }
+
+    .comparison-section.show {
+        display: block;
+    }
+
+    .compatibility-score {
+        text-align: center;
+        background: white;
+        border-radius: 24px;
+        padding: 50px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        margin-bottom: 40px;
+    }
+
+    .compat-icon {
+        font-size: 6rem;
+        margin-bottom: 20px;
+        animation: heartbeat 1.5s ease-in-out infinite;
+    }
+
+    @keyframes heartbeat {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+    }
+
+    .compat-score-number {
+        font-size: 5rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, #EC4899, #F43F5E);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 20px 0;
+    }
+
+    .compat-grade {
+        font-size: 2rem;
+        color: #EC4899;
+        font-weight: 800;
+        margin-bottom: 16px;
+    }
+
+    .compat-description {
+        font-size: 1.2rem;
+        color: #6B7280;
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.8;
+    }
+
+    .results-comparison {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 32px;
+        margin-bottom: 40px;
+    }
+
+    .result-column {
+        background: white;
+        border-radius: 24px;
+        padding: 40px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .result-column-header {
+        text-align: center;
+        margin-bottom: 32px;
+        padding-bottom: 24px;
+        border-bottom: 2px solid #E2E8F0;
+    }
+
+    .result-column-title {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: #2d3748;
+        margin-bottom: 12px;
+    }
+
+    .result-column-subtitle {
+        font-size: 1.1rem;
+        color: #6B7280;
+    }
+
+    .result-type-badge {
+        display: inline-block;
+        padding: 12px 24px;
+        background: linear-gradient(135deg, #0EA5E9, #14B8A6);
+        color: white;
+        border-radius: 50px;
+        font-size: 1.2rem;
+        font-weight: 800;
+        margin: 16px 0;
+    }
+
+    .same-result {
+        background: white;
+        border-radius: 24px;
+        padding: 40px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+        margin-bottom: 32px;
+        border: 3px solid #10B981;
+    }
+
+    .same-result-title {
+        font-size: 2rem;
+        color: #10B981;
+        font-weight: 800;
+        text-align: center;
+        margin-bottom: 24px;
+    }
+
+    .same-icon {
+        font-size: 4rem;
+        text-align: center;
+        margin-bottom: 16px;
+    }
+
+    .analysis-box {
+        background: rgba(14, 165, 233, 0.05);
+        border-radius: 16px;
+        padding: 32px;
+        margin: 24px 0;
+    }
+
+    .analysis-title {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #2d3748;
+        margin-bottom: 16px;
+    }
+
+    .analysis-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .analysis-list li {
+        padding: 12px 0;
+        padding-left: 32px;
+        position: relative;
+        color: #4a5568;
+        line-height: 1.8;
+    }
+
+    .analysis-list li::before {
+        content: '✓';
+        position: absolute;
+        left: 0;
+        color: #0EA5E9;
+        font-weight: 800;
+        font-size: 1.2rem;
+    }
+
+    .share-section-compare {
+        text-align: center;
+        background: white;
+        border-radius: 24px;
+        padding: 40px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    @media (max-width: 1024px) {
+        .selection-grid,
+        .results-comparison {
+            grid-template-columns: 1fr;
+        }
+
+        .compare-title {
+            font-size: 2rem;
+        }
+
+        .compat-score-number {
+            font-size: 4rem;
+        }
+    }
+</style>
+{{ end }}
+
+{{ define "main" }}
+<div class="compare-container">
+    <div class="compare-header">
+        <h1 class="compare-title">🤝 친구와 결과 비교하기</h1>
+        <p class="compare-subtitle">두 사람의 테스트 결과를 비교해보세요!</p>
+    </div>
+
+    <!-- 선택 섹션 -->
+    <div id="selectionSection" class="selection-section">
+        <div class="selection-grid">
+            <div class="selector-box" id="selector1">
+                <div class="selector-label">👤 첫 번째 결과 선택</div>
+                <select class="result-select" id="result1Select">
+                    <option value="">결과를 선택하세요</option>
+                </select>
+                <div class="selected-preview" id="preview1"></div>
+            </div>
+
+            <div class="selector-box" id="selector2">
+                <div class="selector-label">👥 두 번째 결과 선택</div>
+                <select class="result-select" id="result2Select">
+                    <option value="">결과를 선택하세요</option>
+                </select>
+                <div class="selected-preview" id="preview2"></div>
+            </div>
+        </div>
+
+        <button class="compare-btn" id="compareBtn" disabled>
+            비교하기 →
+        </button>
+    </div>
+
+    <!-- 비교 결과 섹션 -->
+    <div id="comparisonSection" class="comparison-section">
+        <!-- 궁합도 점수 -->
+        <div class="compatibility-score">
+            <div class="compat-icon">🎉</div>
+            <div class="compat-score-number" id="compatScore">0</div>
+            <div class="compat-grade" id="compatGrade"></div>
+            <p class="compat-description" id="compatDescription"></p>
+        </div>
+
+        <!-- 같은 결과일 때 -->
+        <div id="sameResultBox" class="same-result" style="display: none;">
+            <div class="same-icon">🎊</div>
+            <h3 class="same-result-title">완전히 같은 결과예요!</h3>
+            <p style="text-align: center; font-size: 1.2rem; color: #6B7280;">
+                두 분은 같은 성향을 가지고 계시네요. 서로를 잘 이해할 수 있을 거예요!
+            </p>
+        </div>
+
+        <!-- 결과 비교 -->
+        <div class="results-comparison">
+            <div class="result-column">
+                <div class="result-column-header">
+                    <div class="result-column-title" id="person1Name"></div>
+                    <div class="result-column-subtitle" id="person1Test"></div>
+                    <div class="result-type-badge" id="person1Result"></div>
+                </div>
+                <div id="person1Details"></div>
+            </div>
+
+            <div class="result-column">
+                <div class="result-column-header">
+                    <div class="result-column-title" id="person2Name"></div>
+                    <div class="result-column-subtitle" id="person2Test"></div>
+                    <div class="result-type-badge" id="person2Result"></div>
+                </div>
+                <div id="person2Details"></div>
+            </div>
+        </div>
+
+        <!-- 종합 분석 -->
+        <div class="analysis-box">
+            <h3 class="analysis-title">💡 종합 분석</h3>
+            <ul class="analysis-list" id="analysisList"></ul>
+        </div>
+
+        <!-- 공유하기 -->
+        <div class="share-section-compare">
+            <h3 style="font-size: 1.8rem; margin-bottom: 24px;">📤 비교 결과 공유하기</h3>
+            <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+                <button class="btn-cta" onclick="shareCompareResult()">
+                    <span>📱</span> 친구에게 공유
+                </button>
+                <button class="btn-cta btn-cta-secondary" onclick="resetComparison()">
+                    <span>↻</span> 다시 비교하기
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let selectedResult1 = null;
+let selectedResult2 = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadSavedResults();
+    setupEventListeners();
+});
+
+function loadSavedResults() {
+    const savedResults = JSON.parse(localStorage.getItem('test_results') || '{}');
+    const resultsArray = Object.entries(savedResults).map(([id, data]) => ({
+        id,
+        ...data
+    }));
+
+    if (resultsArray.length === 0) {
+        document.getElementById('selectionSection').innerHTML = `
+            <div style="text-align: center; padding: 80px 20px;">
+                <div style="font-size: 6rem; margin-bottom: 24px;">📭</div>
+                <h2 style="font-size: 2rem; color: #4B5563; margin-bottom: 16px;">저장된 결과가 없어요</h2>
+                <p style="font-size: 1.2rem; color: #9CA3AF; margin-bottom: 32px;">
+                    먼저 테스트를 진행해주세요!
+                </p>
+                <a href="/" class="compare-btn" style="display: inline-block; width: auto;">테스트 하러 가기 →</a>
+            </div>
+        `;
+        return;
+    }
+
+    // 날짜순 정렬
+    resultsArray.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    // 옵션 추가
+    const select1 = document.getElementById('result1Select');
+    const select2 = document.getElementById('result2Select');
+
+    resultsArray.forEach(result => {
+        const dateStr = formatDateShort(result.date);
+        const option1 = new Option(`${result.title} (${dateStr})`, result.id);
+        const option2 = new Option(`${result.title} (${dateStr})`, result.id);
+        select1.add(option1);
+        select2.add(option2);
+    });
+}
+
+function setupEventListeners() {
+    document.getElementById('result1Select')?.addEventListener('change', (e) => {
+        handleResultSelection(1, e.target.value);
+    });
+
+    document.getElementById('result2Select')?.addEventListener('change', (e) => {
+        handleResultSelection(2, e.target.value);
+    });
+
+    document.getElementById('compareBtn')?.addEventListener('click', compareResults);
+}
+
+function handleResultSelection(selectorNum, resultId) {
+    if (!resultId) {
+        if (selectorNum === 1) selectedResult1 = null;
+        else selectedResult2 = null;
+        updateCompareButton();
+        return;
+    }
+
+    const savedResults = JSON.parse(localStorage.getItem('test_results') || '{}');
+    const result = savedResults[resultId];
+
+    if (!result) return;
+
+    if (selectorNum === 1) {
+        selectedResult1 = { id: resultId, ...result };
+        document.getElementById('selector1').classList.add('selected');
+        document.getElementById('preview1').classList.add('show');
+        document.getElementById('preview1').innerHTML = `
+            <div style="font-weight: 700; margin-bottom: 8px;">${result.title}</div>
+            <div style="color: #0EA5E9; font-size: 1.1rem; font-weight: 800;">${result.resultType}</div>
+        `;
+    } else {
+        selectedResult2 = { id: resultId, ...result };
+        document.getElementById('selector2').classList.add('selected');
+        document.getElementById('preview2').classList.add('show');
+        document.getElementById('preview2').innerHTML = `
+            <div style="font-weight: 700; margin-bottom: 8px;">${result.title}</div>
+            <div style="color: #0EA5E9; font-size: 1.1rem; font-weight: 800;">${result.resultType}</div>
+        `;
+    }
+
+    updateCompareButton();
+}
+
+function updateCompareButton() {
+    const btn = document.getElementById('compareBtn');
+    if (selectedResult1 && selectedResult2) {
+        btn.disabled = false;
+    } else {
+        btn.disabled = true;
+    }
+}
+
+function compareResults() {
+    if (!selectedResult1 || !selectedResult2) return;
+
+    // 뱃지 시스템에 비교 기록 (badge-system.js가 있으면)
+    if (typeof BadgeSystem !== 'undefined') {
+        const badgeSystem = new BadgeSystem();
+        badgeSystem.recordComparison();
+    }
+
+    // 궁합도 계산
+    const compatibility = calculateCompatibility(selectedResult1, selectedResult2);
+
+    // UI 업데이트
+    document.getElementById('compatScore').textContent = compatibility.score + '%';
+    document.getElementById('compatGrade').textContent = compatibility.grade;
+    document.getElementById('compatDescription').textContent = compatibility.description;
+
+    // 같은 결과인지 확인
+    if (selectedResult1.resultType === selectedResult2.resultType) {
+        document.getElementById('sameResultBox').style.display = 'block';
+    } else {
+        document.getElementById('sameResultBox').style.display = 'none';
+    }
+
+    // 결과 표시
+    document.getElementById('person1Name').textContent = '첫 번째 결과';
+    document.getElementById('person1Test').textContent = selectedResult1.title;
+    document.getElementById('person1Result').textContent = selectedResult1.resultType;
+
+    document.getElementById('person2Name').textContent = '두 번째 결과';
+    document.getElementById('person2Test').textContent = selectedResult2.title;
+    document.getElementById('person2Result').textContent = selectedResult2.resultType;
+
+    // 분석 리스트
+    const analysisList = document.getElementById('analysisList');
+    analysisList.innerHTML = compatibility.analysis.map(item => `<li>${item}</li>`).join('');
+
+    // 섹션 전환
+    document.getElementById('selectionSection').style.display = 'none';
+    document.getElementById('comparisonSection').classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function calculateCompatibility(result1, result2) {
+    // 같은 테스트인지 확인
+    const sameTest = result1.title === result2.title;
+    const sameResult = result1.resultType === result2.resultType;
+
+    let score = 50; // 기본 점수
+    let grade = '';
+    let description = '';
+    const analysis = [];
+
+    if (sameTest && sameResult) {
+        score = 100;
+        grade = '완벽한 조화! 🎊';
+        description = '두 분은 완전히 같은 성향을 가지고 계십니다. 서로를 너무나 잘 이해할 수 있어요!';
+        analysis.push('같은 테스트에서 같은 결과가 나왔어요');
+        analysis.push('서로의 생각과 감정을 쉽게 이해할 수 있습니다');
+        analysis.push('비슷한 가치관을 공유하고 있어요');
+        analysis.push('함께 있으면 편안함을 느낄 거예요');
+    } else if (sameTest && !sameResult) {
+        score = 75;
+        grade = '좋은 궁합! 💖';
+        description = '같은 테스트를 했지만 다른 결과가 나왔네요. 서로의 차이를 이해하며 성장할 수 있어요!';
+        analysis.push('같은 테스트에서 다른 결과 - 상호 보완 관계');
+        analysis.push('서로의 다른 점을 존중하면 좋은 관계가 될 수 있어요');
+        analysis.push('다양성 속에서 배울 점이 많습니다');
+        analysis.push('차이를 인정하고 이해하는 것이 중요해요');
+    } else {
+        score = 60;
+        grade = '흥미로운 조합! ✨';
+        description = '다른 테스트를 하셨네요! 각자의 개성이 뚜렷해서 서로에게 신선한 자극이 될 수 있어요.';
+        analysis.push('다른 테스트로 각자의 특성을 알아보셨어요');
+        analysis.push('서로의 개성을 존중하면 좋은 관계가 될 수 있습니다');
+        analysis.push('다양한 관점에서 서로를 이해해보세요');
+        analysis.push('함께 여러 테스트를 해보는 것을 추천드려요!');
+    }
+
+    return { score, grade, description, analysis };
+}
+
+function formatDateShort(dateString) {
+    const date = new Date(dateString);
+    return `${date.getMonth() + 1}/${date.getDate()}`;
+}
+
+function resetComparison() {
+    document.getElementById('selectionSection').style.display = 'block';
+    document.getElementById('comparisonSection').classList.remove('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function shareCompareResult() {
+    const text = `우리 궁합은 ${document.getElementById('compatScore').textContent}! 너도 해볼래?`;
+    const url = window.location.origin;
+
+    if (navigator.share) {
+        navigator.share({
+            title: '친구와 결과 비교하기',
+            text: text,
+            url: url
+        }).catch(() => {});
+    } else {
+        alert('이 결과를 친구에게 공유해보세요!\n\n' + text + '\n' + url);
+    }
+}
+</script>
+{{ end }}
