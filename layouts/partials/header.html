@@ -1,15 +1,27 @@
-<header style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 48px 20px; text-align: center; color: white; box-shadow: 0 8px 32px rgba(102, 126, 234, 0.15);">
+{{ $isFortuneSection := or (eq .Section "fortune") (hasPrefix .RelPermalink "/fortune/") }}
+
+<header style="background: linear-gradient(135deg, {{ if $isFortuneSection }}#1e1b4b 0%, #312e81 100%{{ else }}#667eea 0%, #764ba2 100%{{ end }}); padding: 48px 20px 20px 20px; text-align: center; color: white; box-shadow: 0 8px 32px rgba(102, 126, 234, 0.15); transition: background 0.5s ease;">
     <div class="container" style="max-width: 1200px; margin: 0 auto;">
         <!-- Logo/Title -->
         <h1 style="font-size: 2.2rem; margin: 0 0 12px 0; font-weight: 800; letter-spacing: -0.02em;">
             <a href="/" style="color: white; text-decoration: none;">
-                {{ .Site.Title }}
+                🔮 나테스트
             </a>
         </h1>
 
-        <p style="font-size: 1.15rem; margin: 0 0 18px 0; opacity: 0.95; font-weight: 400;">
-            {{ .Site.Params.description }}
+        <p style="font-size: 1.15rem; margin: 0 0 24px 0; opacity: 0.95; font-weight: 400;">
+            {{ if $isFortuneSection }}오늘의 운세와 미래를 확인하세요{{ else }}{{ .Site.Params.description }}{{ end }}
         </p>
+
+        <!-- 탭 네비게이션 -->
+        <nav class="main-tabs" style="display: flex; justify-content: center; gap: 12px; margin-bottom: 20px;">
+            <a href="/" class="tab-link {{ if not $isFortuneSection }}active{{ end }}" style="padding: 12px 32px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 1.05rem; transition: all 0.3s ease; {{ if not $isFortuneSection }}background: rgba(255,255,255,0.25); color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.15);{{ else }}background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7);{{ end }}">
+                🎯 심리테스트
+            </a>
+            <a href="/fortune/" class="tab-link {{ if $isFortuneSection }}active{{ end }}" style="padding: 12px 32px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 1.05rem; transition: all 0.3s ease; {{ if $isFortuneSection }}background: rgba(251,191,36,0.25); color: #fbbf24; box-shadow: 0 4px 12px rgba(251,191,36,0.3);{{ else }}background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7);{{ end }}">
+                🌙 운세
+            </a>
+        </nav>
 
         <!-- Usage Counter -->
         <div class="usage-counter">

@@ -1,0 +1,406 @@
+{{ define "head" }}
+<link rel="stylesheet" href="/css/fortune.css">
+<style>
+    body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+        background: linear-gradient(180deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
+        min-height: 100vh;
+        font-optical-sizing: auto;
+    }
+</style>
+{{ end }}
+
+{{ define "main" }}
+<div class="fortune-page">
+    <!-- Hero Section -->
+    <div class="fortune-hero">
+        <h2>🌙 오늘의 운세를 확인하세요</h2>
+        <p>
+            신비로운 별자리와 띠의 운명을 확인하고<br>
+            당신의 미래를 미리 준비하세요
+        </p>
+
+        <!-- Hero Stats -->
+        <div class="fortune-hero-stats">
+            <div class="fortune-hero-stat">
+                <span class="fortune-hero-stat-number">12</span>
+                <span class="fortune-hero-stat-label">별자리</span>
+            </div>
+            <div class="fortune-hero-stat">
+                <span class="fortune-hero-stat-number">12</span>
+                <span class="fortune-hero-stat-label">띠</span>
+            </div>
+            <div class="fortune-hero-stat">
+                <span class="fortune-hero-stat-number">매일</span>
+                <span class="fortune-hero-stat-label">업데이트</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 빠른 운세 보기 -->
+    <div class="quick-fortune-section">
+        <div class="quick-fortune-card">
+            <h3 class="quick-fortune-title">⚡ 빠른 운세 보기</h3>
+            <div class="quick-fortune-buttons">
+                <a href="#zodiac" class="btn-fortune">
+                    <span>⭐</span>
+                    내 별자리 운세
+                </a>
+                <a href="#chinese-zodiac" class="btn-fortune btn-fortune-secondary">
+                    <span>🐉</span>
+                    내 띠 운세
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 별자리 운세 섹션 -->
+    <div id="zodiac" class="fortune-category-section">
+        <div class="fortune-category-header">
+            <h3>⭐ 별자리 운세</h3>
+            <span class="fortune-category-count">12개</span>
+        </div>
+
+        <!-- 시간대별 탭 -->
+        <div class="fortune-time-tabs">
+            <a href="#" class="fortune-time-tab active" data-period="today">오늘</a>
+            <a href="#" class="fortune-time-tab" data-period="week">이번주</a>
+            <a href="#" class="fortune-time-tab" data-period="month">이번달</a>
+            <a href="#" class="fortune-time-tab" data-period="year">올해</a>
+        </div>
+
+        <div class="fortune-grid">
+            <!-- 양자리 -->
+            <a href="#" class="fortune-card" data-zodiac="aries">
+                <div class="fortune-icon">♈</div>
+                <h3 class="fortune-title">양자리</h3>
+                <p class="fortune-summary">3.21 - 4.19<br>열정적이고 도전적인 당신</p>
+                <div class="fortune-meta">
+                    <span>🔥 불</span>
+                    <span>💪 활동적</span>
+                </div>
+            </a>
+
+            <!-- 황소자리 -->
+            <a href="#" class="fortune-card" data-zodiac="taurus">
+                <div class="fortune-icon">♉</div>
+                <h3 class="fortune-title">황소자리</h3>
+                <p class="fortune-summary">4.20 - 5.20<br>안정적이고 실용적인 당신</p>
+                <div class="fortune-meta">
+                    <span>🌍 흙</span>
+                    <span>🎯 현실적</span>
+                </div>
+            </a>
+
+            <!-- 쌍둥이자리 -->
+            <a href="#" class="fortune-card" data-zodiac="gemini">
+                <div class="fortune-icon">♊</div>
+                <h3 class="fortune-title">쌍둥이자리</h3>
+                <p class="fortune-summary">5.21 - 6.21<br>호기심 많고 재치있는 당신</p>
+                <div class="fortune-meta">
+                    <span>💨 공기</span>
+                    <span>💬 사교적</span>
+                </div>
+            </a>
+
+            <!-- 게자리 -->
+            <a href="#" class="fortune-card" data-zodiac="cancer">
+                <div class="fortune-icon">♋</div>
+                <h3 class="fortune-title">게자리</h3>
+                <p class="fortune-summary">6.22 - 7.22<br>감성적이고 배려심 많은 당신</p>
+                <div class="fortune-meta">
+                    <span>💧 물</span>
+                    <span>❤️ 감성적</span>
+                </div>
+            </a>
+
+            <!-- 사자자리 -->
+            <a href="#" class="fortune-card" data-zodiac="leo">
+                <div class="fortune-icon">♌</div>
+                <h3 class="fortune-title">사자자리</h3>
+                <p class="fortune-summary">7.23 - 8.22<br>당당하고 카리스마 있는 당신</p>
+                <div class="fortune-meta">
+                    <span>🔥 불</span>
+                    <span>👑 리더십</span>
+                </div>
+            </a>
+
+            <!-- 처녀자리 -->
+            <a href="#" class="fortune-card" data-zodiac="virgo">
+                <div class="fortune-icon">♍</div>
+                <h3 class="fortune-title">처녀자리</h3>
+                <p class="fortune-summary">8.23 - 9.22<br>완벽주의적이고 분석적인 당신</p>
+                <div class="fortune-meta">
+                    <span>🌍 흙</span>
+                    <span>📊 분석적</span>
+                </div>
+            </a>
+
+            <!-- 천칭자리 -->
+            <a href="#" class="fortune-card" data-zodiac="libra">
+                <div class="fortune-icon">♎</div>
+                <h3 class="fortune-title">천칭자리</h3>
+                <p class="fortune-summary">9.23 - 10.22<br>조화롭고 균형잡힌 당신</p>
+                <div class="fortune-meta">
+                    <span>💨 공기</span>
+                    <span>⚖️ 균형</span>
+                </div>
+            </a>
+
+            <!-- 전갈자리 -->
+            <a href="#" class="fortune-card" data-zodiac="scorpio">
+                <div class="fortune-icon">♏</div>
+                <h3 class="fortune-title">전갈자리</h3>
+                <p class="fortune-summary">10.23 - 11.21<br>강렬하고 신비로운 당신</p>
+                <div class="fortune-meta">
+                    <span>💧 물</span>
+                    <span>🔮 신비로운</span>
+                </div>
+            </a>
+
+            <!-- 사수자리 -->
+            <a href="#" class="fortune-card" data-zodiac="sagittarius">
+                <div class="fortune-icon">♐</div>
+                <h3 class="fortune-title">사수자리</h3>
+                <p class="fortune-summary">11.22 - 12.21<br>자유롭고 낙관적인 당신</p>
+                <div class="fortune-meta">
+                    <span>🔥 불</span>
+                    <span>🌍 모험적</span>
+                </div>
+            </a>
+
+            <!-- 염소자리 -->
+            <a href="#" class="fortune-card" data-zodiac="capricorn">
+                <div class="fortune-icon">♑</div>
+                <h3 class="fortune-title">염소자리</h3>
+                <p class="fortune-summary">12.22 - 1.19<br>책임감 있고 야심찬 당신</p>
+                <div class="fortune-meta">
+                    <span>🌍 흙</span>
+                    <span>🎯 목표지향</span>
+                </div>
+            </a>
+
+            <!-- 물병자리 -->
+            <a href="#" class="fortune-card" data-zodiac="aquarius">
+                <div class="fortune-icon">♒</div>
+                <h3 class="fortune-title">물병자리</h3>
+                <p class="fortune-summary">1.20 - 2.18<br>독창적이고 진보적인 당신</p>
+                <div class="fortune-meta">
+                    <span>💨 공기</span>
+                    <span>💡 혁신적</span>
+                </div>
+            </a>
+
+            <!-- 물고기자리 -->
+            <a href="#" class="fortune-card" data-zodiac="pisces">
+                <div class="fortune-icon">♓</div>
+                <h3 class="fortune-title">물고기자리</h3>
+                <p class="fortune-summary">2.19 - 3.20<br>직관적이고 예술적인 당신</p>
+                <div class="fortune-meta">
+                    <span>💧 물</span>
+                    <span>🎨 예술적</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- 띠별 운세 섹션 -->
+    <div id="chinese-zodiac" class="fortune-category-section">
+        <div class="fortune-category-header">
+            <h3>🐉 띠별 운세</h3>
+            <span class="fortune-category-count">12개</span>
+        </div>
+
+        <!-- 시간대별 탭 -->
+        <div class="fortune-time-tabs">
+            <a href="#" class="fortune-time-tab active" data-period="today">오늘</a>
+            <a href="#" class="fortune-time-tab" data-period="week">이번주</a>
+            <a href="#" class="fortune-time-tab" data-period="month">이번달</a>
+            <a href="#" class="fortune-time-tab" data-period="year">올해</a>
+        </div>
+
+        <div class="fortune-grid">
+            <!-- 쥐띠 -->
+            <a href="#" class="fortune-card" data-zodiac="rat">
+                <div class="fortune-icon">🐭</div>
+                <h3 class="fortune-title">쥐띠</h3>
+                <p class="fortune-summary">1948, 1960, 1972, 1984, 1996, 2008, 2020<br>영리하고 적응력이 뛰어난 당신</p>
+                <div class="fortune-meta">
+                    <span>💧 물</span>
+                    <span>🧠 지혜</span>
+                </div>
+            </a>
+
+            <!-- 소띠 -->
+            <a href="#" class="fortune-card" data-zodiac="ox">
+                <div class="fortune-icon">🐮</div>
+                <h3 class="fortune-title">소띠</h3>
+                <p class="fortune-summary">1949, 1961, 1973, 1985, 1997, 2009, 2021<br>성실하고 인내심 강한 당신</p>
+                <div class="fortune-meta">
+                    <span>🌍 흙</span>
+                    <span>💪 근면</span>
+                </div>
+            </a>
+
+            <!-- 호랑이띠 -->
+            <a href="#" class="fortune-card" data-zodiac="tiger">
+                <div class="fortune-icon">🐯</div>
+                <h3 class="fortune-title">호랑이띠</h3>
+                <p class="fortune-summary">1950, 1962, 1974, 1986, 1998, 2010, 2022<br>용감하고 정의로운 당신</p>
+                <div class="fortune-meta">
+                    <span>🌳 나무</span>
+                    <span>🦁 용맹</span>
+                </div>
+            </a>
+
+            <!-- 토끼띠 -->
+            <a href="#" class="fortune-card" data-zodiac="rabbit">
+                <div class="fortune-icon">🐰</div>
+                <h3 class="fortune-title">토끼띠</h3>
+                <p class="fortune-summary">1951, 1963, 1975, 1987, 1999, 2011, 2023<br>온화하고 사려깊은 당신</p>
+                <div class="fortune-meta">
+                    <span>🌳 나무</span>
+                    <span>🌸 온화</span>
+                </div>
+            </a>
+
+            <!-- 용띠 -->
+            <a href="#" class="fortune-card" data-zodiac="dragon">
+                <div class="fortune-icon">🐲</div>
+                <h3 class="fortune-title">용띠</h3>
+                <p class="fortune-summary">1952, 1964, 1976, 1988, 2000, 2012, 2024<br>카리스마 있고 강력한 당신</p>
+                <div class="fortune-meta">
+                    <span>🌍 흙</span>
+                    <span>👑 권위</span>
+                </div>
+            </a>
+
+            <!-- 뱀띠 -->
+            <a href="#" class="fortune-card" data-zodiac="snake">
+                <div class="fortune-icon">🐍</div>
+                <h3 class="fortune-title">뱀띠</h3>
+                <p class="fortune-summary">1953, 1965, 1977, 1989, 2001, 2013, 2025<br>신중하고 지혜로운 당신</p>
+                <div class="fortune-meta">
+                    <span>🔥 불</span>
+                    <span>🔮 직관</span>
+                </div>
+            </a>
+
+            <!-- 말띠 -->
+            <a href="#" class="fortune-card" data-zodiac="horse">
+                <div class="fortune-icon">🐴</div>
+                <h3 class="fortune-title">말띠</h3>
+                <p class="fortune-summary">1954, 1966, 1978, 1990, 2002, 2014<br>자유롭고 열정적인 당신</p>
+                <div class="fortune-meta">
+                    <span>🔥 불</span>
+                    <span>⚡ 활력</span>
+                </div>
+            </a>
+
+            <!-- 양띠 -->
+            <a href="#" class="fortune-card" data-zodiac="goat">
+                <div class="fortune-icon">🐑</div>
+                <h3 class="fortune-title">양띠</h3>
+                <p class="fortune-summary">1955, 1967, 1979, 1991, 2003, 2015<br>창의적이고 예술적인 당신</p>
+                <div class="fortune-meta">
+                    <span>🌍 흙</span>
+                    <span>🎨 감성</span>
+                </div>
+            </a>
+
+            <!-- 원숭이띠 -->
+            <a href="#" class="fortune-card" data-zodiac="monkey">
+                <div class="fortune-icon">🐵</div>
+                <h3 class="fortune-title">원숭이띠</h3>
+                <p class="fortune-summary">1956, 1968, 1980, 1992, 2004, 2016<br>재치있고 활발한 당신</p>
+                <div class="fortune-meta">
+                    <span>🔧 금속</span>
+                    <span>🎭 재치</span>
+                </div>
+            </a>
+
+            <!-- 닭띠 -->
+            <a href="#" class="fortune-card" data-zodiac="rooster">
+                <div class="fortune-icon">🐔</div>
+                <h3 class="fortune-title">닭띠</h3>
+                <p class="fortune-summary">1957, 1969, 1981, 1993, 2005, 2017<br>정직하고 근면한 당신</p>
+                <div class="fortune-meta">
+                    <span>🔧 금속</span>
+                    <span>⏰ 성실</span>
+                </div>
+            </a>
+
+            <!-- 개띠 -->
+            <a href="#" class="fortune-card" data-zodiac="dog">
+                <div class="fortune-icon">🐶</div>
+                <h3 class="fortune-title">개띠</h3>
+                <p class="fortune-summary">1958, 1970, 1982, 1994, 2006, 2018<br>충실하고 정의로운 당신</p>
+                <div class="fortune-meta">
+                    <span>🌍 흙</span>
+                    <span>🤝 충성</span>
+                </div>
+            </a>
+
+            <!-- 돼지띠 -->
+            <a href="#" class="fortune-card" data-zodiac="pig">
+                <div class="fortune-icon">🐷</div>
+                <h3 class="fortune-title">돼지띠</h3>
+                <p class="fortune-summary">1959, 1971, 1983, 1995, 2007, 2019<br>관대하고 평화로운 당신</p>
+                <div class="fortune-meta">
+                    <span>💧 물</span>
+                    <span>☮️ 평화</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- 타로 운세 섹션 (준비 중) -->
+    <div class="fortune-category-section">
+        <div class="fortune-category-header">
+            <h3>🃏 타로 운세</h3>
+            <span class="fortune-category-count">준비중</span>
+        </div>
+        <div class="quick-fortune-card" style="margin-top: 20px;">
+            <p style="color: #cbd5e1; font-size: 1.1rem;">타로 운세는 곧 추가될 예정입니다</p>
+        </div>
+    </div>
+</div>
+
+<script>
+// 탭 전환 기능 (아직 링크가 없으므로 기본 동작 방지)
+document.querySelectorAll('.fortune-time-tab').forEach(tab => {
+    tab.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        // 같은 섹션 내의 탭들만 영향받도록
+        const section = tab.closest('.fortune-category-section');
+        const tabs = section.querySelectorAll('.fortune-time-tab');
+
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        // TODO: 실제 운세 데이터 로드
+        const period = tab.dataset.period;
+        console.log(`${period} 운세 로드 예정`);
+    });
+});
+
+// 부드러운 스크롤
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (href === '#') return; // 탭은 제외
+
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+</script>
+{{ end }}
