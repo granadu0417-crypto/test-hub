@@ -14,12 +14,16 @@
         </p>
 
         <!-- 탭 네비게이션 -->
-        <nav class="main-tabs" style="display: flex; justify-content: center; gap: 12px; margin-bottom: 20px;">
+        <nav class="main-tabs" style="display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
             <a href="/" class="tab-link {{ if not $isFortuneSection }}active{{ end }}" style="padding: 12px 32px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 1.05rem; transition: all 0.3s ease; {{ if not $isFortuneSection }}background: rgba(255,255,255,0.25); color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.15);{{ else }}background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7);{{ end }}">
                 🎯 심리테스트
             </a>
             <a href="/fortune/" class="tab-link {{ if $isFortuneSection }}active{{ end }}" style="padding: 12px 32px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 1.05rem; transition: all 0.3s ease; {{ if $isFortuneSection }}background: rgba(251,191,36,0.25); color: #fbbf24; box-shadow: 0 4px 12px rgba(251,191,36,0.3);{{ else }}background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7);{{ end }}">
                 🌙 운세
+            </a>
+            <a href="/my-results/" class="tab-link" style="padding: 12px 32px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 1.05rem; transition: all 0.3s ease; background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.9); position: relative;">
+                📋 내 결과
+                <span id="resultsBadge" style="position: absolute; top: -8px; right: -8px; background: #ef4444; color: white; font-size: 0.75rem; padding: 2px 6px; border-radius: 10px; font-weight: 700; display: none;"></span>
             </a>
         </nav>
 
@@ -63,6 +67,18 @@
                     }
                     countElement.textContent = displayCount.toLocaleString();
                 }, 30);
+            }
+        })();
+
+        // 내 결과 뱃지 업데이트
+        (function() {
+            const savedResults = JSON.parse(localStorage.getItem('test_results') || '{}');
+            const count = Object.keys(savedResults).length;
+            const badge = document.getElementById('resultsBadge');
+
+            if (badge && count > 0) {
+                badge.textContent = count;
+                badge.style.display = 'block';
             }
         })();
     </script>
