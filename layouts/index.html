@@ -565,17 +565,142 @@
         transform: translateY(-2px);
     }
 
-    @media (max-width: 768px) {
-        .hero {
-            padding: 60px 20px 40px 20px;
-        }
+    /* 📱 모바일 반응형 디자인 - 다양한 핸드폰 사이즈 완벽 대응 */
 
+    /* 🔹 작은 폰 (iPhone SE, 갤럭시 S10e 등: ~374px) */
+    @media (max-width: 374px) {
         .hero h2 {
-            font-size: 2rem;
+            font-size: clamp(1.8rem, 5vw, 2.2rem);
         }
 
         .hero p {
-            font-size: 1.1rem;
+            font-size: clamp(1rem, 3vw, 1.1rem);
+        }
+
+        .featured-grid,
+        .test-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .test-card {
+            padding: 16px 12px;
+            border-radius: 16px;
+            min-height: 200px;
+        }
+
+        .test-icon {
+            font-size: clamp(2.5rem, 8vw, 3rem);
+            margin-bottom: 10px;
+        }
+
+        .test-title {
+            font-size: clamp(1rem, 3.5vw, 1.1rem);
+            margin-bottom: 8px;
+        }
+
+        .test-summary {
+            font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+            line-height: 1.5;
+        }
+
+        .test-meta {
+            font-size: 0.75rem;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+    }
+
+    /* 🔹 중간 폰 (iPhone 12/13/14, 갤럭시 S21 등: 375px ~ 414px) */
+    @media (min-width: 375px) and (max-width: 414px) {
+        .hero h2 {
+            font-size: clamp(2rem, 5vw, 2.4rem);
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 3vw, 1.2rem);
+        }
+
+        .featured-grid,
+        .test-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .test-card {
+            padding: 20px 14px;
+            border-radius: 18px;
+            min-height: 210px;
+        }
+
+        .test-icon {
+            font-size: clamp(2.8rem, 8vw, 3.2rem);
+            margin-bottom: 12px;
+        }
+
+        .test-title {
+            font-size: clamp(1.05rem, 3.5vw, 1.15rem);
+            margin-bottom: 8px;
+        }
+
+        .test-summary {
+            font-size: clamp(0.85rem, 2.8vw, 0.95rem);
+            line-height: 1.6;
+        }
+
+        .test-meta {
+            font-size: 0.8rem;
+            gap: 10px;
+        }
+    }
+
+    /* 🔹 큰 폰/패블릿 (iPhone Pro Max, 갤럭시 Ultra 등: 415px ~ 768px) */
+    @media (min-width: 415px) and (max-width: 768px) {
+        .hero h2 {
+            font-size: clamp(2.2rem, 5vw, 2.6rem);
+        }
+
+        .hero p {
+            font-size: clamp(1.15rem, 3vw, 1.3rem);
+        }
+
+        .featured-grid,
+        .test-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .test-card {
+            padding: 24px 18px;
+            border-radius: 20px;
+            min-height: 220px;
+        }
+
+        .test-icon {
+            font-size: clamp(3rem, 8vw, 3.5rem);
+            margin-bottom: 14px;
+        }
+
+        .test-title {
+            font-size: clamp(1.1rem, 3.5vw, 1.25rem);
+            margin-bottom: 10px;
+        }
+
+        .test-summary {
+            font-size: clamp(0.9rem, 2.8vw, 1rem);
+            line-height: 1.65;
+        }
+
+        .test-meta {
+            font-size: 0.85rem;
+            gap: 12px;
+        }
+    }
+
+    /* 🔹 통합 모바일 스타일 (모든 모바일 기기) */
+    @media (max-width: 768px) {
+        .hero {
+            padding: 60px 20px 40px 20px;
         }
 
         .hero-stats {
@@ -583,11 +708,11 @@
         }
 
         .hero-stat-number {
-            font-size: 2rem;
+            font-size: clamp(1.8rem, 5vw, 2rem);
         }
 
         .hero-stat-label {
-            font-size: 0.85rem;
+            font-size: clamp(0.8rem, 2.5vw, 0.85rem);
         }
 
         .hero-cta {
@@ -595,19 +720,25 @@
             gap: 12px;
         }
 
-        .featured-grid,
-        .test-grid {
-            grid-template-columns: 1fr;
-            gap: 20px;
+        /* 카드 공통 스타일 최적화 */
+        .test-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        .test-card {
-            padding: 30px;
+        .test-card:hover {
+            transform: translateY(-6px);
         }
 
         .featured-header h3,
         .category-header h3 {
-            font-size: 1.5rem;
+            font-size: clamp(1.3rem, 4vw, 1.5rem);
+        }
+
+        .category-count {
+            font-size: clamp(0.75rem, 2vw, 0.85rem);
+            padding: 4px 12px;
         }
 
         .features-card {
@@ -623,11 +754,11 @@
         }
 
         .fortune-preview-header h3 {
-            font-size: 2rem;
+            font-size: clamp(1.8rem, 5vw, 2rem);
         }
 
         .fortune-preview-header p {
-            font-size: 1.05rem;
+            font-size: clamp(1rem, 3vw, 1.05rem);
         }
 
         .fortune-preview-grid {
@@ -637,7 +768,7 @@
 
         .btn-fortune-big {
             padding: 16px 40px;
-            font-size: 1.1rem;
+            font-size: clamp(1rem, 3vw, 1.1rem);
         }
     }
 </style>
