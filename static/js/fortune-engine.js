@@ -962,3 +962,263 @@ function getPopularDreamKeywords() {
     { key: 'exam', name: '시험', icon: '📝' }
   ];
 }
+
+// 색상별 의미
+const DREAM_COLORS = {
+  white: {
+    name: '흰색',
+    keywords: ['흰색', '하얀', '하얀색', '백색', '하얗', '희다'],
+    meaning: '순수, 행운, 길조를 상징합니다.',
+    effect: '흰색은 매우 좋은 의미를 더해줍니다. 특히 동물이나 사물이 흰색인 경우 더욱 길한 의미가 강화됩니다.'
+  },
+  black: {
+    name: '검은색',
+    keywords: ['검은색', '검은', '검정', '흑색', '까만', '까만색'],
+    meaning: '신비, 권위, 때로는 주의를 상징합니다.',
+    effect: '검은색은 신비로운 힘과 권위를 나타내며, 상황에 따라 경고의 의미도 있습니다.'
+  },
+  red: {
+    name: '빨간색',
+    keywords: ['빨간색', '빨간', '붉은', '적색', '빨강'],
+    meaning: '열정, 활력, 경고를 상징합니다.',
+    effect: '빨간색은 강한 에너지와 열정을 의미하며, 때로는 주의가 필요함을 알립니다.'
+  },
+  gold: {
+    name: '금색',
+    keywords: ['금색', '황금색', '황금', '금빛', '노란'],
+    meaning: '재물, 명예, 성공을 상징합니다.',
+    effect: '금색은 최고의 길조입니다. 큰 재물운과 성공을 예고합니다.'
+  },
+  blue: {
+    name: '파란색',
+    keywords: ['파란색', '파란', '푸른', '청색'],
+    meaning: '평화, 안정, 지혜를 상징합니다.',
+    effect: '파란색은 마음의 평화와 정신적 성장을 의미합니다.'
+  },
+  green: {
+    name: '초록색',
+    keywords: ['초록색', '초록', '녹색', '푸른'],
+    meaning: '성장, 건강, 희망을 상징합니다.',
+    effect: '초록색은 건강운과 발전, 새로운 시작을 의미합니다.'
+  }
+};
+
+// 상황별 의미
+const DREAM_SITUATIONS = {
+  enter_home: {
+    name: '집으로 들어오다',
+    keywords: ['집으로', '집에', '들어오', '들어와', '집안으로'],
+    meaning: '재물이나 행운이 들어옴을 상징합니다.',
+    effect: '무언가가 집으로 들어오는 것은 좋은 기운이 들어온다는 의미로 매우 길합니다.'
+  },
+  many: {
+    name: '많이 나타나다',
+    keywords: ['많이', '엄청', '무수히', '여러', '다수', '많은'],
+    meaning: '풍요와 다량의 행운을 상징합니다.',
+    effect: '많이 나타나는 것은 그만큼 큰 행운과 재물을 의미합니다.'
+  },
+  catch: {
+    name: '잡다',
+    keywords: ['잡', '붙잡', '손에', '움켜쥐'],
+    meaning: '기회를 잡거나 재물을 얻음을 상징합니다.',
+    effect: '잡는 행위는 기회나 재물을 확실히 손에 넣는다는 매우 좋은 의미입니다.'
+  },
+  chase: {
+    name: '쫓기다',
+    keywords: ['쫓기', '따라오', '뒤쫓'],
+    meaning: '압박감이나 해결해야 할 문제를 상징합니다.',
+    effect: '쫓기는 것은 스트레스나 피해야 할 상황을 의미할 수 있습니다.'
+  },
+  fly_high: {
+    name: '하늘 높이 올라가다',
+    keywords: ['하늘로', '높이', '올라가', '상승', '날아오르'],
+    meaning: '성공과 출세를 상징합니다.',
+    effect: '높이 올라가는 것은 지위 상승과 큰 성공을 예고합니다.'
+  },
+  overflow: {
+    name: '넘치다/범람하다',
+    keywords: ['넘치', '범람', '홍수', '쏟아지', '가득'],
+    meaning: '풍요롭지만 때로는 과함을 의미합니다.',
+    effect: '넘치는 것은 풍요와 다량의 재물을 의미하지만, 관리가 필요함을 암시합니다.'
+  },
+  big_size: {
+    name: '크다',
+    keywords: ['크', '거대', '큰', '대형', '엄청난 크기'],
+    meaning: '큰 규모의 행운이나 영향을 상징합니다.',
+    effect: '큰 것은 그만큼 큰 행운과 영향력을 의미합니다.'
+  }
+};
+
+// 텍스트에서 모든 꿈 상징 찾기
+function findAllDreamSymbols(text) {
+  const found = {
+    symbols: [],
+    colors: [],
+    situations: []
+  };
+
+  const normalizedText = text.toLowerCase();
+
+  // 기본 상징 찾기
+  for (const key in DREAM_SYMBOLS) {
+    const symbol = DREAM_SYMBOLS[key];
+    const isFound = symbol.keywords.some(k =>
+      normalizedText.includes(k.toLowerCase())
+    );
+
+    if (isFound) {
+      found.symbols.push({ key, data: symbol });
+    }
+  }
+
+  // 색상 찾기
+  for (const key in DREAM_COLORS) {
+    const color = DREAM_COLORS[key];
+    const isFound = color.keywords.some(k =>
+      normalizedText.includes(k.toLowerCase())
+    );
+
+    if (isFound) {
+      found.colors.push({ key, data: color });
+    }
+  }
+
+  // 상황 찾기
+  for (const key in DREAM_SITUATIONS) {
+    const situation = DREAM_SITUATIONS[key];
+    const isFound = situation.keywords.some(k =>
+      normalizedText.includes(k.toLowerCase())
+    );
+
+    if (isFound) {
+      found.situations.push({ key, data: situation });
+    }
+  }
+
+  return found;
+}
+
+// 고급 꿈해몽 (여러 상징 종합 분석)
+function getAdvancedDreamInterpretation(text) {
+  const today = new Date();
+  const dateStr = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+
+  // 모든 상징 찾기
+  const found = findAllDreamSymbols(text);
+
+  // 아무것도 못 찾았을 때
+  if (found.symbols.length === 0 && found.colors.length === 0 && found.situations.length === 0) {
+    return {
+      found: false,
+      message: '꿈 상징을 찾을 수 없습니다. 더 구체적인 키워드를 포함해주세요.\n예: 뱀, 물, 돈, 집, 날다, 떨어지다 등'
+    };
+  }
+
+  // 기본 행운 점수 계산 (발견된 상징 개수 기반)
+  const totalSymbols = found.symbols.length + found.colors.length + found.situations.length;
+  const seed = `dream-advanced-${dateStr}-${totalSymbols}`;
+  const baseLuckyScore = deterministicRandom(`${seed}-lucky`, 65, 95);
+
+  // 긍정적 요소가 많으면 점수 상승
+  const positiveBonus = Math.min(totalSymbols * 2, 20);
+  const luckyScore = Math.min(baseLuckyScore + positiveBonus, 100);
+
+  const luckyColor = deterministicChoice(`${seed}-color`, LUCKY_COLORS);
+  const luckyNumber = deterministicRandom(`${seed}-number`, 1, 99);
+
+  // 종합 해석 생성
+  const comprehensiveAnalysis = generateComprehensiveAnalysis(found);
+
+  return {
+    found: true,
+    isAdvanced: true,
+    input: text,
+    symbols: found.symbols,
+    colors: found.colors,
+    situations: found.situations,
+    totalCount: totalSymbols,
+    date: dateStr,
+    dateKorean: `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`,
+    luckyScore: luckyScore,
+    luckyColor: luckyColor,
+    luckyNumber: luckyNumber,
+    comprehensiveAnalysis: comprehensiveAnalysis
+  };
+}
+
+// 종합 해석 생성
+function generateComprehensiveAnalysis(found) {
+  let analysis = '';
+
+  // 메인 상징들로 기본 분석
+  if (found.symbols.length > 0) {
+    const mainSymbols = found.symbols.map(s => s.data.name).join(', ');
+    analysis += `이 꿈에는 ${mainSymbols}이(가) 등장합니다. `;
+  }
+
+  // 색상 효과
+  if (found.colors.length > 0) {
+    const colors = found.colors.map(c => c.data.name).join(', ');
+    analysis += `특히 ${colors}으로 나타난 것은 `;
+
+    // 흰색이나 금색이 있으면 특별히 좋음
+    const hasWhite = found.colors.some(c => c.key === 'white');
+    const hasGold = found.colors.some(c => c.key === 'gold');
+
+    if (hasWhite || hasGold) {
+      analysis += '매우 길한 의미를 더해줍니다. ';
+    } else {
+      analysis += '특별한 의미를 부여합니다. ';
+    }
+  }
+
+  // 상황 효과
+  if (found.situations.length > 0) {
+    const situations = found.situations.map(s => s.data.name).join(', ');
+
+    // 긍정적 상황 체크
+    const hasPositive = found.situations.some(s =>
+      ['enter_home', 'many', 'catch', 'fly_high', 'big_size'].includes(s.key)
+    );
+
+    if (hasPositive) {
+      analysis += `또한 ${situations}의 상황은 행운이 크게 증폭되는 것을 의미합니다. `;
+    } else {
+      analysis += `${situations}의 상황이 함께 나타났습니다. `;
+    }
+  }
+
+  // 종합 판단
+  const positiveSymbols = found.symbols.filter(s => !s.data.negative || s.data.negative === null).length;
+  const totalSymbols = found.symbols.length;
+
+  if (positiveSymbols >= totalSymbols * 0.7) {
+    analysis += '\n\n종합적으로 이 꿈은 큰 행운과 재물운을 예고하는 매우 좋은 꿈입니다. ';
+
+    // 재물 관련 상징이 있는지
+    const hasWealth = found.symbols.some(s =>
+      ['snake', 'dragon', 'pig', 'money', 'gold', 'water'].includes(s.key)
+    );
+
+    if (hasWealth) {
+      analysis += '특히 재물운이 크게 상승할 것으로 보입니다. 투자나 사업 기회가 있다면 적극적으로 검토해보세요. ';
+    }
+
+    // 집으로 들어오는 상황이 있으면
+    const hasEnterHome = found.situations.some(s => s.key === 'enter_home');
+    if (hasEnterHome) {
+      analysis += '행운이 집안으로 들어오는 것이니 가족 모두에게 좋은 일이 생길 수 있습니다. ';
+    }
+
+    // 많이 나타나는 상황이 있으면
+    const hasMany = found.situations.some(s => s.key === 'many');
+    if (hasMany) {
+      analysis += '많이 나타난 것은 그만큼 큰 규모의 행운을 의미하니 기대하셔도 좋습니다. ';
+    }
+
+  } else {
+    analysis += '\n\n이 꿈은 여러 의미가 복합적으로 나타나는 꿈입니다. 긍정적인 측면도 있지만, 주의가 필요한 부분도 있으니 균형잡힌 시각으로 접근하세요. ';
+  }
+
+  return analysis;
+}

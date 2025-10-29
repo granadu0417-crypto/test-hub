@@ -50,10 +50,19 @@
         border: 2px solid rgba(251, 191, 36, 0.3);
         background: rgba(15, 23, 42, 0.5);
         color: white;
-        font-size: 1.3rem;
-        text-align: center;
+        font-size: 1.15rem;
+        text-align: left;
         transition: all 0.3s ease;
         box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+        line-height: 1.7;
+        resize: vertical;
+        min-height: 150px;
+    }
+
+    .keyword-input::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 1.05rem;
     }
 
     .keyword-input:focus {
@@ -182,8 +191,8 @@
             </p>
 
             <div class="keyword-input-group">
-                <input type="text" id="keywordInput" class="keyword-input"
-                       placeholder="예: 뱀, 용, 돈, 물, 날다...">
+                <textarea id="dreamInput" class="keyword-input" rows="5"
+                       placeholder="꿈 내용을 자세히 입력하세요...&#10;&#10;예시: 집에서 잠을 자고 있는데 갑자기 창문에서 물이 엄청나게 홍수처럼 들어오더니 집이 물에 잠기고 하얀 뱀들이 엄청나게 많이 나타났어"></textarea>
             </div>
 
             <!-- 인기 키워드 -->
@@ -286,7 +295,7 @@
 <script src="/js/fortune-engine.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-    const keywordInput = document.getElementById('keywordInput');
+    const dreamInput = document.getElementById('dreamInput');
     const submitButton = document.getElementById('submitButton');
     const inputSection = document.getElementById('inputSection');
     const resultSection = document.getElementById('resultSection');
@@ -300,34 +309,27 @@
         btn.className = 'keyword-btn';
         btn.innerHTML = `${item.icon}<br>${item.name}`;
         btn.onclick = () => {
-            keywordInput.value = item.name;
-            keywordInput.focus();
+            dreamInput.value = item.name;
+            dreamInput.focus();
         };
         popularKeywordsGrid.appendChild(btn);
-    });
-
-    // Enter 키로 검색
-    keywordInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            showDreamInterpretation();
-        }
     });
 
     // 검색 버튼
     submitButton.addEventListener('click', showDreamInterpretation);
 
     function showDreamInterpretation() {
-        const keyword = keywordInput.value.trim();
+        const dreamText = dreamInput.value.trim();
 
-        if (!keyword) {
-            alert('꿈 키워드를 입력해주세요.');
+        if (!dreamText) {
+            alert('꿈 내용이나 키워드를 입력해주세요.');
             return;
         }
 
-        console.log('꿈 검색:', keyword);
+        console.log('꿈 분석:', dreamText);
 
         try {
-            const result = getDreamInterpretation(keyword);
+            const result = getAdvancedDreamInterpretation(dreamText);
             console.log('해몽 결과:', result);
 
             if (!result.found) {
@@ -350,39 +352,103 @@
     }
 
     function renderDreamResult(result) {
-        const symbol = result.symbol;
+        // 고급 분석인 경우
+        if (result.isAdvanced) {
+            renderAdvancedResult(result);
+        }
+    }
 
-        // 헤더
-        document.getElementById('resultIcon').textContent = symbol.icon;
-        document.getElementById('resultName').textContent = `${symbol.name} 꿈`;
+    function renderAdvancedResult(result) {
+        // 헤더 업데이트
+        document.getElementById('resultIcon').textContent = '🔮';
+        document.getElementById('resultName').textContent = '종합 꿈해몽';
         document.getElementById('resultInfo').innerHTML = `
-            <span><strong>카테고리:</strong> ${symbol.category}</span>
+            <span><strong>발견된 상징:</strong> ${result.totalCount}개</span>
             <span><strong>날짜:</strong> ${result.dateKorean}</span>
         `;
 
         // 행운 점수
         document.getElementById('resultLuckyScore').textContent = result.luckyScore + '점';
 
-        // 기본 의미
-        document.getElementById('resultMeaning').textContent = symbol.meaning;
+        // 기본 상징들 표시
+        let symbolsHtml = '<div style="margin-bottom: 30px;">';
+        symbolsHtml += '<h4 style="color: #fbbf24; font-size: 1.2rem; margin-bottom: 16px;">✨ 발견된 꿈 상징</h4>';
+        symbolsHtml += '<div style="display: grid; gap: 16px;">';
 
-        // 긍정적 의미
-        document.getElementById('resultPositive').textContent = symbol.positive;
+        result.symbols.forEach(item => {
+            const s = item.data;
+            symbolsHtml += `
+                <div style="background: rgba(251, 191, 36, 0.1); padding: 20px; border-radius: 16px; border-left: 4px solid #fbbf24;">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                        <span style="font-size: 2rem;">${s.icon}</span>
+                        <h5 style="font-size: 1.3rem; color: #fbbf24; margin: 0;">${s.name}</h5>
+                    </div>
+                    <p style="color: #e2e8f0; margin: 8px 0; line-height: 1.7;"><strong>기본 의미:</strong> ${s.meaning}</p>
+                    <p style="color: #e2e8f0; margin: 8px 0; line-height: 1.7;"><strong>긍정적 해석:</strong> ${s.positive}</p>
+                    ${s.negative ? `<p style="color: #fca5a5; margin: 8px 0; line-height: 1.7;"><strong>주의사항:</strong> ${s.negative}</p>` : ''}
+                </div>
+            `;
+        });
 
-        // 부정적 의미 (있는 경우만 표시)
-        const negativeSection = document.getElementById('negativeSection');
-        if (symbol.negative) {
-            negativeSection.style.display = 'block';
-            document.getElementById('resultNegative').textContent = symbol.negative;
-        } else {
-            negativeSection.style.display = 'none';
+        symbolsHtml += '</div></div>';
+
+        // 색상 정보
+        if (result.colors.length > 0) {
+            symbolsHtml += '<div style="margin-bottom: 30px;">';
+            symbolsHtml += '<h4 style="color: #fbbf24; font-size: 1.2rem; margin-bottom: 16px;">🎨 색상의 의미</h4>';
+            symbolsHtml += '<div style="display: grid; gap: 12px;">';
+
+            result.colors.forEach(item => {
+                const c = item.data;
+                symbolsHtml += `
+                    <div style="background: rgba(251, 191, 36, 0.08); padding: 16px; border-radius: 12px;">
+                        <h5 style="font-size: 1.15rem; color: #fbbf24; margin: 0 0 8px 0;">${c.name}</h5>
+                        <p style="color: #cbd5e1; margin: 4px 0; line-height: 1.6;">${c.meaning}</p>
+                        <p style="color: #e2e8f0; margin: 4px 0; line-height: 1.6;"><strong>효과:</strong> ${c.effect}</p>
+                    </div>
+                `;
+            });
+
+            symbolsHtml += '</div></div>';
         }
 
-        // 조언
-        document.getElementById('resultAdvice').textContent = symbol.advice;
+        // 상황 정보
+        if (result.situations.length > 0) {
+            symbolsHtml += '<div style="margin-bottom: 30px;">';
+            symbolsHtml += '<h4 style="color: #fbbf24; font-size: 1.2rem; margin-bottom: 16px;">📍 상황의 의미</h4>';
+            symbolsHtml += '<div style="display: grid; gap: 12px;">';
 
-        // 오늘의 특별 메시지
-        document.getElementById('resultTodayAdvice').textContent = result.todayAdvice;
+            result.situations.forEach(item => {
+                const sit = item.data;
+                symbolsHtml += `
+                    <div style="background: rgba(251, 191, 36, 0.08); padding: 16px; border-radius: 12px;">
+                        <h5 style="font-size: 1.15rem; color: #fbbf24; margin: 0 0 8px 0;">${sit.name}</h5>
+                        <p style="color: #cbd5e1; margin: 4px 0; line-height: 1.6;">${sit.meaning}</p>
+                        <p style="color: #e2e8f0; margin: 4px 0; line-height: 1.6;"><strong>효과:</strong> ${sit.effect}</p>
+                    </div>
+                `;
+            });
+
+            symbolsHtml += '</div></div>';
+        }
+
+        document.getElementById('resultMeaning').innerHTML = symbolsHtml;
+
+        // 종합 해석
+        document.getElementById('resultPositive').innerHTML = `
+            <h4 style="color: #fbbf24; font-size: 1.2rem; margin-bottom: 12px;">🔮 종합 해석</h4>
+            <p style="color: #e2e8f0; line-height: 1.9; white-space: pre-line;">${result.comprehensiveAnalysis}</p>
+        `;
+
+        // 부정적 의미 섹션 숨김 (종합 해석에 포함됨)
+        document.getElementById('negativeSection').style.display = 'none';
+
+        // 조언 섹션 숨김 (종합 해석에 포함됨)
+        document.getElementById('adviceSection').style.display = 'none';
+
+        // 특별 메시지
+        const specialMessage = `오늘 ${result.totalCount}개의 꿈 상징을 발견했습니다. 이는 매우 풍부한 의미를 담고 있는 꿈입니다. ${result.comprehensiveAnalysis.includes('길한') || result.comprehensiveAnalysis.includes('좋은') ? '큰 행운이 함께하길 바랍니다!' : '꿈의 메시지에 귀 기울이세요.'}`;
+        document.getElementById('resultTodayAdvice').textContent = specialMessage;
 
         // 행운의 아이템
         document.getElementById('resultLuckyColor').textContent = result.luckyColor.name;
@@ -393,7 +459,7 @@
     function resetDream() {
         inputSection.style.display = 'block';
         resultSection.style.display = 'none';
-        keywordInput.value = '';
+        dreamInput.value = '';
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
