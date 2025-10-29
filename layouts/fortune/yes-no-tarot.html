@@ -1,0 +1,450 @@
+{{ define "head" }}
+<link rel="stylesheet" href="/css/fortune.css">
+<style>
+    body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+        background: linear-gradient(180deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
+        min-height: 100vh;
+    }
+
+    /* 질문 입력 화면 */
+    .question-container {
+        max-width: 800px;
+        margin: 80px auto;
+        padding: 60px 40px;
+        text-align: center;
+        background: linear-gradient(135deg, rgba(30, 27, 75, 0.9), rgba(49, 46, 129, 0.9));
+        border-radius: 32px;
+        border: 2px solid rgba(251, 191, 36, 0.3);
+    }
+
+    .question-title {
+        font-size: 2.5rem;
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 20px;
+        font-weight: 900;
+    }
+
+    .question-subtitle {
+        color: #cbd5e1;
+        font-size: 1.15rem;
+        margin-bottom: 40px;
+        line-height: 1.8;
+    }
+
+    .question-input {
+        width: 100%;
+        max-width: 600px;
+        padding: 20px;
+        font-size: 1.1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid rgba(251, 191, 36, 0.3);
+        border-radius: 16px;
+        color: #fbbf24;
+        text-align: center;
+        margin: 0 auto 30px;
+        box-sizing: border-box;
+    }
+
+    .question-input::placeholder {
+        color: rgba(251, 191, 36, 0.5);
+    }
+
+    .question-input:focus {
+        outline: none;
+        border-color: #fbbf24;
+        box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+    }
+
+    .start-button {
+        padding: 18px 60px;
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        color: #1e1b4b;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.2rem;
+        font-weight: 800;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 20px rgba(251, 191, 36, 0.4);
+    }
+
+    .start-button:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 30px rgba(251, 191, 36, 0.6);
+    }
+
+    /* 카드 선택 화면 */
+    .tarot-selection-container {
+        max-width: 1000px;
+        margin: 60px auto;
+        padding: 60px 40px;
+        text-align: center;
+    }
+
+    .tarot-title {
+        font-size: 2rem;
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 16px;
+        font-weight: 900;
+    }
+
+    .user-question {
+        color: #fbbf24;
+        font-size: 1.4rem;
+        margin-bottom: 32px;
+        font-weight: 700;
+        font-style: italic;
+    }
+
+    .tarot-subtitle {
+        color: #cbd5e1;
+        font-size: 1.1rem;
+        margin-bottom: 48px;
+        line-height: 1.8;
+    }
+
+    .tarot-cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .tarot-card {
+        aspect-ratio: 2/3;
+        background: linear-gradient(135deg, #312e81, #1e1b4b);
+        border: 2px solid rgba(251, 191, 36, 0.3);
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .tarot-card::before {
+        content: '🃏';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 3rem;
+        opacity: 0.5;
+    }
+
+    .tarot-card:hover {
+        transform: translateY(-10px) scale(1.05);
+        border-color: #fbbf24;
+        box-shadow: 0 10px 30px rgba(251, 191, 36, 0.4);
+    }
+
+    /* 결과 화면 */
+    .result-container {
+        max-width: 800px;
+        margin: 80px auto;
+        padding: 60px 40px;
+        text-align: center;
+        background: linear-gradient(135deg, rgba(30, 27, 75, 0.9), rgba(49, 46, 129, 0.9));
+        border-radius: 32px;
+        border: 2px solid rgba(251, 191, 36, 0.3);
+    }
+
+    .answer-badge {
+        font-size: 6rem;
+        margin-bottom: 20px;
+        filter: drop-shadow(0 4px 20px rgba(251, 191, 36, 0.5));
+        animation: answerReveal 0.6s ease-out;
+    }
+
+    @keyframes answerReveal {
+        0% { opacity: 0; transform: scale(0.3); }
+        50% { transform: scale(1.1); }
+        100% { opacity: 1; transform: scale(1); }
+    }
+
+    .answer-text {
+        font-size: 4rem;
+        font-weight: 900;
+        margin-bottom: 24px;
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .answer-text.yes {
+        background: linear-gradient(135deg, #10b981, #059669);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .answer-text.no {
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .answer-text.maybe {
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .card-info {
+        background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.1));
+        border: 2px solid rgba(251, 191, 36, 0.3);
+        border-radius: 20px;
+        padding: 30px;
+        margin: 40px 0;
+    }
+
+    .card-name {
+        font-size: 1.8rem;
+        color: #fbbf24;
+        font-weight: 800;
+        margin-bottom: 12px;
+    }
+
+    .card-meaning {
+        font-size: 1.1rem;
+        color: #e2e8f0;
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+
+    .advice-section {
+        background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(245, 158, 11, 0.15));
+        border-radius: 20px;
+        padding: 30px;
+        margin-top: 30px;
+    }
+
+    .advice-title {
+        font-size: 1.4rem;
+        color: #fbbf24;
+        font-weight: 800;
+        margin-bottom: 16px;
+    }
+
+    .advice-content {
+        font-size: 1.05rem;
+        color: #e2e8f0;
+        line-height: 1.8;
+    }
+
+    @media (max-width: 768px) {
+        .question-title, .tarot-title {
+            font-size: 2rem;
+        }
+
+        .answer-text {
+            font-size: 3rem;
+        }
+
+        .answer-badge {
+            font-size: 4.5rem;
+        }
+
+        .question-container, .result-container {
+            padding: 40px 20px;
+        }
+    }
+</style>
+{{ end }}
+
+{{ define "main" }}
+<div class="fortune-page" style="position: relative; z-index: 1; padding-bottom: 80px;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+
+        <!-- 질문 입력 섹션 -->
+        <div id="questionSection" class="question-container">
+            <h2 class="question-title">✨ 예스/노 타로</h2>
+            <p class="question-subtitle">
+                고민되는 질문이 있나요?<br>
+                타로 카드가 명확한 답을 드립니다
+            </p>
+
+            <input type="text"
+                   id="userQuestion"
+                   class="question-input"
+                   placeholder="질문을 입력하세요 (선택사항)"
+                   maxlength="100">
+
+            <div style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 30px;">
+                💭 질문을 입력하지 않아도 마음속으로 생각하시면 됩니다
+            </div>
+
+            <button class="start-button" onclick="startReading()">
+                🔮 카드 선택하기
+            </button>
+        </div>
+
+        <!-- 카드 선택 섹션 -->
+        <div id="selectionSection" class="tarot-selection-container" style="display: none;">
+            <h2 class="tarot-title">🎴 카드를 선택하세요</h2>
+            <div id="questionDisplay" class="user-question"></div>
+            <p class="tarot-subtitle">
+                마음을 집중하고 직관을 따라 카드 한 장을 선택하세요
+            </p>
+
+            <div class="tarot-cards-grid" id="tarotCards">
+                <!-- 카드가 동적으로 생성됩니다 -->
+            </div>
+        </div>
+
+        <!-- 결과 섹션 -->
+        <div id="resultSection" class="result-container" style="display: none;">
+            <div id="answerBadge" class="answer-badge"></div>
+            <div id="answerText" class="answer-text"></div>
+
+            <div class="card-info">
+                <div id="cardName" class="card-name"></div>
+                <div id="cardMeaning" class="card-meaning"></div>
+            </div>
+
+            <div class="advice-section">
+                <div class="advice-title">💡 조언</div>
+                <div id="adviceContent" class="advice-content"></div>
+            </div>
+
+            <!-- 다시하기 -->
+            <div style="margin-top: 50px; display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+                <button onclick="location.reload()"
+                        style="padding: 16px 40px; background: transparent; color: #fbbf24; border: 2px solid #fbbf24; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease;">
+                    🔄 다시 보기
+                </button>
+                <button onclick="shareResult()"
+                        style="padding: 16px 40px; background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #1e1b4b; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 16px rgba(251, 191, 36, 0.3);">
+                    💬 결과 공유하기
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 타로 카드와 YES/NO 매핑
+    const yesNoTarot = [
+        { id: 0, name: '바보', answer: 'YES', badge: '✅', advice: '새로운 시도를 두려워하지 마세요. 지금이 바로 그 때입니다!' },
+        { id: 1, name: '마법사', answer: 'YES', badge: '✅', advice: '당신은 이미 필요한 모든 것을 가지고 있습니다. 자신감을 가지세요!' },
+        { id: 2, name: '여사제', answer: 'MAYBE', badge: '🤔', advice: '조금 더 시간을 두고 내면의 목소리에 귀 기울이세요.' },
+        { id: 3, name: '여황제', answer: 'YES', badge: '✅', advice: '풍요로운 결과를 기대해도 좋습니다. 자신 있게 진행하세요!' },
+        { id: 4, name: '황제', answer: 'YES', badge: '✅', advice: '계획적으로 접근한다면 성공할 것입니다.' },
+        { id: 5, name: '교황', answer: 'MAYBE', badge: '🤔', advice: '조언을 구하거나 전통적인 방법을 고려해보세요.' },
+        { id: 6, name: '연인', answer: 'YES', badge: '✅', advice: '마음이 이끄는 대로 따르세요. 좋은 선택이 될 것입니다.' },
+        { id: 7, name: '전차', answer: 'YES', badge: '✅', advice: '강한 의지로 밀고 나가세요. 승리가 가까이 있습니다!' },
+        { id: 8, name: '힘', answer: 'YES', badge: '✅', advice: '인내심을 가지고 꾸준히 나아가면 이길 수 있습니다.' },
+        { id: 9, name: '은둔자', answer: 'NO', badge: '❌', advice: '아직은 때가 아닙니다. 더 많은 준비와 성찰이 필요합니다.' },
+        { id: 10, name: '운명의 수레바퀴', answer: 'MAYBE', badge: '🤔', advice: '운명의 흐름에 맡기세요. 시간이 답을 줄 것입니다.' },
+        { id: 11, name: '정의', answer: 'YES', badge: '✅', advice: '공정한 결과를 기대할 수 있습니다. 진실을 따르세요.' },
+        { id: 12, name: '매달린 사람', answer: 'NO', badge: '❌', advice: '지금은 기다리는 것이 좋습니다. 다른 관점이 필요합니다.' },
+        { id: 13, name: '죽음', answer: 'MAYBE', badge: '🤔', advice: '큰 변화가 필요합니다. 과거를 놓아주고 새롭게 시작하세요.' },
+        { id: 14, name: '절제', answer: 'MAYBE', badge: '🤔', advice: '균형을 찾으세요. 극단적인 선택은 피하는 것이 좋습니다.' },
+        { id: 15, name: '악마', answer: 'NO', badge: '❌', advice: '무언가에 얽매여 있지 않나요? 스스로를 자유롭게 하세요.' },
+        { id: 16, name: '탑', answer: 'NO', badge: '❌', advice: '예상치 못한 어려움이 있을 수 있습니다. 신중하게 재고하세요.' },
+        { id: 17, name: '별', answer: 'YES', badge: '✅', advice: '희망을 가지세요. 긍정적인 결과가 기다리고 있습니다!' },
+        { id: 18, name: '달', answer: 'NO', badge: '❌', advice: '불확실성이 있습니다. 더 명확해질 때까지 기다리세요.' },
+        { id: 19, name: '태양', answer: 'YES', badge: '✅', advice: '절대적으로 YES! 밝은 미래가 펼쳐집니다!' },
+        { id: 20, name: '심판', answer: 'MAYBE', badge: '🤔', advice: '과거를 정리하고 새로운 시작을 준비하세요.' },
+        { id: 21, name: '세계', answer: 'YES', badge: '✅', advice: '완벽한 타이밍입니다. 자신 있게 나아가세요!' }
+    ];
+
+    let userQuestion = '';
+    let selectedCard = null;
+
+    // 카드 선택 시작
+    function startReading() {
+        userQuestion = document.getElementById('userQuestion').value.trim();
+
+        document.getElementById('questionSection').style.display = 'none';
+        document.getElementById('selectionSection').style.display = 'block';
+
+        if (userQuestion) {
+            document.getElementById('questionDisplay').textContent = `"${userQuestion}"`;
+        } else {
+            document.getElementById('questionDisplay').textContent = '"마음속 질문에 대한 답을 찾아보세요"';
+        }
+
+        createCardGrid();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 카드 그리드 생성
+    function createCardGrid() {
+        const grid = document.getElementById('tarotCards');
+        grid.innerHTML = '';
+
+        // 7장만 표시 (간단하게)
+        const cardCount = 7;
+        for (let i = 0; i < cardCount; i++) {
+            const card = document.createElement('div');
+            card.className = 'tarot-card';
+            card.onclick = () => selectCard();
+            grid.appendChild(card);
+        }
+    }
+
+    // 카드 선택 및 결과 표시
+    function selectCard() {
+        // 랜덤 카드 선택
+        const randomIndex = Math.floor(Math.random() * yesNoTarot.length);
+        selectedCard = yesNoTarot[randomIndex];
+
+        setTimeout(() => {
+            showResult();
+        }, 300);
+    }
+
+    // 결과 표시
+    function showResult() {
+        const { name, answer, badge, advice } = selectedCard;
+
+        document.getElementById('answerBadge').textContent = badge;
+        document.getElementById('answerText').textContent = answer;
+        document.getElementById('answerText').className = `answer-text ${answer.toLowerCase()}`;
+        document.getElementById('cardName').textContent = `${badge} ${name}`;
+
+        const meanings = {
+            'YES': '긍정적인 신호입니다. 당신의 질문에 대한 답은 YES입니다.',
+            'NO': '지금은 아니라는 신호입니다. 당신의 질문에 대한 답은 NO입니다.',
+            'MAYBE': '확실하지 않습니다. 더 많은 고민이나 시간이 필요합니다.'
+        };
+
+        document.getElementById('cardMeaning').textContent = meanings[answer];
+        document.getElementById('adviceContent').textContent = advice;
+
+        document.getElementById('selectionSection').style.display = 'none';
+        document.getElementById('resultSection').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        // GA4 이벤트
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'yes_no_tarot_complete', {
+                card: name,
+                answer: answer,
+                has_question: userQuestion !== ''
+            });
+        }
+    }
+
+    // 결과 공유
+    function shareResult() {
+        const text = `예스/노 타로 결과: ${selectedCard.answer}\n${selectedCard.name} - ${selectedCard.advice}\n\n${window.location.href}`;
+
+        if (navigator.share) {
+            navigator.share({
+                title: '예스/노 타로 운세',
+                text: text
+            });
+        } else {
+            navigator.clipboard.writeText(text);
+            alert('결과가 클립보드에 복사되었습니다!');
+        }
+    }
+</script>
+{{ end }}

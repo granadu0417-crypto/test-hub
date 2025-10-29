@@ -43,23 +43,19 @@
         <div class="quick-fortune-card">
             <h3 class="quick-fortune-title">⚡ 빠른 운세 보기</h3>
             <div class="quick-fortune-buttons">
-                <a href="#zodiac" class="btn-fortune">
+                <a href="/fortune/zodiac/" class="btn-fortune">
                     <span>⭐</span>
-                    내 별자리 운세
+                    별자리 운세
                 </a>
-                <a href="#chinese-zodiac" class="btn-fortune btn-fortune-secondary">
-                    <span>🐉</span>
-                    내 띠 운세
-                </a>
-                <a href="#tarot" class="btn-fortune btn-fortune-secondary">
+                <a href="/fortune/tarot/" class="btn-fortune btn-fortune-secondary">
                     <span>🃏</span>
-                    타로 운세
+                    원카드 타로
                 </a>
-                <a href="#dream" class="btn-fortune btn-fortune-secondary">
-                    <span>🌙</span>
-                    꿈해몽
+                <a href="/fortune/yes-no-tarot/" class="btn-fortune btn-fortune-secondary">
+                    <span>✨</span>
+                    예스/노 타로
                 </a>
-                <a href="#compatibility" class="btn-fortune btn-fortune-secondary">
+                <a href="/fortune/compatibility/" class="btn-fortune btn-fortune-secondary">
                     <span>💕</span>
                     궁합보기
                 </a>
@@ -371,7 +367,7 @@
     <div id="tarot" class="fortune-category-section">
         <div class="fortune-category-header">
             <h3>🃏 타로 운세</h3>
-            <span class="fortune-category-count">1개</span>
+            <span class="fortune-category-count">3개</span>
         </div>
 
         <!-- 시간대별 탭 -->
@@ -387,10 +383,32 @@
             <a href="/fortune/tarot/" class="fortune-card" data-tarot="onecard">
                 <div class="fortune-icon">🃏</div>
                 <h3 class="fortune-title">원카드 타로</h3>
-                <p class="fortune-summary">마음을 편안하게 하고<br>직관을 따라 카드를 선택하세요</p>
+                <p class="fortune-summary">오늘의 메시지를<br>한 장의 카드로 확인하세요</p>
                 <div class="fortune-meta">
-                    <span>✨ 22장</span>
-                    <span>🔮 메이저 아르카나</span>
+                    <span>⚡ 빠른 운세</span>
+                    <span>🔮 간편함</span>
+                </div>
+            </a>
+
+            <!-- 쓰리카드 타로 -->
+            <a href="/fortune/three-card-tarot/" class="fortune-card" data-tarot="threecard">
+                <div class="fortune-icon">🎴</div>
+                <h3 class="fortune-title">쓰리카드 타로</h3>
+                <p class="fortune-summary">과거·현재·미래를<br>3장의 카드로 확인하세요</p>
+                <div class="fortune-meta">
+                    <span>📖 스토리</span>
+                    <span>🌟 자세함</span>
+                </div>
+            </a>
+
+            <!-- 예스노 타로 -->
+            <a href="/fortune/yes-no-tarot/" class="fortune-card" data-tarot="yesno">
+                <div class="fortune-icon">✨</div>
+                <h3 class="fortune-title">예스/노 타로</h3>
+                <p class="fortune-summary">고민되는 질문에<br>명확한 답을 얻으세요</p>
+                <div class="fortune-meta">
+                    <span>🎯 실용적</span>
+                    <span>💡 명확함</span>
                 </div>
             </a>
         </div>
