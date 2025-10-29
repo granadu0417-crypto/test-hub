@@ -221,9 +221,88 @@ function getFortuneMessages(zodiacKey, totalScore, period = 'today') {
     pig: '돼지띠에게 평화롭고 풍요로운 시기입니다. 당신의 너그럽고 관대한 성품이 많은 사람들에게 사랑받을 것입니다. 정직하고 순수한 마음가짐이 좋은 인연과 기회를 끌어당깁니다. 물질적인 풍요와 정서적인 안정을 동시에 누릴 수 있는 시기입니다. 여유를 즐기고 삶의 기쁨을 만끽하세요. 가족이나 친구들과 함께하는 시간이 행복을 가져다줍니다. 재물운도 좋아 저축이나 투자에 유리합니다. 다만 지나친 낙관주의나 게으름은 경계하세요. 적절한 근면함과 계획성도 필요합니다. 당신의 복스러운 기운이 주변에 행운을 나누어줄 것입니다.'
   };
 
+  // 구체적인 조언 (점수 기반)
+  let advice = [];
+  if (totalScore >= 90) {
+    advice.push('지금이야말로 중요한 결정을 내리기 최적의 타이밍입니다');
+    advice.push('당신의 직관과 판단을 믿고 과감하게 행동하세요');
+    advice.push('주변 사람들에게 당신의 성공과 기쁨을 나누세요');
+    advice.push('새로운 도전이나 프로젝트를 시작하기에 완벽한 시기입니다');
+  } else if (totalScore >= 80) {
+    advice.push('긍정적인 마음가짐으로 하루를 시작하세요');
+    advice.push('평소 미뤄왔던 일들을 하나씩 실행에 옮기세요');
+    advice.push('주변 사람들과의 관계를 더욱 돈독히 하는 시간을 가지세요');
+    advice.push('작은 목표를 세우고 달성하며 성취감을 느껴보세요');
+  } else if (totalScore >= 70) {
+    advice.push('큰 변화보다는 현재를 안정적으로 유지하는 데 집중하세요');
+    advice.push('무리한 계획은 피하고 차근차근 진행하세요');
+    advice.push('자기 관리와 휴식의 시간을 충분히 가지세요');
+    advice.push('감사할 일들을 찾아보고 긍정적인 마음을 유지하세요');
+  } else {
+    advice.push('서두르지 말고 신중하게 판단하고 행동하세요');
+    advice.push('중요한 결정은 오늘이 아닌 다음을 기약하세요');
+    advice.push('주변의 조언에 귀 기울이고 도움을 요청하세요');
+    advice.push('충분한 휴식과 재충전의 시간을 가지세요');
+  }
+
+  // 주의사항
+  let cautions = [];
+  if (totalScore < 60) {
+    cautions.push('충동적인 결정이나 큰 지출은 피하는 것이 좋습니다');
+    cautions.push('말과 행동에 각별히 신경 쓰세요');
+    cautions.push('건강 관리에 소홀하지 않도록 주의하세요');
+  } else if (totalScore < 80) {
+    cautions.push('너무 서두르거나 조급해하지 마세요');
+    cautions.push('자만하지 말고 겸손한 자세를 유지하세요');
+    cautions.push('작은 갈등도 크게 키우지 않도록 조심하세요');
+  } else {
+    cautions.push('좋은 운세에 안주하지 말고 꾸준히 노력하세요');
+    cautions.push('주변 사람들에 대한 배려를 잊지 마세요');
+  }
+
+  // 행운의 시간대
+  const luckyTimes = [];
+  if (totalScore >= 80) {
+    luckyTimes.push('오전 9시~11시: 중요한 회의나 업무 처리에 최적');
+    luckyTimes.push('오후 2시~4시: 새로운 기회를 포착할 수 있는 시간');
+    luckyTimes.push('저녁 7시~9시: 대인관계와 소통에 유리한 시간대');
+  } else {
+    luckyTimes.push('오전 10시~12시: 집중력이 높아지는 시간');
+    luckyTimes.push('오후 3시~5시: 휴식과 재충전에 좋은 시간');
+    luckyTimes.push('저녁 8시 이후: 개인적인 시간을 가지기 좋은 때');
+  }
+
+  // 추천 활동
+  const recommendedActivities = [];
+  if (totalScore >= 90) {
+    recommendedActivities.push('새로운 프로젝트나 사업 계획 시작하기');
+    recommendedActivities.push('중요한 사람과의 미팅이나 식사');
+    recommendedActivities.push('자기계발이나 학습 활동');
+    recommendedActivities.push('여행이나 새로운 장소 방문');
+  } else if (totalScore >= 80) {
+    recommendedActivities.push('친구나 가족과 함께하는 여가 활동');
+    recommendedActivities.push('취미 생활이나 운동');
+    recommendedActivities.push('가벼운 쇼핑이나 외식');
+    recommendedActivities.push('독서나 영화 감상');
+  } else if (totalScore >= 70) {
+    recommendedActivities.push('집에서 편안한 휴식 취하기');
+    recommendedActivities.push('명상이나 요가 같은 마음 다스리기');
+    recommendedActivities.push('정리정돈이나 간단한 집안일');
+    recommendedActivities.push('가까운 공원 산책');
+  } else {
+    recommendedActivities.push('충분한 수면과 휴식');
+    recommendedActivities.push('가벼운 스트레칭이나 산책');
+    recommendedActivities.push('좋아하는 음악 듣기');
+    recommendedActivities.push('따뜻한 차 마시며 여유 갖기');
+  }
+
   return {
     overall,
-    special: specialMessages[zodiacKey] || '좋은 하루 되세요!'
+    special: specialMessages[zodiacKey] || '좋은 하루 되세요!',
+    advice,
+    cautions,
+    luckyTimes,
+    recommendedActivities
   };
 }
 
@@ -1436,32 +1515,12 @@ function getCompatibilityAnalysis(birthDate1, birthDate2) {
   const person1Traits = `${zodiacSign1.data.name}의 ${zodiacSign1.data.trait}과 ${chineseZodiac1.name}의 ${chineseZodiac1.trait}`;
   const person2Traits = `${zodiacSign2.data.name}의 ${zodiacSign2.data.trait}과 ${chineseZodiac2.name}의 ${chineseZodiac2.trait}`;
 
-  // 장점
-  const strengths = [];
-  if (zodiacCompat.score >= 85) {
-    strengths.push('별자리 궁합이 매우 좋아 서로의 생각과 가치관이 잘 맞습니다');
-  }
-  if (chineseCompat.score >= 85) {
-    strengths.push(`띠 궁합이 매우 좋아 (${chineseCompat.type}) 서로에게 행운을 가져다줍니다`);
-  }
-  if (zodiacSign1.data.symbol === zodiacSign2.data.symbol) {
-    strengths.push('같은 원소로 서로를 깊이 이해할 수 있습니다');
-  }
-  if (strengths.length === 0) {
-    strengths.push('서로 다른 매력으로 새로운 것을 배울 수 있습니다');
-  }
-
-  // 주의사항
-  const cautions = [];
-  if (zodiacCompat.score < 70) {
-    cautions.push('서로 다른 성향으로 인한 갈등에 주의하세요');
-  }
-  if (chineseCompat.score < 70) {
-    cautions.push('생활 방식의 차이를 이해하고 존중해야 합니다');
-  }
-  if (cautions.length === 0) {
-    cautions.push('큰 문제는 없지만 항상 서로를 배려하세요');
-  }
+  // 상세 궁합 분석 생성
+  const detailedAnalysis = generateDetailedCompatibilityAnalysis(
+    zodiacSign1.data, zodiacSign2.data,
+    chineseZodiac1, chineseZodiac2,
+    zodiacCompat, chineseCompat, totalScore
+  );
 
   return {
     found: true,
@@ -1491,9 +1550,168 @@ function getCompatibilityAnalysis(birthDate1, birthDate2) {
     totalScore: totalScore,
     grade: grade,
     gradeDescription: gradeDesc,
-    strengths: strengths,
-    cautions: cautions,
+    ...detailedAnalysis,  // 상세 분석 내용 병합
     loveAdvice: loveAdvice,
     dateKorean: `${new Date().getFullYear()}년 ${new Date().getMonth() + 1}월 ${new Date().getDate()}일`
+  };
+}
+
+// 상세 궁합 분석 생성
+function generateDetailedCompatibilityAnalysis(zodiac1, zodiac2, chinese1, chinese2, zodiacCompat, chineseCompat, totalScore) {
+  const strengths = [];
+  const cautions = [];
+  const dateIdeas = [];
+  const communicationTips = [];
+  const conflictResolution = [];
+  const longTermOutlook = [];
+
+  // === 장점 분석 (점수 기반) ===
+  if (totalScore >= 90) {
+    strengths.push('🎯 천생연분 수준의 궁합으로, 서로의 에너지가 완벽하게 조화를 이룹니다');
+    strengths.push('💖 깊은 감정적 유대감으로 서로의 마음을 쉽게 이해할 수 있어요');
+    strengths.push('✨ 함께 있을 때 자연스럽게 긍정적인 기운이 배가되는 관계입니다');
+    strengths.push('🌟 서로의 목표와 꿈을 이루는 데 최고의 파트너가 될 수 있습니다');
+    strengths.push('💫 갈등이 생겨도 빠르게 해결되는 놀라운 회복력을 가지고 있어요');
+  } else if (totalScore >= 80) {
+    strengths.push('💝 매우 좋은 궁합으로 서로에게 행운과 기쁨을 가져다줍니다');
+    strengths.push('🤝 서로의 장점을 살리고 단점을 자연스럽게 보완하는 관계예요');
+    strengths.push('🎨 함께할 때 새로운 가능성과 창의성이 샘솟는 커플이에요');
+    strengths.push('💪 서로를 믿고 지지하며 함께 성장할 수 있는 건강한 관계입니다');
+  } else if (totalScore >= 70) {
+    strengths.push('🌈 좋은 궁합으로 서로를 이해하고 존중하는 관계를 만들 수 있어요');
+    strengths.push('💭 소통을 통해 서로의 다른 점을 긍정적으로 활용할 수 있습니다');
+    strengths.push('🌱 함께 노력하며 점점 더 깊은 관계로 발전할 가능성이 높아요');
+  } else if (totalScore >= 60) {
+    strengths.push('🎭 서로 다른 매력이 있어 새로운 경험과 배움의 기회가 많습니다');
+    strengths.push('🔮 차이를 통해 서로의 세계를 넓혀갈 수 있는 관계예요');
+    strengths.push('💡 다양한 관점을 배울 수 있어 성장에 도움이 되는 커플입니다');
+  } else {
+    strengths.push('🌟 완전히 다른 매력으로 서로에게 신선한 자극을 줄 수 있어요');
+    strengths.push('📚 많은 것을 배우고 성장할 수 있는 도전적인 관계입니다');
+    strengths.push('💪 어려움을 함께 극복하면 더욱 단단한 유대감이 형성됩니다');
+  }
+
+  // 별자리 기반 장점
+  if (zodiacCompat.score >= 85) {
+    strengths.push(`⭐ ${zodiac1.name}과 ${zodiac2.name}은 별자리 궁합이 매우 좋아 가치관과 생각이 잘 맞아요`);
+    strengths.push('🎯 인생 목표와 방향성이 비슷해서 함께 같은 길을 갈 수 있습니다');
+  } else if (zodiacCompat.score >= 70) {
+    strengths.push(`⭐ ${zodiac1.name}과 ${zodiac2.name}의 조화로 서로를 자극하고 발전시킬 수 있어요`);
+  }
+
+  // 띠 기반 장점
+  if (chineseCompat.score >= 85) {
+    if (chineseCompat.type === '삼합' || chineseCompat.type === '육합') {
+      strengths.push(`🐉 ${chineseCompat.type} 관계로 서로에게 큰 행운과 기회를 가져다줍니다`);
+      strengths.push('🍀 생활 리듬과 습관이 자연스럽게 잘 맞아떨어지는 커플이에요');
+    }
+  }
+
+  // === 주의사항 분석 ===
+  if (totalScore < 60) {
+    cautions.push('⚠️ 서로 매우 다른 성향이므로 충분한 대화와 이해가 필수적입니다');
+    cautions.push('💬 서로의 의견 차이를 존중하고 타협점을 찾는 노력이 중요해요');
+    cautions.push('🕐 관계 발전에 시간이 걸릴 수 있으니 인내심을 가지세요');
+    cautions.push('🧘 각자의 개성을 인정하고 변화를 강요하지 않는 것이 중요합니다');
+  } else if (totalScore < 70) {
+    cautions.push('💭 생활 방식과 사고방식의 차이를 인정하고 존중해야 해요');
+    cautions.push('🗣️ 오해가 생기기 전에 솔직하게 감정을 표현하는 것이 중요합니다');
+    cautions.push('⏰ 서로의 속도와 리듬을 이해하고 맞춰가는 노력이 필요해요');
+  } else if (totalScore < 80) {
+    cautions.push('🎯 좋은 궁합이지만 서로를 당연하게 여기지 않도록 주의하세요');
+    cautions.push('💝 작은 배려와 관심이 관계를 더욱 단단하게 만듭니다');
+  } else {
+    cautions.push('✨ 궁합이 좋다고 해서 노력을 게을리하면 안 돼요');
+    cautions.push('💑 서로에 대한 감사와 존중의 마음을 항상 표현하세요');
+  }
+
+  // 별자리 기반 주의사항
+  if (zodiacCompat.score < 70) {
+    cautions.push(`🌟 ${zodiac1.name}과 ${zodiac2.name}은 접근 방식이 다를 수 있으니 충분한 대화가 필요해요`);
+  }
+  if (zodiac1.symbol !== zodiac2.symbol) {
+    cautions.push('🔥 서로 다른 원소의 에너지를 이해하고 균형을 맞추는 것이 중요합니다');
+  }
+
+  // 띠 기반 주의사항
+  if (chineseCompat.score < 70) {
+    cautions.push(`🐲 ${chinese1.name}과 ${chinese2.name}은 생활 리듬이 다를 수 있으니 서로 맞춰가세요`);
+  }
+
+  // === 데이트 아이디어 (점수 기반) ===
+  if (totalScore >= 80) {
+    dateIdeas.push('🎨 함께 새로운 취미나 예술 활동을 시작해보세요 - 도자기 만들기, 그림 그리기 등');
+    dateIdeas.push('🌅 일출이나 일몰을 함께 보며 미래의 꿈을 이야기하는 시간');
+    dateIdeas.push('🍽️ 둘만의 특별한 식사를 준비하거나 맛집 투어를 즐겨보세요');
+    dateIdeas.push('🏞️ 자연 속에서 산책하거나 가벼운 등산으로 함께 힐링하기');
+    dateIdeas.push('🎭 공연이나 전시회를 관람하며 문화적인 경험 공유하기');
+  } else if (totalScore >= 70) {
+    dateIdeas.push('☕ 조용한 카페에서 깊은 대화를 나누며 서로를 더 알아가기');
+    dateIdeas.push('🎮 함께 협력하는 보드게임이나 방탈출 카페 도전하기');
+    dateIdeas.push('📚 서점이나 도서관에서 함께 책을 고르고 독서 모임 갖기');
+    dateIdeas.push('🎬 영화 관람 후 감상을 공유하며 가치관 교환하기');
+  } else {
+    dateIdeas.push('🗺️ 새로운 동네나 장소를 함께 탐험하며 모험심 키우기');
+    dateIdeas.push('🎪 축제나 이벤트에 참여해서 즐거운 추억 만들기');
+    dateIdeas.push('🏃 운동이나 액티비티로 함께 땀 흘리며 유대감 형성하기');
+    dateIdeas.push('🧩 함께 문제를 해결하는 활동으로 팀워크 다지기');
+  }
+
+  // === 커뮤니케이션 팁 ===
+  if (totalScore >= 80) {
+    communicationTips.push('💭 서로의 생각을 솔직하게 나누되, 상대방의 기분을 항상 배려하세요');
+    communicationTips.push('👂 경청하는 자세로 상대방의 이야기에 진심으로 귀 기울이기');
+    communicationTips.push('💌 작은 것이라도 감사함을 자주 표현하면 관계가 더욱 돈독해져요');
+  } else if (totalScore >= 70) {
+    communicationTips.push('🗣️ 감정이 격해질 때는 잠시 시간을 두고 차분히 대화하기');
+    communicationTips.push('🤔 상대방의 관점에서 생각해보려는 노력이 매우 중요해요');
+    communicationTips.push('📝 복잡한 감정은 편지나 메시지로 정리해서 전달하는 것도 좋아요');
+  } else {
+    communicationTips.push('⏸️ 의견 충돌 시 비난보다는 자신의 감정을 "나 전달법"으로 표현하세요');
+    communicationTips.push('🎯 구체적이고 명확하게 자신의 요구사항을 전달하기');
+    communicationTips.push('💡 정기적으로 서로의 관계에 대해 점검하고 대화하는 시간 갖기');
+    communicationTips.push('🕊️ 과거의 잘못을 들춰내지 않고 현재와 미래에 집중하기');
+  }
+
+  // === 갈등 해결 방법 ===
+  if (totalScore >= 80) {
+    conflictResolution.push('🌱 작은 갈등도 쌓이기 전에 바로바로 해결하는 습관 들이기');
+    conflictResolution.push('🤗 화해할 때는 진심을 담은 포옹과 함께 사과하기');
+    conflictResolution.push('💝 갈등 후에는 더욱 사랑을 표현하며 관계를 다지기');
+  } else {
+    conflictResolution.push('🛑 감정이 격해질 때는 일단 멈추고 각자 진정할 시간 갖기');
+    conflictResolution.push('🔍 문제의 본질을 파악하고 표면적인 감정에 휘둘리지 않기');
+    conflictResolution.push('🤝 타협점을 찾기 위해 서로 양보할 수 있는 부분 찾아보기');
+    conflictResolution.push('💭 제3자의 조언이나 관점이 필요할 때는 주저하지 말고 구하기');
+    conflictResolution.push('📖 갈등을 배움의 기회로 삼아 더 나은 관계로 발전시키기');
+  }
+
+  // === 장기적 전망 ===
+  if (totalScore >= 90) {
+    longTermOutlook.push('💍 결혼 후에도 행복한 가정을 꾸릴 가능성이 매우 높은 궁합입니다');
+    longTermOutlook.push('👨‍👩‍👧‍👦 자녀 양육이나 가족 관계에서도 의견이 잘 맞을 거예요');
+    longTermOutlook.push('💰 재정 관리나 미래 계획에서도 조화로운 결정을 내릴 수 있어요');
+    longTermOutlook.push('🏡 함께 꿈꾸는 미래를 현실로 만들어갈 최고의 파트너입니다');
+  } else if (totalScore >= 80) {
+    longTermOutlook.push('💑 서로를 존중하며 오래도록 행복한 관계를 유지할 수 있어요');
+    longTermOutlook.push('🌟 함께 성장하며 점점 더 깊은 유대감을 형성할 거예요');
+    longTermOutlook.push('💝 시간이 지날수록 서로의 소중함을 더 깨닫게 될 관계입니다');
+  } else if (totalScore >= 70) {
+    longTermOutlook.push('🌱 꾸준한 노력과 소통으로 안정적인 관계를 만들어갈 수 있어요');
+    longTermOutlook.push('📈 시간이 지나면서 서로를 이해하는 폭이 넓어질 거예요');
+    longTermOutlook.push('💪 어려움을 함께 극복하며 더욱 단단한 관계로 발전할 수 있습니다');
+  } else {
+    longTermOutlook.push('🎯 많은 노력이 필요하지만, 진심으로 사랑한다면 충분히 가능해요');
+    longTermOutlook.push('🏔️ 차이를 극복하는 과정에서 두 사람 모두 크게 성장할 거예요');
+    longTermOutlook.push('💎 쉽지 않은 관계지만 그만큼 특별하고 의미 있는 인연이 될 수 있어요');
+  }
+
+  return {
+    strengths,
+    cautions,
+    dateIdeas,
+    communicationTips,
+    conflictResolution,
+    longTermOutlook
   };
 }

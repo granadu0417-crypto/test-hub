@@ -447,6 +447,30 @@
                 <div id="loveAdvice" class="compat-detail-content"></div>
             </div>
 
+            <!-- 데이트 아이디어 -->
+            <div class="compat-detail-box">
+                <div class="compat-detail-title">💑 추천 데이트 아이디어</div>
+                <ul id="dateIdeasList" class="compat-detail-list"></ul>
+            </div>
+
+            <!-- 커뮤니케이션 팁 -->
+            <div class="compat-detail-box">
+                <div class="compat-detail-title">💬 소통 비법</div>
+                <ul id="communicationTipsList" class="compat-detail-list"></ul>
+            </div>
+
+            <!-- 갈등 해결 방법 -->
+            <div class="compat-detail-box">
+                <div class="compat-detail-title">🤝 갈등 해결 가이드</div>
+                <ul id="conflictResolutionList" class="compat-detail-list"></ul>
+            </div>
+
+            <!-- 장기적 전망 -->
+            <div class="compat-detail-box">
+                <div class="compat-detail-title">🔮 장기적 관계 전망</div>
+                <ul id="longTermOutlookList" class="compat-detail-list"></ul>
+            </div>
+
             <!-- 공유하기 -->
             <div class="share-section">
                 <h4 class="share-title">💬 결과를 공유하기</h4>
@@ -572,6 +596,42 @@
 
         // 조언
         document.getElementById('loveAdvice').textContent = result.loveAdvice;
+
+        // 데이트 아이디어
+        const dateIdeasList = document.getElementById('dateIdeasList');
+        dateIdeasList.innerHTML = '';
+        result.dateIdeas.forEach(idea => {
+            const li = document.createElement('li');
+            li.textContent = idea;
+            dateIdeasList.appendChild(li);
+        });
+
+        // 커뮤니케이션 팁
+        const communicationTipsList = document.getElementById('communicationTipsList');
+        communicationTipsList.innerHTML = '';
+        result.communicationTips.forEach(tip => {
+            const li = document.createElement('li');
+            li.textContent = tip;
+            communicationTipsList.appendChild(li);
+        });
+
+        // 갈등 해결 방법
+        const conflictResolutionList = document.getElementById('conflictResolutionList');
+        conflictResolutionList.innerHTML = '';
+        result.conflictResolution.forEach(method => {
+            const li = document.createElement('li');
+            li.textContent = method;
+            conflictResolutionList.appendChild(li);
+        });
+
+        // 장기적 전망
+        const longTermOutlookList = document.getElementById('longTermOutlookList');
+        longTermOutlookList.innerHTML = '';
+        result.longTermOutlook.forEach(outlook => {
+            const li = document.createElement('li');
+            li.textContent = outlook;
+            longTermOutlookList.appendChild(li);
+        });
     }
 
     function resetCompatibility() {
