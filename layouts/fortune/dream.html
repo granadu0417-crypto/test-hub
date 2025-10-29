@@ -221,47 +221,79 @@
                 <div id="resultLuckyScore" style="font-size: 4rem; font-weight: 900; background: linear-gradient(135deg, #fbbf24, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></div>
             </div>
 
-            <!-- 꿈의 기본 의미 -->
-            <div id="meaningSection" class="message-box">
-                <div class="message-box-title">📖 꿈의 기본 의미</div>
-                <div id="resultMeaning"></div>
-            </div>
+            <!-- 상세 해몽 아코디언 -->
+            <div class="accordion-section" style="margin-bottom: 24px;">
+                <button class="accordion-header" onclick="toggleAccordion('dreamMeaning')" style="width: 100%; background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2)); border: 2px solid rgba(251, 191, 36, 0.4); border-radius: 16px; padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;" onmouseover="this.style.background='linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(245, 158, 11, 0.3))'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(251, 191, 36, 0.3)';" onmouseout="this.style.background='linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2))'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                    <span style="font-size: 1.2rem; color: #fbbf24; font-weight: 700;">📖 상세 해몽 보기</span>
+                    <span class="accordion-icon" style="font-size: 1.5rem; color: #fbbf24; transition: transform 0.3s ease;">▼</span>
+                </button>
+                <div id="dreamMeaning" class="accordion-content" style="overflow: hidden; transition: max-height 0.4s ease, opacity 0.3s ease;">
+                    <div class="accordion-inner" style="padding-top: 20px;">
+                        <!-- 꿈의 기본 의미 -->
+                        <div id="meaningSection" class="message-box">
+                            <div class="message-box-title">📖 꿈의 기본 의미</div>
+                            <div id="resultMeaning"></div>
+                        </div>
 
-            <!-- 긍정적 의미 -->
-            <div id="positiveSection" class="message-box">
-                <div class="message-box-title">✨ 긍정적 의미</div>
-                <div id="resultPositive"></div>
-            </div>
+                        <!-- 긍정적 의미 -->
+                        <div id="positiveSection" class="message-box">
+                            <div class="message-box-title">✨ 긍정적 의미</div>
+                            <div id="resultPositive"></div>
+                        </div>
 
-            <!-- 부정적 의미 (있는 경우만) -->
-            <div id="negativeSection" class="message-box" style="display: none;">
-                <div class="message-box-title">⚠️ 주의사항</div>
-                <div id="resultNegative"></div>
-            </div>
-
-            <!-- 오늘의 조언 -->
-            <div id="adviceSection" class="message-box">
-                <div class="message-box-title">💡 오늘의 조언</div>
-                <div id="resultAdvice"></div>
-            </div>
-
-            <!-- 특별 메시지 -->
-            <div id="todayAdviceSection" class="message-box">
-                <div class="message-box-title">🔮 특별 메시지</div>
-                <div id="resultTodayAdvice"></div>
-            </div>
-
-            <!-- 행운의 아이템 -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px;">
-                <div style="background: rgba(251, 191, 36, 0.1); border-radius: 16px; padding: 24px; text-align: center; border: 1px solid rgba(251, 191, 36, 0.2);">
-                    <div style="font-size: 1.8rem; margin-bottom: 8px;">🎨</div>
-                    <div style="font-size: 0.95rem; color: #94a3b8; margin-bottom: 8px;">행운의 색</div>
-                    <div id="resultLuckyColor" style="font-size: 1.3rem; color: #fbbf24; font-weight: 700;"></div>
+                        <!-- 부정적 의미 (있는 경우만) -->
+                        <div id="negativeSection" class="message-box" style="display: none;">
+                            <div class="message-box-title">⚠️ 주의사항</div>
+                            <div id="resultNegative"></div>
+                        </div>
+                    </div>
                 </div>
-                <div style="background: rgba(251, 191, 36, 0.1); border-radius: 16px; padding: 24px; text-align: center; border: 1px solid rgba(251, 191, 36, 0.2);">
-                    <div style="font-size: 1.8rem; margin-bottom: 8px;">🔢</div>
-                    <div style="font-size: 0.95rem; color: #94a3b8; margin-bottom: 8px;">행운의 숫자</div>
-                    <div id="resultLuckyNumber" style="font-size: 1.3rem; color: #fbbf24; font-weight: 700;"></div>
+            </div>
+
+            <!-- 조언 & 메시지 아코디언 -->
+            <div class="accordion-section" style="margin-bottom: 24px;">
+                <button class="accordion-header" onclick="toggleAccordion('dreamAdvice')" style="width: 100%; background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2)); border: 2px solid rgba(251, 191, 36, 0.4); border-radius: 16px; padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;" onmouseover="this.style.background='linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(245, 158, 11, 0.3))'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(251, 191, 36, 0.3)';" onmouseout="this.style.background='linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2))'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                    <span style="font-size: 1.2rem; color: #fbbf24; font-weight: 700;">💡 조언 & 메시지 보기</span>
+                    <span class="accordion-icon" style="font-size: 1.5rem; color: #fbbf24; transition: transform 0.3s ease;">▼</span>
+                </button>
+                <div id="dreamAdvice" class="accordion-content" style="overflow: hidden; transition: max-height 0.4s ease, opacity 0.3s ease;">
+                    <div class="accordion-inner" style="padding-top: 20px;">
+                        <!-- 오늘의 조언 -->
+                        <div id="adviceSection" class="message-box">
+                            <div class="message-box-title">💡 오늘의 조언</div>
+                            <div id="resultAdvice"></div>
+                        </div>
+
+                        <!-- 특별 메시지 -->
+                        <div id="todayAdviceSection" class="message-box">
+                            <div class="message-box-title">🔮 특별 메시지</div>
+                            <div id="resultTodayAdvice"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 행운의 아이템 아코디언 -->
+            <div class="accordion-section" style="margin-bottom: 40px;">
+                <button class="accordion-header" onclick="toggleAccordion('luckyItems')" style="width: 100%; background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2)); border: 2px solid rgba(251, 191, 36, 0.4); border-radius: 16px; padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;" onmouseover="this.style.background='linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(245, 158, 11, 0.3))'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(251, 191, 36, 0.3)';" onmouseout="this.style.background='linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2))'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                    <span style="font-size: 1.2rem; color: #fbbf24; font-weight: 700;">🍀 행운의 아이템 보기</span>
+                    <span class="accordion-icon" style="font-size: 1.5rem; color: #fbbf24; transition: transform 0.3s ease;">▼</span>
+                </button>
+                <div id="luckyItems" class="accordion-content" style="overflow: hidden; transition: max-height 0.4s ease, opacity 0.3s ease;">
+                    <div class="accordion-inner" style="padding-top: 20px;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                            <div style="background: rgba(251, 191, 36, 0.1); border-radius: 16px; padding: 24px; text-align: center; border: 1px solid rgba(251, 191, 36, 0.2);">
+                                <div style="font-size: 1.8rem; margin-bottom: 8px;">🎨</div>
+                                <div style="font-size: 0.95rem; color: #94a3b8; margin-bottom: 8px;">행운의 색</div>
+                                <div id="resultLuckyColor" style="font-size: 1.3rem; color: #fbbf24; font-weight: 700;"></div>
+                            </div>
+                            <div style="background: rgba(251, 191, 36, 0.1); border-radius: 16px; padding: 24px; text-align: center; border: 1px solid rgba(251, 191, 36, 0.2);">
+                                <div style="font-size: 1.8rem; margin-bottom: 8px;">🔢</div>
+                                <div style="font-size: 0.95rem; color: #94a3b8; margin-bottom: 8px;">행운의 숫자</div>
+                                <div id="resultLuckyNumber" style="font-size: 1.3rem; color: #fbbf24; font-weight: 700;"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -344,6 +376,11 @@
             inputSection.style.display = 'none';
             resultSection.style.display = 'block';
             window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // 아코디언 초기화
+            setTimeout(() => {
+                initializeAccordions();
+            }, 100);
 
         } catch (error) {
             console.error('꿈해몽 오류:', error);
@@ -612,6 +649,76 @@
             }
         }
     }
+
+    // 아코디언 시스템
+    function toggleAccordion(id) {
+        const content = document.getElementById(id);
+        const button = content.previousElementSibling;
+        const icon = button.querySelector('.accordion-icon');
+
+        if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+            // 접기
+            content.style.maxHeight = '0px';
+            content.style.opacity = '0';
+            content.style.paddingTop = '0';
+            content.style.paddingBottom = '0';
+            icon.style.transform = 'rotate(0deg)';
+            button.setAttribute('aria-expanded', 'false');
+        } else {
+            // 펼치기
+            content.style.maxHeight = content.scrollHeight + 'px';
+            content.style.opacity = '1';
+            content.style.paddingTop = '0';
+            content.style.paddingBottom = '0';
+            icon.style.transform = 'rotate(180deg)';
+            button.setAttribute('aria-expanded', 'true');
+
+            // 약간의 여유 공간 추가
+            setTimeout(() => {
+                content.style.maxHeight = (content.scrollHeight + 50) + 'px';
+            }, 100);
+        }
+    }
+
+    function initializeAccordions() {
+        const isMobile = window.innerWidth <= 768;
+        const accordions = ['dreamMeaning', 'dreamAdvice', 'luckyItems'];
+
+        accordions.forEach(id => {
+            const content = document.getElementById(id);
+            const button = content.previousElementSibling;
+            const icon = button.querySelector('.accordion-icon');
+
+            if (isMobile) {
+                // 모바일: 기본 접힘
+                content.style.maxHeight = '0px';
+                content.style.opacity = '0';
+                icon.style.transform = 'rotate(0deg)';
+                button.setAttribute('aria-expanded', 'false');
+            } else {
+                // PC: 기본 펼침
+                content.style.maxHeight = (content.scrollHeight + 50) + 'px';
+                content.style.opacity = '1';
+                icon.style.transform = 'rotate(180deg)';
+                button.setAttribute('aria-expanded', 'true');
+            }
+        });
+    }
+
+    // Resize handler with debounce
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            const accordions = ['dreamMeaning', 'dreamAdvice', 'luckyItems'];
+            accordions.forEach(id => {
+                const content = document.getElementById(id);
+                if (content.style.opacity === '1') {
+                    content.style.maxHeight = (content.scrollHeight + 50) + 'px';
+                }
+            });
+        }, 250);
+    });
 </script>
 
 {{ end }}
