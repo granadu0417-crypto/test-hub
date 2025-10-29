@@ -925,12 +925,12 @@
                         <span class="test-badge update">UPDATE</span>
                         {{ end }}
                     {{ end }}
-                    <div class="test-icon">{{ .Params.icon }}</div>
+                    <div class="test-icon">{{ .Params.icon | default "🎯" }}</div>
                     <h3 class="test-title">{{ .Title }}</h3>
                     <p class="test-summary">{{ .Params.summary }}</p>
                     <div class="test-meta">
-                        <span>❓ {{ .Params.questionCount }}개 질문</span>
-                        <span>⏱️ {{ .Params.duration }}</span>
+                        {{ if .Params.questionCount }}<span>❓ {{ .Params.questionCount }}개 질문</span>{{ else }}<span>❓ 약 10개 질문</span>{{ end }}
+                        {{ if .Params.duration }}<span>⏱️ {{ .Params.duration }}</span>{{ else }}<span>⏱️ 약 3분</span>{{ end }}
                     </div>
                 </a>
             </div>
@@ -967,12 +967,12 @@
                         <span class="test-badge update">UPDATE</span>
                         {{ end }}
                     {{ end }}
-                    <div class="test-icon">{{ .Params.icon }}</div>
+                    <div class="test-icon">{{ .Params.icon | default "🎯" }}</div>
                     <h3 class="test-title">{{ .Title }}</h3>
                     <p class="test-summary">{{ .Params.summary }}</p>
                     <div class="test-meta">
-                        <span>❓ {{ .Params.questionCount }}개 질문</span>
-                        <span>⏱️ {{ .Params.duration }}</span>
+                        {{ if .Params.questionCount }}<span>❓ {{ .Params.questionCount }}개 질문</span>{{ else }}<span>❓ 약 10개 질문</span>{{ end }}
+                        {{ if .Params.duration }}<span>⏱️ {{ .Params.duration }}</span>{{ else }}<span>⏱️ 약 3분</span>{{ end }}
                     </div>
                 </a>
             </div>
@@ -1008,12 +1008,12 @@
                         <span class="test-badge update">UPDATE</span>
                         {{ end }}
                     {{ end }}
-                    <div class="test-icon">{{ .Params.icon }}</div>
+                    <div class="test-icon">{{ .Params.icon | default "🎯" }}</div>
                     <h3 class="test-title">{{ .Title }}</h3>
                     <p class="test-summary">{{ .Params.summary }}</p>
                     <div class="test-meta">
-                        <span>❓ {{ .Params.questionCount }}개 질문</span>
-                        <span>⏱️ {{ .Params.duration }}</span>
+                        {{ if .Params.questionCount }}<span>❓ {{ .Params.questionCount }}개 질문</span>{{ else }}<span>❓ 약 10개 질문</span>{{ end }}
+                        {{ if .Params.duration }}<span>⏱️ {{ .Params.duration }}</span>{{ else }}<span>⏱️ 약 3분</span>{{ end }}
                     </div>
                 </a>
             </div>
@@ -1088,12 +1088,12 @@
                         <span class="test-badge update">UPDATE</span>
                         {{ end }}
                     {{ end }}
-                    <div class="test-icon">{{ .Params.icon }}</div>
+                    <div class="test-icon">{{ .Params.icon | default "🎯" }}</div>
                     <h3 class="test-title">{{ .Title }}</h3>
                     <p class="test-summary">{{ .Params.summary }}</p>
                     <div class="test-meta">
-                        <span>❓ {{ .Params.questionCount }}개 질문</span>
-                        <span>⏱️ {{ .Params.duration }}</span>
+                        {{ if .Params.questionCount }}<span>❓ {{ .Params.questionCount }}개 질문</span>{{ else }}<span>❓ 약 10개 질문</span>{{ end }}
+                        {{ if .Params.duration }}<span>⏱️ {{ .Params.duration }}</span>{{ else }}<span>⏱️ 약 3분</span>{{ end }}
                     </div>
                 </a>
             </div>
@@ -1129,12 +1129,12 @@
                         <span class="test-badge update">UPDATE</span>
                         {{ end }}
                     {{ end }}
-                    <div class="test-icon">{{ .Params.icon }}</div>
+                    <div class="test-icon">{{ .Params.icon | default "🎯" }}</div>
                     <h3 class="test-title">{{ .Title }}</h3>
                     <p class="test-summary">{{ .Params.summary }}</p>
                     <div class="test-meta">
-                        <span>❓ {{ .Params.questionCount }}개 질문</span>
-                        <span>⏱️ {{ .Params.duration }}</span>
+                        {{ if .Params.questionCount }}<span>❓ {{ .Params.questionCount }}개 질문</span>{{ else }}<span>❓ 약 10개 질문</span>{{ end }}
+                        {{ if .Params.duration }}<span>⏱️ {{ .Params.duration }}</span>{{ else }}<span>⏱️ 약 3분</span>{{ end }}
                     </div>
                 </a>
             </div>
@@ -1170,12 +1170,12 @@
                         <span class="test-badge update">UPDATE</span>
                         {{ end }}
                     {{ end }}
-                    <div class="test-icon">{{ .Params.icon }}</div>
+                    <div class="test-icon">{{ .Params.icon | default "🎯" }}</div>
                     <h3 class="test-title">{{ .Title }}</h3>
                     <p class="test-summary">{{ .Params.summary }}</p>
                     <div class="test-meta">
-                        <span>❓ {{ .Params.questionCount }}개 질문</span>
-                        <span>⏱️ {{ .Params.duration }}</span>
+                        {{ if .Params.questionCount }}<span>❓ {{ .Params.questionCount }}개 질문</span>{{ else }}<span>❓ 약 10개 질문</span>{{ end }}
+                        {{ if .Params.duration }}<span>⏱️ {{ .Params.duration }}</span>{{ else }}<span>⏱️ 약 3분</span>{{ end }}
                     </div>
                 </a>
             </div>
@@ -1455,8 +1455,8 @@ function loadTodayPickTest() {
             title: {{ .Title | jsonify }},
             summary: {{ .Params.summary | jsonify }},
             icon: {{ .Params.icon | jsonify }},
-            questionCount: {{ .Params.questionCount | jsonify }},
-            duration: {{ .Params.duration | jsonify }},
+            questionCount: {{ .Params.questionCount | default 10 }},
+            duration: {{ .Params.duration | default "약 3분" | jsonify }},
             url: {{ .Permalink | jsonify }}
         },
         {{ end }}
@@ -1471,14 +1471,20 @@ function loadTodayPickTest() {
     // HTML 생성
     const container = document.getElementById('todayPickTest');
     if (container && pickedTest) {
-        container.innerHTML = `
-            <div class="today-pick-icon">${pickedTest.icon}</div>
-            <h3 class="today-pick-test-title">${pickedTest.title}</h3>
-            <p class="today-pick-test-summary">${pickedTest.summary}</p>
+        const questionText = pickedTest.questionCount ? `❓ ${pickedTest.questionCount}개 질문` : '';
+        const durationText = pickedTest.duration ? `⏱️ ${pickedTest.duration}` : '';
+        const metaHTML = (questionText || durationText) ? `
             <div class="today-pick-test-meta">
-                <span>❓ ${pickedTest.questionCount}개 질문</span>
-                <span>⏱️ ${pickedTest.duration}</span>
+                ${questionText ? `<span>${questionText}</span>` : ''}
+                ${durationText ? `<span>${durationText}</span>` : ''}
             </div>
+        ` : '';
+
+        container.innerHTML = `
+            <div class="today-pick-icon">${pickedTest.icon || '🎯'}</div>
+            <h3 class="today-pick-test-title">${pickedTest.title}</h3>
+            <p class="today-pick-test-summary">${pickedTest.summary || ''}</p>
+            ${metaHTML}
             <div class="today-pick-cta">
                 <a href="${pickedTest.url}" class="today-pick-btn">지금 바로 시작하기 →</a>
             </div>
@@ -1503,8 +1509,8 @@ function loadPopularTests() {
             title: {{ .Title | jsonify }},
             summary: {{ .Params.summary | jsonify }},
             icon: {{ .Params.icon | jsonify }},
-            questionCount: {{ .Params.questionCount | jsonify }},
-            duration: {{ .Params.duration | jsonify }},
+            questionCount: {{ .Params.questionCount | default 10 }},
+            duration: {{ .Params.duration | default "약 3분" | jsonify }},
             url: {{ .Permalink | jsonify }}
         },
         {{ end }}
@@ -1554,12 +1560,12 @@ function loadPopularTests() {
                     <span class="test-badge" style="background: linear-gradient(135deg, ${getRankColor(index)}); animation: pulse 2s ease-in-out infinite;">
                         🏆 ${index + 1}위
                     </span>
-                    <div class="test-icon">${test.icon}</div>
+                    <div class="test-icon">${test.icon || '🎯'}</div>
                     <h3 class="test-title">${test.title}</h3>
-                    <p class="test-summary">${test.summary}</p>
+                    <p class="test-summary">${test.summary || ''}</p>
                     <div class="test-meta">
-                        <span>❓ ${test.questionCount}개 질문</span>
-                        <span>⏱️ ${test.duration}</span>
+                        ${test.questionCount ? `<span>❓ ${test.questionCount}개 질문</span>` : ''}
+                        ${test.duration ? `<span>⏱️ ${test.duration}</span>` : ''}
                     </div>
                     <div class="test-meta" style="border-top: 1px solid #e2e8f0; padding-top: 12px; margin-top: 12px;">
                         <span style="color: #EF4444; font-weight: 700;">🔥 ${test.count.toLocaleString()}명 참여</span>
