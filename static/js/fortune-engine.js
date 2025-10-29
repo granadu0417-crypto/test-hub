@@ -282,8 +282,8 @@ function getZodiacFortuneMessages(zodiacKey, totalScore) {
     pisces: '직관과 감성이 조화를 이루는 날입니다.'
   };
 
-  return {
+  return [
     overall,
-    special: specialMessages[zodiacKey] || '좋은 하루 되세요!'
-  };
+    specialMessages[zodiacKey] || '좋은 하루 되세요!'
+  ];
 }
