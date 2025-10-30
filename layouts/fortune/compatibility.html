@@ -8,6 +8,33 @@
         min-height: 100vh;
     }
 
+    /* 입력 화면 스타일 */
+    .fortune-input-container {
+        max-width: 800px;
+        margin: 60px auto;
+        padding: 60px 40px;
+        text-align: center;
+    }
+
+    .fortune-input-title {
+        font-size: 2.5rem;
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 20px;
+        font-weight: 900;
+    }
+
+    .fortune-input-subtitle {
+        color: #fef3c7;
+        font-size: 1.2rem;
+        margin-bottom: 40px;
+        line-height: 1.9;
+        font-weight: 400;
+        opacity: 0.95;
+    }
+
     /* 날짜 입력 그룹 */
     .date-input-group {
         background: rgba(251, 191, 36, 0.08);
@@ -53,9 +80,44 @@
         box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.2);
     }
 
+    /* 모바일에서 숫자 키패드 표시 */
+    .date-input::placeholder {
+        color: rgba(30, 41, 59, 0.5);
+    }
+
     .date-input::-webkit-calendar-picker-indicator {
         cursor: pointer;
         filter: invert(0.3);
+    }
+
+    /* 모바일 최적화 */
+    @media (max-width: 768px) {
+        .fortune-input-container {
+            padding: 40px 20px;
+        }
+
+        .fortune-input-title {
+            font-size: 2rem;
+        }
+
+        .fortune-input-subtitle {
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .date-input-group {
+            padding: 20px;
+        }
+
+        .date-input {
+            font-size: 1rem;
+            padding: 16px;
+        }
+
+        /* 모바일에서 달력 대신 숫자 입력 */
+        .date-input[type="date"] {
+            position: relative;
+        }
     }
 
     /* 궁합 점수 섹션 */
@@ -377,12 +439,12 @@
 
             <div class="date-input-group">
                 <label class="date-input-label">👤 첫 번째 사람 생년월일</label>
-                <input type="date" id="birthDate1" class="date-input">
+                <input type="text" id="birthDate1" class="date-input" placeholder="YYYY-MM-DD (예: 1995-03-21)" pattern="\d{4}-\d{2}-\d{2}" inputmode="numeric">
             </div>
 
             <div class="date-input-group">
                 <label class="date-input-label">👤 두 번째 사람 생년월일</label>
-                <input type="date" id="birthDate2" class="date-input">
+                <input type="text" id="birthDate2" class="date-input" placeholder="YYYY-MM-DD (예: 1997-08-15)" pattern="\d{4}-\d{2}-\d{2}" inputmode="numeric">
             </div>
 
             <button id="submitButton" class="submit-button">
@@ -568,12 +630,38 @@
 
     submitButton.addEventListener('click', showCompatibility);
 
+    // 날짜 형식 검증 함수
+    function isValidDateFormat(dateString) {
+        // YYYY-MM-DD 형식 체크
+        const regex = /^\d{4}-\d{2}-\d{2}$/;
+        if (!regex.test(dateString)) {
+            return false;
+        }
+
+        // 실제 날짜 유효성 체크
+        const date = new Date(dateString);
+        return !isNaN(date.getTime());
+    }
+
     function showCompatibility() {
-        const date1 = birthDate1Input.value;
-        const date2 = birthDate2Input.value;
+        const date1 = birthDate1Input.value.trim();
+        const date2 = birthDate2Input.value.trim();
 
         if (!date1 || !date2) {
             alert('두 사람의 생년월일을 모두 입력해주세요.');
+            return;
+        }
+
+        // 날짜 형식 검증
+        if (!isValidDateFormat(date1)) {
+            alert('첫 번째 생년월일 형식이 올바르지 않습니다.\nYYYY-MM-DD 형식으로 입력해주세요.\n(예: 1995-03-21)');
+            birthDate1Input.focus();
+            return;
+        }
+
+        if (!isValidDateFormat(date2)) {
+            alert('두 번째 생년월일 형식이 올바르지 않습니다.\nYYYY-MM-DD 형식으로 입력해주세요.\n(예: 1997-08-15)');
+            birthDate2Input.focus();
             return;
         }
 
