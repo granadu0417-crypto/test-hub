@@ -8,7 +8,7 @@ category: "fun"
 badge: "HOT"
 featured: true
 ogImage: "og/og-protagonist-type.png"
-keywords: ["주인공테스트", "드라마테스트", "캐릭터유형", "주인공유형", "성격테스트", "재미테스트"]
+keywords: ["주인공테스트", "드라마테스트", "캐릭터유형", "주인공유형", "성격테스트", "재미테스트", "나는 어떤 주인공", "드라마 주인공 테스트", "드라마 주인공 유형", "드라마 캐릭터 테스트", "주인공 유형 테스트", "내가 주인공이라면", "드라마 주인공 유형 테스트"]
 questionCount: 12
 duration: "2-3분"
 
