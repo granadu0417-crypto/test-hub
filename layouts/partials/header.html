@@ -40,9 +40,15 @@
         <!-- Navigation (if not on home page) -->
         {{ if not .IsHome }}
         <nav style="margin-top: 20px;">
+            {{ if $isFortuneSection }}
+            <a href="/fortune/" style="color: white; text-decoration: none; padding: 10px 20px; background: rgba(255,255,255,0.2); border-radius: 25px; display: inline-block; transition: all 0.3s ease;">
+                ← 전체 운세 보기
+            </a>
+            {{ else }}
             <a href="/" style="color: white; text-decoration: none; padding: 10px 20px; background: rgba(255,255,255,0.2); border-radius: 25px; display: inline-block; transition: all 0.3s ease;">
                 ← 전체 테스트 보기
             </a>
+            {{ end }}
         </nav>
         {{ end }}
     </div>
