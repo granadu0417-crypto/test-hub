@@ -439,12 +439,12 @@
 
             <div class="date-input-group">
                 <label class="date-input-label">👤 첫 번째 사람 생년월일</label>
-                <input type="text" id="birthDate1" class="date-input" placeholder="YYYY-MM-DD (예: 1995-03-21)" pattern="\d{4}-\d{2}-\d{2}" inputmode="numeric">
+                <input type="text" id="birthDate1" class="date-input" placeholder="숫자 8자리 입력 (예: 19950321)" pattern="\d{4}-\d{2}-\d{2}" inputmode="numeric" maxlength="10">
             </div>
 
             <div class="date-input-group">
                 <label class="date-input-label">👤 두 번째 사람 생년월일</label>
-                <input type="text" id="birthDate2" class="date-input" placeholder="YYYY-MM-DD (예: 1997-08-15)" pattern="\d{4}-\d{2}-\d{2}" inputmode="numeric">
+                <input type="text" id="birthDate2" class="date-input" placeholder="숫자 8자리 입력 (예: 19970815)" pattern="\d{4}-\d{2}-\d{2}" inputmode="numeric" maxlength="10">
             </div>
 
             <button id="submitButton" class="submit-button">
@@ -630,6 +630,37 @@
 
     submitButton.addEventListener('click', showCompatibility);
 
+    // 날짜 자동 포맷팅 (숫자만 입력하면 YYYY-MM-DD 형식으로 자동 변환)
+    function formatDateInput(input) {
+        input.addEventListener('input', function(e) {
+            let value = e.target.value;
+
+            // 숫자만 추출
+            let numbers = value.replace(/\D/g, '');
+
+            // 최대 8자리까지만 (YYYYMMDD)
+            numbers = numbers.substring(0, 8);
+
+            // 자동 포맷팅: YYYY-MM-DD
+            let formatted = '';
+            if (numbers.length > 0) {
+                formatted = numbers.substring(0, 4); // YYYY
+            }
+            if (numbers.length >= 5) {
+                formatted += '-' + numbers.substring(4, 6); // MM
+            }
+            if (numbers.length >= 7) {
+                formatted += '-' + numbers.substring(6, 8); // DD
+            }
+
+            e.target.value = formatted;
+        });
+    }
+
+    // 두 입력 필드에 자동 포맷팅 적용
+    formatDateInput(birthDate1Input);
+    formatDateInput(birthDate2Input);
+
     // 날짜 형식 검증 함수
     function isValidDateFormat(dateString) {
         // YYYY-MM-DD 형식 체크
@@ -654,13 +685,13 @@
 
         // 날짜 형식 검증
         if (!isValidDateFormat(date1)) {
-            alert('첫 번째 생년월일 형식이 올바르지 않습니다.\nYYYY-MM-DD 형식으로 입력해주세요.\n(예: 1995-03-21)');
+            alert('첫 번째 생년월일이 올바르지 않습니다.\n8자리 숫자를 입력해주세요.\n(예: 19950321)');
             birthDate1Input.focus();
             return;
         }
 
         if (!isValidDateFormat(date2)) {
-            alert('두 번째 생년월일 형식이 올바르지 않습니다.\nYYYY-MM-DD 형식으로 입력해주세요.\n(예: 1997-08-15)');
+            alert('두 번째 생년월일이 올바르지 않습니다.\n8자리 숫자를 입력해주세요.\n(예: 19970815)');
             birthDate2Input.focus();
             return;
         }
