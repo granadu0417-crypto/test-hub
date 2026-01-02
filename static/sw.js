@@ -1,8 +1,14 @@
-const CACHE_NAME = 'test-hub-v1';
+const CACHE_NAME = 'test-hub-v2';
 const urlsToCache = [
   '/',
   '/css/viral.css',
+  '/css/fortune.css',
+  '/css/modern-ui.css',
   '/js/test-engine.js',
+  '/js/fortune-engine.js',
+  '/js/badge-system.js',
+  '/js/result-stats.js',
+  '/js/test-stats.js',
   '/manifest.json'
 ];
 
