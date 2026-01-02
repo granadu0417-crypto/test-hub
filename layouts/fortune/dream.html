@@ -1,0 +1,724 @@
+{{ define "head" }}
+<link rel="stylesheet" href="/css/fortune.css">
+<style>
+    body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+        background: linear-gradient(180deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
+        min-height: 100vh;
+    }
+
+    /* 입력 화면 */
+    .fortune-input-container {
+        max-width: 800px;
+        margin: 60px auto;
+        padding: 60px 40px;
+        background: linear-gradient(135deg, rgba(30, 27, 75, 0.9), rgba(49, 46, 129, 0.9));
+        border-radius: 32px;
+        box-shadow: 0 20px 60px rgba(30, 27, 75, 0.4);
+        border: 2px solid rgba(251, 191, 36, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .fortune-input-title {
+        text-align: center;
+        font-size: 2.5rem;
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 16px;
+        font-weight: 900;
+    }
+
+    .fortune-input-subtitle {
+        text-align: center;
+        color: #cbd5e1;
+        font-size: 1.15rem;
+        margin-bottom: 48px;
+        line-height: 1.8;
+    }
+
+    .keyword-input-group {
+        margin-bottom: 40px;
+    }
+
+    .keyword-input {
+        width: 100%;
+        padding: 20px;
+        border-radius: 16px;
+        border: 2px solid rgba(251, 191, 36, 0.3);
+        background: rgba(15, 23, 42, 0.5);
+        color: white;
+        font-size: 1.15rem;
+        text-align: left;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+        line-height: 1.7;
+        resize: vertical;
+        min-height: 150px;
+    }
+
+    .keyword-input::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 1.05rem;
+    }
+
+    .keyword-input:focus {
+        outline: none;
+        border-color: #fbbf24;
+        box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.2);
+    }
+
+    .popular-keywords {
+        margin-bottom: 40px;
+    }
+
+    .popular-keywords-title {
+        text-align: center;
+        color: #fbbf24;
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    .popular-keywords-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 12px;
+    }
+
+    .keyword-btn {
+        padding: 16px 12px;
+        background: rgba(251, 191, 36, 0.1);
+        border: 1px solid rgba(251, 191, 36, 0.3);
+        border-radius: 16px;
+        color: #fbbf24;
+        font-size: 1.05rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+    }
+
+    .keyword-btn:hover {
+        background: rgba(251, 191, 36, 0.2);
+        border-color: #fbbf24;
+        transform: translateY(-2px);
+    }
+
+    .submit-button {
+        display: block;
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        color: #1e1b4b;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.3rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 20px rgba(251, 191, 36, 0.4);
+    }
+
+    .submit-button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .submit-button:not(:disabled):hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 28px rgba(251, 191, 36, 0.5);
+    }
+
+    /* 결과 화면 */
+    .fortune-result-container {
+        max-width: 900px;
+        margin: 60px auto;
+        padding: 60px 40px;
+        background: linear-gradient(135deg, rgba(30, 27, 75, 0.9), rgba(49, 46, 129, 0.9));
+        border-radius: 32px;
+        box-shadow: 0 20px 60px rgba(30, 27, 75, 0.4);
+        border: 2px solid rgba(251, 191, 36, 0.3);
+    }
+
+    .message-box {
+        background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.1));
+        border-left: 4px solid #fbbf24;
+        border-radius: 12px;
+        padding: 24px;
+        color: #e2e8f0;
+        font-size: 1.1rem;
+        line-height: 1.9;
+        margin-bottom: 24px;
+    }
+
+    .message-box-title {
+        font-size: 1.2rem;
+        color: #fbbf24;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+
+    @media (max-width: 768px) {
+        .fortune-input-container,
+        .fortune-result-container {
+            margin: 20px;
+            padding: 40px 24px;
+        }
+
+        .popular-keywords-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+</style>
+{{ end }}
+
+{{ define "main" }}
+<div class="fortune-page">
+    <div style="position: relative; z-index: 1;">
+
+        <!-- 입력 섹션 -->
+        <div id="inputSection" class="fortune-input-container">
+            <h2 class="fortune-input-title">🌙 꿈해몽</h2>
+            <p class="fortune-input-subtitle">
+                오늘 꾼 꿈의 키워드를 입력하시면<br>
+                상세한 꿈해몽 결과를 알려드립니다 ✨
+            </p>
+
+            <div class="keyword-input-group">
+                <textarea id="dreamInput" class="keyword-input" rows="5"
+                       placeholder="꿈 내용을 자세히 입력하세요...&#10;&#10;예시: 집에서 잠을 자고 있는데 갑자기 창문에서 물이 엄청나게 홍수처럼 들어오더니 집이 물에 잠기고 하얀 뱀들이 엄청나게 많이 나타났어"></textarea>
+            </div>
+
+            <!-- 인기 키워드 -->
+            <div class="popular-keywords">
+                <div class="popular-keywords-title">🔥 인기 키워드</div>
+                <div class="popular-keywords-grid" id="popularKeywordsGrid"></div>
+            </div>
+
+            <button id="submitButton" class="submit-button">
+                꿈 해몽하기
+            </button>
+        </div>
+
+        <!-- 결과 섹션 -->
+        <div id="resultSection" class="fortune-result-container" style="display: none;">
+            <!-- 상징 헤더 -->
+            <div style="text-align: center; margin-bottom: 40px;">
+                <div id="resultIcon" style="font-size: 6rem; margin-bottom: 20px; filter: drop-shadow(0 4px 12px rgba(251, 191, 36, 0.4));"></div>
+                <h3 id="resultName" style="font-size: 2.2rem; color: #fbbf24; font-weight: 800; margin-bottom: 12px;"></h3>
+                <div id="resultInfo" style="font-size: 1.1rem; color: #cbd5e1; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;"></div>
+            </div>
+
+            <!-- 오늘의 행운 지수 -->
+            <div style="text-align: center; background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(245, 158, 11, 0.15)); border-radius: 24px; padding: 40px; margin-bottom: 40px; border: 2px solid rgba(251, 191, 36, 0.3);">
+                <h4 style="font-size: 1.3rem; color: #fbbf24; margin-bottom: 16px; font-weight: 700;">🌟 오늘의 행운 지수</h4>
+                <div id="resultLuckyScore" style="font-size: 4rem; font-weight: 900; background: linear-gradient(135deg, #fbbf24, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></div>
+            </div>
+
+            <!-- 상세 해몽 아코디언 -->
+            <div class="accordion-section" style="margin-bottom: 24px;">
+                <button class="accordion-header" onclick="toggleAccordion('dreamMeaning')" style="width: 100%; background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2)); border: 2px solid rgba(251, 191, 36, 0.4); border-radius: 16px; padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;" onmouseover="this.style.background='linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(245, 158, 11, 0.3))'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(251, 191, 36, 0.3)';" onmouseout="this.style.background='linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2))'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                    <span style="font-size: 1.2rem; color: #fbbf24; font-weight: 700;">📖 상세 해몽 보기</span>
+                    <span class="accordion-icon" style="font-size: 1.5rem; color: #fbbf24; transition: transform 0.3s ease;">▼</span>
+                </button>
+                <div id="dreamMeaning" class="accordion-content" style="overflow: hidden; transition: max-height 0.4s ease, opacity 0.3s ease;">
+                    <div class="accordion-inner" style="padding-top: 20px;">
+                        <!-- 꿈의 기본 의미 -->
+                        <div id="meaningSection" class="message-box">
+                            <div class="message-box-title">📖 꿈의 기본 의미</div>
+                            <div id="resultMeaning"></div>
+                        </div>
+
+                        <!-- 긍정적 의미 -->
+                        <div id="positiveSection" class="message-box">
+                            <div class="message-box-title">✨ 긍정적 의미</div>
+                            <div id="resultPositive"></div>
+                        </div>
+
+                        <!-- 부정적 의미 (있는 경우만) -->
+                        <div id="negativeSection" class="message-box" style="display: none;">
+                            <div class="message-box-title">⚠️ 주의사항</div>
+                            <div id="resultNegative"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 조언 & 메시지 아코디언 -->
+            <div class="accordion-section" style="margin-bottom: 24px;">
+                <button class="accordion-header" onclick="toggleAccordion('dreamAdvice')" style="width: 100%; background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2)); border: 2px solid rgba(251, 191, 36, 0.4); border-radius: 16px; padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;" onmouseover="this.style.background='linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(245, 158, 11, 0.3))'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(251, 191, 36, 0.3)';" onmouseout="this.style.background='linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2))'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                    <span style="font-size: 1.2rem; color: #fbbf24; font-weight: 700;">💡 조언 & 메시지 보기</span>
+                    <span class="accordion-icon" style="font-size: 1.5rem; color: #fbbf24; transition: transform 0.3s ease;">▼</span>
+                </button>
+                <div id="dreamAdvice" class="accordion-content" style="overflow: hidden; transition: max-height 0.4s ease, opacity 0.3s ease;">
+                    <div class="accordion-inner" style="padding-top: 20px;">
+                        <!-- 오늘의 조언 -->
+                        <div id="adviceSection" class="message-box">
+                            <div class="message-box-title">💡 오늘의 조언</div>
+                            <div id="resultAdvice"></div>
+                        </div>
+
+                        <!-- 특별 메시지 -->
+                        <div id="todayAdviceSection" class="message-box">
+                            <div class="message-box-title">🔮 특별 메시지</div>
+                            <div id="resultTodayAdvice"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 행운의 아이템 아코디언 -->
+            <div class="accordion-section" style="margin-bottom: 40px;">
+                <button class="accordion-header" onclick="toggleAccordion('luckyItems')" style="width: 100%; background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2)); border: 2px solid rgba(251, 191, 36, 0.4); border-radius: 16px; padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;" onmouseover="this.style.background='linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(245, 158, 11, 0.3))'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(251, 191, 36, 0.3)';" onmouseout="this.style.background='linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2))'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                    <span style="font-size: 1.2rem; color: #fbbf24; font-weight: 700;">🍀 행운의 아이템 보기</span>
+                    <span class="accordion-icon" style="font-size: 1.5rem; color: #fbbf24; transition: transform 0.3s ease;">▼</span>
+                </button>
+                <div id="luckyItems" class="accordion-content" style="overflow: hidden; transition: max-height 0.4s ease, opacity 0.3s ease;">
+                    <div class="accordion-inner" style="padding-top: 20px;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                            <div style="background: rgba(251, 191, 36, 0.1); border-radius: 16px; padding: 24px; text-align: center; border: 1px solid rgba(251, 191, 36, 0.2);">
+                                <div style="font-size: 1.8rem; margin-bottom: 8px;">🎨</div>
+                                <div style="font-size: 0.95rem; color: #94a3b8; margin-bottom: 8px;">행운의 색</div>
+                                <div id="resultLuckyColor" style="font-size: 1.3rem; color: #fbbf24; font-weight: 700;"></div>
+                            </div>
+                            <div style="background: rgba(251, 191, 36, 0.1); border-radius: 16px; padding: 24px; text-align: center; border: 1px solid rgba(251, 191, 36, 0.2);">
+                                <div style="font-size: 1.8rem; margin-bottom: 8px;">🔢</div>
+                                <div style="font-size: 0.95rem; color: #94a3b8; margin-bottom: 8px;">행운의 숫자</div>
+                                <div id="resultLuckyNumber" style="font-size: 1.3rem; color: #fbbf24; font-weight: 700;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 공유하기 섹션 -->
+            <div class="share-section-fortune" style="background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(245, 158, 11, 0.15)); border-radius: 20px; padding: 36px; text-align: center; border: 2px solid rgba(251, 191, 36, 0.3);">
+                <h4 style="font-size: 1.4rem; color: #fbbf24; margin-bottom: 24px; font-weight: 800;">💬 결과를 친구에게 공유하기</h4>
+                <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+                    <button onclick="downloadDreamImage()" style="padding: 14px 32px; background: linear-gradient(135deg, #f093fb, #f5576c); color: white; border: none; border-radius: 50px; font-size: 1.05rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 16px rgba(245, 87, 108, 0.3);" id="downloadBtn">
+                        <span style="font-size: 1.3rem;">📸</span> <span class="download-text">이미지 저장</span>
+                    </button>
+                    <button onclick="shareFacebook()" style="padding: 14px 32px; background: linear-gradient(135deg, #3b5998, #2d4373); color: white; border: none; border-radius: 50px; font-size: 1.05rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 16px rgba(59, 89, 152, 0.3);">
+                        <span style="font-size: 1.3rem;">📘</span> 페이스북 공유
+                    </button>
+                    <button onclick="copyLink()" style="padding: 14px 32px; background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #1e1b4b; border: none; border-radius: 50px; font-size: 1.05rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 16px rgba(251, 191, 36, 0.3);" id="copyBtn">
+                        <span style="font-size: 1.3rem;">🔗</span> 링크 복사
+                    </button>
+                </div>
+            </div>
+
+            <!-- 다시하기 버튼 -->
+            <div style="text-align: center; margin-top: 30px;">
+                <button onclick="resetDream()" style="padding: 14px 40px; background: transparent; color: #fbbf24; border: 2px solid #fbbf24; border-radius: 50px; font-size: 1.05rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease;">
+                    ↻ 다른 꿈 해몽하기
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="/js/fortune-engine.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+    const dreamInput = document.getElementById('dreamInput');
+    const submitButton = document.getElementById('submitButton');
+    const inputSection = document.getElementById('inputSection');
+    const resultSection = document.getElementById('resultSection');
+
+    // 인기 키워드 렌더링
+    const popularKeywords = getPopularDreamKeywords();
+    const popularKeywordsGrid = document.getElementById('popularKeywordsGrid');
+
+    popularKeywords.forEach(item => {
+        const btn = document.createElement('button');
+        btn.className = 'keyword-btn';
+        btn.innerHTML = `${item.icon}<br>${item.name}`;
+        btn.onclick = () => {
+            dreamInput.value = item.name;
+            dreamInput.focus();
+        };
+        popularKeywordsGrid.appendChild(btn);
+    });
+
+    // 검색 버튼
+    submitButton.addEventListener('click', showDreamInterpretation);
+
+    function showDreamInterpretation() {
+        const dreamText = dreamInput.value.trim();
+
+        if (!dreamText) {
+            alert('꿈 내용이나 키워드를 입력해주세요.');
+            return;
+        }
+
+        console.log('꿈 분석:', dreamText);
+
+        try {
+            const result = getAdvancedDreamInterpretation(dreamText);
+            console.log('해몽 결과:', result);
+
+            if (!result.found) {
+                alert(result.message);
+                return;
+            }
+
+            // 결과 렌더링
+            renderDreamResult(result);
+
+            // 화면 전환
+            inputSection.style.display = 'none';
+            resultSection.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // 아코디언 초기화
+            setTimeout(() => {
+                initializeAccordions();
+            }, 100);
+
+        } catch (error) {
+            console.error('꿈해몽 오류:', error);
+            alert('꿈해몽 중 오류가 발생했습니다. 다시 시도해주세요.');
+        }
+    }
+
+    function renderDreamResult(result) {
+        // 고급 분석인 경우
+        if (result.isAdvanced) {
+            renderAdvancedResult(result);
+        }
+    }
+
+    function renderAdvancedResult(result) {
+        // 헤더 업데이트
+        document.getElementById('resultIcon').textContent = '🔮';
+        document.getElementById('resultName').textContent = '종합 꿈해몽';
+        document.getElementById('resultInfo').innerHTML = `
+            <span><strong>발견된 상징:</strong> ${result.totalCount}개</span>
+            <span><strong>날짜:</strong> ${result.dateKorean}</span>
+        `;
+
+        // 행운 점수
+        document.getElementById('resultLuckyScore').textContent = result.luckyScore + '점';
+
+        // 기본 상징들 표시
+        let symbolsHtml = '<div style="margin-bottom: 30px;">';
+        symbolsHtml += '<h4 style="color: #fbbf24; font-size: 1.2rem; margin-bottom: 16px;">✨ 발견된 꿈 상징</h4>';
+        symbolsHtml += '<div style="display: grid; gap: 16px;">';
+
+        result.symbols.forEach(item => {
+            const s = item.data;
+            symbolsHtml += `
+                <div style="background: rgba(251, 191, 36, 0.1); padding: 20px; border-radius: 16px; border-left: 4px solid #fbbf24;">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                        <span style="font-size: 2rem;">${s.icon}</span>
+                        <h5 style="font-size: 1.3rem; color: #fbbf24; margin: 0;">${s.name}</h5>
+                    </div>
+                    <p style="color: #e2e8f0; margin: 8px 0; line-height: 1.7;"><strong>기본 의미:</strong> ${s.meaning}</p>
+                    <p style="color: #e2e8f0; margin: 8px 0; line-height: 1.7;"><strong>긍정적 해석:</strong> ${s.positive}</p>
+                    ${s.negative ? `<p style="color: #fca5a5; margin: 8px 0; line-height: 1.7;"><strong>주의사항:</strong> ${s.negative}</p>` : ''}
+                </div>
+            `;
+        });
+
+        symbolsHtml += '</div></div>';
+
+        // 색상 정보
+        if (result.colors.length > 0) {
+            symbolsHtml += '<div style="margin-bottom: 30px;">';
+            symbolsHtml += '<h4 style="color: #fbbf24; font-size: 1.2rem; margin-bottom: 16px;">🎨 색상의 의미</h4>';
+            symbolsHtml += '<div style="display: grid; gap: 12px;">';
+
+            result.colors.forEach(item => {
+                const c = item.data;
+                symbolsHtml += `
+                    <div style="background: rgba(251, 191, 36, 0.08); padding: 16px; border-radius: 12px;">
+                        <h5 style="font-size: 1.15rem; color: #fbbf24; margin: 0 0 8px 0;">${c.name}</h5>
+                        <p style="color: #cbd5e1; margin: 4px 0; line-height: 1.6;">${c.meaning}</p>
+                        <p style="color: #e2e8f0; margin: 4px 0; line-height: 1.6;"><strong>효과:</strong> ${c.effect}</p>
+                    </div>
+                `;
+            });
+
+            symbolsHtml += '</div></div>';
+        }
+
+        // 상황 정보
+        if (result.situations.length > 0) {
+            symbolsHtml += '<div style="margin-bottom: 30px;">';
+            symbolsHtml += '<h4 style="color: #fbbf24; font-size: 1.2rem; margin-bottom: 16px;">📍 상황의 의미</h4>';
+            symbolsHtml += '<div style="display: grid; gap: 12px;">';
+
+            result.situations.forEach(item => {
+                const sit = item.data;
+                symbolsHtml += `
+                    <div style="background: rgba(251, 191, 36, 0.08); padding: 16px; border-radius: 12px;">
+                        <h5 style="font-size: 1.15rem; color: #fbbf24; margin: 0 0 8px 0;">${sit.name}</h5>
+                        <p style="color: #cbd5e1; margin: 4px 0; line-height: 1.6;">${sit.meaning}</p>
+                        <p style="color: #e2e8f0; margin: 4px 0; line-height: 1.6;"><strong>효과:</strong> ${sit.effect}</p>
+                    </div>
+                `;
+            });
+
+            symbolsHtml += '</div></div>';
+        }
+
+        document.getElementById('resultMeaning').innerHTML = symbolsHtml;
+
+        // 종합 해석
+        document.getElementById('resultPositive').innerHTML = `
+            <h4 style="color: #fbbf24; font-size: 1.2rem; margin-bottom: 12px;">🔮 종합 해석</h4>
+            <p style="color: #e2e8f0; line-height: 1.9; white-space: pre-line;">${result.comprehensiveAnalysis}</p>
+        `;
+
+        // 부정적 의미 섹션 숨김 (종합 해석에 포함됨)
+        document.getElementById('negativeSection').style.display = 'none';
+
+        // 조언 섹션 숨김 (종합 해석에 포함됨)
+        document.getElementById('adviceSection').style.display = 'none';
+
+        // 특별 메시지
+        const specialMessage = `오늘 ${result.totalCount}개의 꿈 상징을 발견했습니다. 이는 매우 풍부한 의미를 담고 있는 꿈입니다. ${result.comprehensiveAnalysis.includes('길한') || result.comprehensiveAnalysis.includes('좋은') ? '큰 행운이 함께하길 바랍니다!' : '꿈의 메시지에 귀 기울이세요.'}`;
+        document.getElementById('resultTodayAdvice').textContent = specialMessage;
+
+        // 행운의 아이템
+        document.getElementById('resultLuckyColor').textContent = result.luckyColor.name;
+        document.getElementById('resultLuckyNumber').textContent = result.luckyNumber;
+    }
+
+    // 다시하기
+    function resetDream() {
+        inputSection.style.display = 'block';
+        resultSection.style.display = 'none';
+        dreamInput.value = '';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 페이스북 공유
+    function shareFacebook() {
+        const url = encodeURIComponent(window.location.href);
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank', 'width=600,height=400');
+    }
+
+    // 링크 복사
+    function copyLink() {
+        const copyBtn = document.getElementById('copyBtn');
+        const url = window.location.href;
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).then(() => {
+                copyBtn.innerHTML = '<span style="font-size: 1.3rem;">✅</span> 복사 완료!';
+                setTimeout(() => {
+                    copyBtn.innerHTML = '<span style="font-size: 1.3rem;">🔗</span> 링크 복사';
+                }, 2000);
+            }).catch(() => {
+                fallbackCopyLink(url, copyBtn);
+            });
+        } else {
+            fallbackCopyLink(url, copyBtn);
+        }
+    }
+
+    function fallbackCopyLink(url, btn) {
+        const textArea = document.createElement('textarea');
+        textArea.value = url;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.select();
+
+        try {
+            document.execCommand('copy');
+            btn.innerHTML = '<span style="font-size: 1.3rem;">✅</span> 복사 완료!';
+            setTimeout(() => {
+                btn.innerHTML = '<span style="font-size: 1.3rem;">🔗</span> 링크 복사';
+            }, 2000);
+        } catch (err) {
+            alert('링크 복사에 실패했습니다. 주소창의 URL을 직접 복사해주세요.');
+        }
+
+        document.body.removeChild(textArea);
+    }
+
+    // 이미지 저장 함수
+    async function downloadDreamImage() {
+        const downloadBtn = document.querySelector('.download-text');
+        if (downloadBtn) {
+            downloadBtn.textContent = '생성 중...';
+        }
+
+        try {
+            if (typeof html2canvas === 'undefined') {
+                throw new Error('html2canvas가 로드되지 않았습니다.');
+            }
+
+            const resultContainer = document.querySelector('.fortune-result-container');
+            if (!resultContainer) {
+                throw new Error('결과를 찾을 수 없습니다.');
+            }
+
+            // 공유 버튼 섹션 숨기기
+            const shareSection = document.querySelector('.share-section-fortune');
+            const originalDisplay = shareSection ? shareSection.style.display : '';
+            if (shareSection) shareSection.style.display = 'none';
+
+            // 다시하기 버튼 숨기기
+            const resetBtn = resultContainer.nextElementSibling;
+            const resetBtnDisplay = resetBtn ? resetBtn.style.display : '';
+            if (resetBtn && resetBtn.querySelector('button[onclick="resetDream()"]')) {
+                resetBtn.style.display = 'none';
+            }
+
+            // 배경색 임시 설정
+            const originalBg = resultContainer.style.background;
+            resultContainer.style.background = 'linear-gradient(135deg, #1e1b4b, #312e81)';
+
+            // 브랜드 워터마크 추가
+            const watermark = document.createElement('div');
+            watermark.style.cssText = 'text-align: center; margin-top: 30px; padding-top: 20px; border-top: 2px solid rgba(251, 191, 36, 0.3); font-size: 14px; color: #fbbf24; font-weight: 600;';
+            watermark.innerHTML = '✨ natest.kr에서 더 많은 운세를 확인하세요!';
+            resultContainer.appendChild(watermark);
+
+            // html2canvas로 캡처
+            const canvas = await html2canvas(resultContainer, {
+                backgroundColor: '#1e1b4b',
+                scale: 2,
+                logging: false,
+                useCORS: true,
+                allowTaint: true,
+                width: resultContainer.scrollWidth,
+                height: resultContainer.scrollHeight
+            });
+
+            // 워터마크 제거
+            resultContainer.removeChild(watermark);
+
+            // 공유 버튼 섹션 복원
+            if (shareSection) shareSection.style.display = originalDisplay;
+
+            // 다시하기 버튼 복원
+            if (resetBtn) resetBtn.style.display = resetBtnDisplay;
+
+            // 배경 복원
+            resultContainer.style.background = originalBg;
+
+            // Canvas를 Blob으로 변환
+            canvas.toBlob((blob) => {
+                if (!blob) {
+                    throw new Error('이미지 생성에 실패했습니다.');
+                }
+
+                // 파일명 생성
+                const dreamName = document.getElementById('resultName').textContent || '꿈해몽';
+                const today = new Date();
+                const dateStr = `${today.getMonth() + 1}월${today.getDate()}일`;
+                const fileName = `${dreamName}_${dateStr}.png`;
+
+                // 다운로드
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = fileName;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+
+                // 버튼 텍스트 변경
+                if (downloadBtn) {
+                    downloadBtn.textContent = '저장 완료!';
+                    setTimeout(() => {
+                        downloadBtn.textContent = '이미지 저장';
+                    }, 2000);
+                }
+            }, 'image/png');
+
+        } catch (error) {
+            console.error('이미지 다운로드 실패:', error);
+            alert('이미지 저장에 실패했습니다. 다시 시도해주세요.');
+
+            // 버튼 텍스트 복원
+            if (downloadBtn) {
+                downloadBtn.textContent = '이미지 저장';
+            }
+        }
+    }
+
+    // 아코디언 시스템
+    function toggleAccordion(id) {
+        const content = document.getElementById(id);
+        const button = content.previousElementSibling;
+        const icon = button.querySelector('.accordion-icon');
+
+        if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+            // 접기
+            content.style.maxHeight = '0px';
+            content.style.opacity = '0';
+            content.style.paddingTop = '0';
+            content.style.paddingBottom = '0';
+            icon.style.transform = 'rotate(0deg)';
+            button.setAttribute('aria-expanded', 'false');
+        } else {
+            // 펼치기
+            content.style.maxHeight = content.scrollHeight + 'px';
+            content.style.opacity = '1';
+            content.style.paddingTop = '0';
+            content.style.paddingBottom = '0';
+            icon.style.transform = 'rotate(180deg)';
+            button.setAttribute('aria-expanded', 'true');
+
+            // 약간의 여유 공간 추가
+            setTimeout(() => {
+                content.style.maxHeight = (content.scrollHeight + 50) + 'px';
+            }, 100);
+        }
+    }
+
+    function initializeAccordions() {
+        const isMobile = window.innerWidth <= 768;
+        const accordions = ['dreamMeaning', 'dreamAdvice', 'luckyItems'];
+
+        accordions.forEach(id => {
+            const content = document.getElementById(id);
+            const button = content.previousElementSibling;
+            const icon = button.querySelector('.accordion-icon');
+
+            if (isMobile) {
+                // 모바일: 기본 접힘
+                content.style.maxHeight = '0px';
+                content.style.opacity = '0';
+                icon.style.transform = 'rotate(0deg)';
+                button.setAttribute('aria-expanded', 'false');
+            } else {
+                // PC: 기본 펼침
+                content.style.maxHeight = (content.scrollHeight + 50) + 'px';
+                content.style.opacity = '1';
+                icon.style.transform = 'rotate(180deg)';
+                button.setAttribute('aria-expanded', 'true');
+            }
+        });
+    }
+
+    // Resize handler with debounce
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            const accordions = ['dreamMeaning', 'dreamAdvice', 'luckyItems'];
+            accordions.forEach(id => {
+                const content = document.getElementById(id);
+                if (content.style.opacity === '1') {
+                    content.style.maxHeight = (content.scrollHeight + 50) + 'px';
+                }
+            });
+        }, 250);
+    });
+</script>
+
+{{ end }}

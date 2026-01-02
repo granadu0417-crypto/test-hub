@@ -1,0 +1,439 @@
+{{ define "head" }}
+<link rel="stylesheet" href="/css/fortune.css">
+<style>
+    body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+        background: linear-gradient(180deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
+        min-height: 100vh;
+    }
+
+    /* 카드 선택 화면 */
+    .tarot-selection-container {
+        max-width: 1000px;
+        margin: 60px auto;
+        padding: 60px 40px;
+        text-align: center;
+    }
+
+    .tarot-title {
+        font-size: 2.5rem;
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 16px;
+        font-weight: 900;
+    }
+
+    .tarot-subtitle {
+        color: #cbd5e1;
+        font-size: 1.15rem;
+        margin-bottom: 24px;
+        line-height: 1.8;
+    }
+
+    .tarot-instruction {
+        color: #fbbf24;
+        font-size: 1.3rem;
+        margin-bottom: 32px;
+        font-weight: 700;
+    }
+
+    .tarot-cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+        gap: 20px;
+        max-width: 900px;
+        margin: 0 auto 40px;
+    }
+
+    .tarot-card {
+        aspect-ratio: 2/3;
+        background: linear-gradient(135deg, #312e81, #1e1b4b);
+        border: 2px solid rgba(251, 191, 36, 0.3);
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .tarot-card::before {
+        content: '🃏';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 3rem;
+        opacity: 0.5;
+    }
+
+    .tarot-card::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), transparent);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .tarot-card:hover {
+        transform: translateY(-10px);
+        border-color: #fbbf24;
+        box-shadow: 0 10px 30px rgba(251, 191, 36, 0.3);
+    }
+
+    .tarot-card:hover::after {
+        opacity: 1;
+    }
+
+    .tarot-card.selected {
+        border-color: #fbbf24;
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        pointer-events: none;
+    }
+
+    .tarot-card.selected::before {
+        content: '✨';
+        opacity: 1;
+    }
+
+    .tarot-card.disabled {
+        opacity: 0.3;
+        pointer-events: none;
+    }
+
+    /* 결과 화면 */
+    .tarot-result-container {
+        max-width: 1000px;
+        margin: 60px auto;
+        padding: 60px 40px;
+        background: linear-gradient(135deg, rgba(30, 27, 75, 0.9), rgba(49, 46, 129, 0.9));
+        border-radius: 32px;
+        box-shadow: 0 20px 60px rgba(30, 27, 75, 0.4);
+        border: 2px solid rgba(251, 191, 36, 0.3);
+    }
+
+    .three-cards-display {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        margin-bottom: 50px;
+    }
+
+    .card-position {
+        text-align: center;
+    }
+
+    .card-position-label {
+        font-size: 1.1rem;
+        color: #fbbf24;
+        font-weight: 700;
+        margin-bottom: 16px;
+    }
+
+    .card-display {
+        background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.1));
+        border: 2px solid rgba(251, 191, 36, 0.3);
+        border-radius: 20px;
+        padding: 30px 20px;
+    }
+
+    .card-icon {
+        font-size: 4rem;
+        margin-bottom: 12px;
+        filter: drop-shadow(0 4px 12px rgba(251, 191, 36, 0.4));
+    }
+
+    .card-name {
+        font-size: 1.4rem;
+        color: #fbbf24;
+        font-weight: 800;
+        margin-bottom: 8px;
+    }
+
+    .card-keyword {
+        font-size: 0.95rem;
+        color: #cbd5e1;
+        padding: 6px 16px;
+        background: rgba(251, 191, 36, 0.1);
+        border-radius: 20px;
+        display: inline-block;
+        margin-bottom: 16px;
+    }
+
+    .card-meaning {
+        font-size: 1rem;
+        color: #e2e8f0;
+        line-height: 1.7;
+    }
+
+    .overall-reading {
+        background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(245, 158, 11, 0.15));
+        border: 2px solid rgba(251, 191, 36, 0.4);
+        border-radius: 24px;
+        padding: 40px;
+        margin-top: 40px;
+    }
+
+    .overall-title {
+        font-size: 1.8rem;
+        color: #fbbf24;
+        font-weight: 800;
+        margin-bottom: 24px;
+        text-align: center;
+    }
+
+    .overall-content {
+        font-size: 1.1rem;
+        color: #e2e8f0;
+        line-height: 1.9;
+        text-align: center;
+    }
+
+    @media (max-width: 768px) {
+        .three-cards-display {
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        .tarot-title {
+            font-size: 2rem;
+        }
+
+        .tarot-result-container {
+            padding: 40px 20px;
+        }
+
+        .overall-reading {
+            padding: 30px 20px;
+        }
+    }
+</style>
+{{ end }}
+
+{{ define "main" }}
+<div class="fortune-page" style="position: relative; z-index: 1; padding-bottom: 80px;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+        <!-- 선택 섹션 -->
+        <div id="selectionSection" class="tarot-selection-container">
+            <h2 class="tarot-title">🎴 쓰리카드 타로</h2>
+            <p class="tarot-subtitle">
+                과거 · 현재 · 미래를 한눈에 확인하세요<br>
+                3장의 카드가 당신의 이야기를 들려줍니다 ✨
+            </p>
+            <div class="tarot-instruction">
+                📌 마음을 집중하고 카드 3장을 선택하세요 (<span id="selectedCount">0</span>/3)
+            </div>
+
+            <div class="tarot-cards-grid" id="tarotCards">
+                <!-- 22장의 카드가 동적으로 생성됩니다 -->
+            </div>
+
+            <div style="color: #94a3b8; font-size: 0.95rem; margin-top: 30px;">
+                💡 첫 번째는 과거, 두 번째는 현재, 세 번째는 미래를 나타냅니다
+            </div>
+        </div>
+
+        <!-- 결과 섹션 -->
+        <div id="resultSection" class="tarot-result-container" style="display: none;">
+            <!-- 3장의 카드 표시 -->
+            <div class="three-cards-display">
+                <!-- 과거 -->
+                <div class="card-position">
+                    <div class="card-position-label">🕰️ 과거</div>
+                    <div class="card-display">
+                        <div id="pastIcon" class="card-icon"></div>
+                        <div id="pastName" class="card-name"></div>
+                        <div id="pastKeyword" class="card-keyword"></div>
+                        <div id="pastMeaning" class="card-meaning"></div>
+                    </div>
+                </div>
+
+                <!-- 현재 -->
+                <div class="card-position">
+                    <div class="card-position-label">⭐ 현재</div>
+                    <div class="card-display">
+                        <div id="presentIcon" class="card-icon"></div>
+                        <div id="presentName" class="card-name"></div>
+                        <div id="presentKeyword" class="card-keyword"></div>
+                        <div id="presentMeaning" class="card-meaning"></div>
+                    </div>
+                </div>
+
+                <!-- 미래 -->
+                <div class="card-position">
+                    <div class="card-position-label">🔮 미래</div>
+                    <div class="card-display">
+                        <div id="futureIcon" class="card-icon"></div>
+                        <div id="futureName" class="card-name"></div>
+                        <div id="futureKeyword" class="card-keyword"></div>
+                        <div id="futureMeaning" class="card-meaning"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 종합 해석 -->
+            <div class="overall-reading">
+                <div class="overall-title">✨ 종합 해석</div>
+                <div id="overallReading" class="overall-content"></div>
+            </div>
+
+            <!-- 공유 및 다시하기 -->
+            <div style="margin-top: 50px; text-align: center; display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+                <button onclick="location.reload()" style="padding: 16px 40px; background: transparent; color: #fbbf24; border: 2px solid #fbbf24; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease;">
+                    🔄 다시 보기
+                </button>
+                <button onclick="shareResult()" style="padding: 16px 40px; background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #1e1b4b; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 16px rgba(251, 191, 36, 0.3);">
+                    💬 결과 공유하기
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script>
+    // 타로 카드 데이터 (Major Arcana 22장)
+    const tarotCards = [
+        { id: 0, name: '바보', nameEn: 'The Fool', icon: '🃏', keyword: '새로운 시작, 순수함, 자유', meaning: '새로운 여행이 시작됩니다. 두려움 없이 앞으로 나아가세요.' },
+        { id: 1, name: '마법사', nameEn: 'The Magician', icon: '🎩', keyword: '창조력, 의지, 능력', meaning: '당신은 이미 필요한 모든 것을 가지고 있습니다. 능력을 믿으세요.' },
+        { id: 2, name: '여사제', nameEn: 'The High Priestess', icon: '🌙', keyword: '직관, 신비, 내면의 지혜', meaning: '내면의 목소리에 귀 기울이세요. 직관이 답을 알고 있습니다.' },
+        { id: 3, name: '여황제', nameEn: 'The Empress', icon: '👑', keyword: '풍요, 창조성, 양육', meaning: '풍요로운 시기입니다. 당신의 아이디어를 현실로 만드세요.' },
+        { id: 4, name: '황제', nameEn: 'The Emperor', icon: '🏛️', keyword: '권위, 구조, 통제력', meaning: '안정과 질서를 만들 때입니다. 리더십을 발휘하세요.' },
+        { id: 5, name: '교황', nameEn: 'The Hierophant', icon: '📿', keyword: '전통, 가르침, 영적 지도', meaning: '전통적인 방법이 도움이 될 수 있습니다. 멘토를 찾아보세요.' },
+        { id: 6, name: '연인', nameEn: 'The Lovers', icon: '💕', keyword: '사랑, 선택, 조화', meaning: '중요한 선택의 순간입니다. 마음이 이끄는 대로 따르세요.' },
+        { id: 7, name: '전차', nameEn: 'The Chariot', icon: '🏇', keyword: '의지력, 승리, 전진', meaning: '강한 의지로 목표를 향해 나아가세요. 승리가 가까이 있습니다.' },
+        { id: 8, name: '힘', nameEn: 'Strength', icon: '🦁', keyword: '용기, 인내, 내면의 힘', meaning: '부드러운 힘이 가장 강합니다. 인내심을 가지세요.' },
+        { id: 9, name: '은둔자', nameEn: 'The Hermit', icon: '🕯️', keyword: '내면 탐구, 고독, 성찰', meaning: '홀로 있는 시간이 필요합니다. 자신을 돌아보세요.' },
+        { id: 10, name: '운명의 수레바퀴', nameEn: 'Wheel of Fortune', icon: '☸️', keyword: '변화, 운명, 순환', meaning: '변화의 시기입니다. 흐름을 받아들이세요.' },
+        { id: 11, name: '정의', nameEn: 'Justice', icon: '⚖️', keyword: '공정함, 진실, 균형', meaning: '진실이 밝혀질 것입니다. 공정한 결과를 기대하세요.' },
+        { id: 12, name: '매달린 사람', nameEn: 'The Hanged Man', icon: '🙃', keyword: '희생, 관점의 전환, 기다림', meaning: '다른 관점에서 바라보세요. 기다림이 필요합니다.' },
+        { id: 13, name: '죽음', nameEn: 'Death', icon: '🦋', keyword: '변화, 끝과 시작, 재탄생', meaning: '끝은 새로운 시작입니다. 변화를 두려워하지 마세요.' },
+        { id: 14, name: '절제', nameEn: 'Temperance', icon: '🍶', keyword: '균형, 조화, 중용', meaning: '균형을 찾으세요. 극단을 피하고 조화를 이루세요.' },
+        { id: 15, name: '악마', nameEn: 'The Devil', icon: '😈', keyword: '유혹, 속박, 집착', meaning: '무엇이 당신을 붙잡고 있나요? 스스로를 자유롭게 하세요.' },
+        { id: 16, name: '탑', nameEn: 'The Tower', icon: '🗼', keyword: '파괴, 계시, 급격한 변화', meaning: '예상치 못한 변화가 올 수 있습니다. 새로운 기초를 다질 기회입니다.' },
+        { id: 17, name: '별', nameEn: 'The Star', icon: '⭐', keyword: '희망, 영감, 평온', meaning: '희망의 빛이 보입니다. 꿈을 향해 나아가세요.' },
+        { id: 18, name: '달', nameEn: 'The Moon', icon: '🌙', keyword: '환상, 불안, 잠재의식', meaning: '보이지 않는 것에 주의하세요. 직관을 믿으세요.' },
+        { id: 19, name: '태양', nameEn: 'The Sun', icon: '☀️', keyword: '기쁨, 성공, 활력', meaning: '밝은 시기가 옵니다. 자신감을 가지고 빛나세요.' },
+        { id: 20, name: '심판', nameEn: 'Judgement', icon: '📯', keyword: '각성, 재생, 판단', meaning: '과거를 정리하고 새롭게 시작할 때입니다.' },
+        { id: 21, name: '세계', nameEn: 'The World', icon: '🌍', keyword: '완성, 성취, 총체성', meaning: '여정이 완성됩니다. 성취를 축하하세요.' }
+    ];
+
+    let selectedCards = [];
+    let selectedCount = 0;
+
+    // 카드 그리드 생성
+    function createCardGrid() {
+        const grid = document.getElementById('tarotCards');
+        for (let i = 0; i < 22; i++) {
+            const card = document.createElement('div');
+            card.className = 'tarot-card';
+            card.setAttribute('data-index', i);
+            card.onclick = () => selectCard(i);
+            grid.appendChild(card);
+        }
+    }
+
+    // 카드 선택
+    function selectCard(index) {
+        if (selectedCount >= 3) return;
+
+        const card = document.querySelector(`[data-index="${index}"]`);
+        card.classList.add('selected');
+
+        selectedCards.push(index);
+        selectedCount++;
+        document.getElementById('selectedCount').textContent = selectedCount;
+
+        if (selectedCount === 3) {
+            // 모든 카드 비활성화
+            document.querySelectorAll('.tarot-card').forEach(c => {
+                if (!c.classList.contains('selected')) {
+                    c.classList.add('disabled');
+                }
+            });
+
+            // 결과 표시
+            setTimeout(() => {
+                showResult();
+            }, 800);
+        }
+    }
+
+    // 결과 표시
+    function showResult() {
+        const [pastIdx, presentIdx, futureIdx] = selectedCards;
+
+        const pastCard = tarotCards[pastIdx];
+        const presentCard = tarotCards[presentIdx];
+        const futureCard = tarotCards[futureIdx];
+
+        // 과거
+        document.getElementById('pastIcon').textContent = pastCard.icon;
+        document.getElementById('pastName').textContent = pastCard.name;
+        document.getElementById('pastKeyword').textContent = pastCard.keyword;
+        document.getElementById('pastMeaning').textContent = pastCard.meaning;
+
+        // 현재
+        document.getElementById('presentIcon').textContent = presentCard.icon;
+        document.getElementById('presentName').textContent = presentCard.name;
+        document.getElementById('presentKeyword').textContent = presentCard.keyword;
+        document.getElementById('presentMeaning').textContent = presentCard.meaning;
+
+        // 미래
+        document.getElementById('futureIcon').textContent = futureCard.icon;
+        document.getElementById('futureName').textContent = futureCard.name;
+        document.getElementById('futureKeyword').textContent = futureCard.keyword;
+        document.getElementById('futureMeaning').textContent = futureCard.meaning;
+
+        // 종합 해석
+        const overallReading = generateOverallReading(pastCard, presentCard, futureCard);
+        document.getElementById('overallReading').textContent = overallReading;
+
+        // 화면 전환
+        document.getElementById('selectionSection').style.display = 'none';
+        document.getElementById('resultSection').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        // GA4 이벤트
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'three_card_tarot_complete', {
+                past_card: pastCard.name,
+                present_card: presentCard.name,
+                future_card: futureCard.name
+            });
+        }
+    }
+
+    // 종합 해석 생성
+    function generateOverallReading(past, present, future) {
+        const readings = [
+            `${past.name}에서 ${present.name}로, 그리고 ${future.name}로 이어지는 여정이 보입니다. 과거의 경험이 현재를 만들었고, 지금의 선택이 미래를 결정합니다.`,
+            `과거 ${past.name}의 에너지가 현재 ${present.name}의 상황을 만들었습니다. ${future.name}가 말하는 미래를 향해 나아가세요.`,
+            `${past.name}의 교훈을 바탕으로 ${present.name}의 순간을 살아가고 있습니다. ${future.name}의 메시지를 마음에 새기세요.`,
+            `과거의 ${past.keyword.split(',')[0]}이(가) 현재의 ${present.keyword.split(',')[0]}(을)를 만들었고, 미래에는 ${future.keyword.split(',')[0]}(이)가 기다립니다.`
+        ];
+
+        return readings[Math.floor(Math.random() * readings.length)];
+    }
+
+    // 공유하기
+    function shareResult() {
+        const text = `쓰리카드 타로 결과:\n과거: ${tarotCards[selectedCards[0]].name}\n현재: ${tarotCards[selectedCards[1]].name}\n미래: ${tarotCards[selectedCards[2]].name}\n\n${window.location.href}`;
+
+        if (navigator.share) {
+            navigator.share({
+                title: '쓰리카드 타로 운세',
+                text: text
+            });
+        } else {
+            navigator.clipboard.writeText(text);
+            alert('결과가 클립보드에 복사되었습니다!');
+        }
+    }
+
+    // 초기화
+    createCardGrid();
+</script>
+{{ end }}
