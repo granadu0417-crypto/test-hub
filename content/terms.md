@@ -2,7 +2,7 @@
 title: "이용약관"
 date: 2026-01-01
 description: "나테스트(natest.kr) 이용약관 - 심리테스트 서비스 이용에 관한 약관"
-layout: "single"
+layout: "page"
 ---
 
 # 이용약관

@@ -2,7 +2,7 @@
 title: "개인정보처리방침"
 date: 2026-01-01
 description: "나테스트(natest.kr) 개인정보처리방침 - 심리테스트 서비스 이용 시 수집되는 개인정보와 처리에 관한 안내"
-layout: "single"
+layout: "page"
 ---
 
 # 개인정보처리방침
