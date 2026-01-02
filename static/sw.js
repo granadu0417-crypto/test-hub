@@ -1,4 +1,4 @@
-const CACHE_NAME = 'test-hub-v2';
+const CACHE_NAME = 'test-hub-v3';
 const urlsToCache = [
   '/',
   '/css/viral.css',
@@ -12,12 +12,13 @@ const urlsToCache = [
   '/manifest.json'
 ];
 
-// 설치 이벤트
+// 설치 이벤트 - 즉시 활성화
 self.addEventListener('install', event => {
+  self.skipWaiting(); // 새 서비스 워커 즉시 활성화
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
-        console.log('Opened cache');
+        console.log('Opened cache v2');
         return cache.addAll(urlsToCache);
       })
       .catch(err => {
@@ -26,7 +27,7 @@ self.addEventListener('install', event => {
   );
 });
 
-// 활성화 이벤트 - 오래된 캐시 삭제
+// 활성화 이벤트 - 오래된 캐시 삭제 및 즉시 제어
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
@@ -38,6 +39,9 @@ self.addEventListener('activate', event => {
           }
         })
       );
+    }).then(() => {
+      console.log('Service Worker v2 activated');
+      return self.clients.claim(); // 모든 탭 즉시 제어
     })
   );
 });
