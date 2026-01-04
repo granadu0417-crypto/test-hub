@@ -1,4 +1,30 @@
 {{ define "head" }}
+<!-- Quiz Schema for Test Pages -->
+{{ if .Params.questions }}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Quiz",
+    "name": "{{ .Title }}",
+    "description": "{{ .Description }}",
+    "url": "{{ .Permalink }}",
+    "inLanguage": "ko-KR",
+    "educationalLevel": "일반",
+    "numberOfQuestions": {{ len .Params.questions }},
+    "timeRequired": "PT{{ if .Params.duration }}{{ .Params.duration | replaceRE "[^0-9]" "" }}{{ else }}3{{ end }}M",
+    "provider": {
+        "@type": "Organization",
+        "name": "{{ .Site.Title }}",
+        "url": "{{ .Site.BaseURL }}"
+    },
+    "about": {
+        "@type": "Thing",
+        "name": "심리테스트",
+        "description": "{{ if .Params.summary }}{{ .Params.summary }}{{ else }}재미있는 심리 테스트{{ end }}"
+    }
+}
+</script>
+{{ end }}
 <style>
     body {
         margin: 0;

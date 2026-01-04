@@ -1,4 +1,61 @@
 {{ define "head" }}
+<!-- Fortune Collection Schema -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "오늘의 운세 - 별자리, 타로, 꿈해몽",
+    "description": "무료 운세 서비스: 별자리 운세, 띠별 운세, 타로 카드, 꿈해몽, 궁합 보기",
+    "url": "{{ .Permalink }}",
+    "inLanguage": "ko-KR",
+    "mainEntity": {
+        "@type": "ItemList",
+        "numberOfItems": 5,
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "별자리 운세",
+                "description": "12별자리 오늘의 운세",
+                "url": "{{ .Site.BaseURL }}fortune/zodiac/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "띠별 운세",
+                "description": "12간지 띠별 운세",
+                "url": "{{ .Site.BaseURL }}fortune/chinese-zodiac/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "타로 운세",
+                "description": "타로 카드로 보는 오늘의 운세",
+                "url": "{{ .Site.BaseURL }}fortune/tarot/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 4,
+                "name": "꿈해몽",
+                "description": "꿈의 의미를 알아보세요",
+                "url": "{{ .Site.BaseURL }}fortune/dream/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 5,
+                "name": "궁합 보기",
+                "description": "별자리와 띠로 보는 궁합",
+                "url": "{{ .Site.BaseURL }}fortune/compatibility/"
+            }
+        ]
+    },
+    "provider": {
+        "@type": "Organization",
+        "name": "{{ .Site.Title }}",
+        "url": "{{ .Site.BaseURL }}"
+    }
+}
+</script>
 <link rel="stylesheet" href="/css/fortune.css?v=20260102">
 <style>
     body {

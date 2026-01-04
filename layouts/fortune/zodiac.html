@@ -1,4 +1,27 @@
 {{ define "head" }}
+<!-- Zodiac Fortune Schema -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "{{ .Title }}",
+    "description": "{{ .Description }}",
+    "url": "{{ .Permalink }}",
+    "applicationCategory": "EntertainmentApplication",
+    "operatingSystem": "Any",
+    "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "KRW"
+    },
+    "provider": {
+        "@type": "Organization",
+        "name": "{{ .Site.Title }}",
+        "url": "{{ .Site.BaseURL }}"
+    },
+    "inLanguage": "ko-KR"
+}
+</script>
 <link rel="stylesheet" href="/css/fortune.css?v=20260102">
 <style>
     body {
