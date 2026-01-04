@@ -174,6 +174,138 @@
         box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
     }
 
+    /* 운세 배너 섹션 */
+    .fortune-banner {
+        max-width: 1200px;
+        margin: 0 auto 60px auto;
+        padding: 0 20px;
+    }
+
+    .fortune-banner-card {
+        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%);
+        border-radius: 24px;
+        padding: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 30px;
+        box-shadow: 0 10px 40px rgba(30, 27, 75, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .fortune-banner-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        opacity: 0.5;
+    }
+
+    .fortune-banner-content {
+        position: relative;
+        z-index: 1;
+        flex: 1;
+    }
+
+    .fortune-banner-title {
+        font-size: 2rem;
+        color: white;
+        margin-bottom: 12px;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .fortune-banner-title span {
+        font-size: 2.5rem;
+    }
+
+    .fortune-banner-desc {
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-bottom: 24px;
+    }
+
+    .fortune-quick-links {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .fortune-quick-link {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+        padding: 12px 20px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .fortune-quick-link:hover {
+        background: rgba(255, 255, 255, 0.25);
+        transform: translateY(-2px);
+    }
+
+    .fortune-banner-cta {
+        position: relative;
+        z-index: 1;
+    }
+
+    .fortune-main-btn {
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        color: #1e1b4b;
+        padding: 18px 36px;
+        border-radius: 16px;
+        text-decoration: none;
+        font-weight: 800;
+        font-size: 1.15rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 20px rgba(251, 191, 36, 0.4);
+    }
+
+    .fortune-main-btn:hover {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 8px 30px rgba(251, 191, 36, 0.5);
+    }
+
+    @media (max-width: 768px) {
+        .fortune-banner-card {
+            flex-direction: column;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .fortune-banner-title {
+            justify-content: center;
+            font-size: 1.6rem;
+        }
+
+        .fortune-quick-links {
+            justify-content: center;
+        }
+
+        .fortune-main-btn {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+
     .test-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -524,6 +656,33 @@
             <span>📋</span>
             전체 테스트 보기
         </a>
+    </div>
+</div>
+
+<!-- 운세 배너 Section -->
+<div class="fortune-banner scroll-animate">
+    <div class="fortune-banner-card">
+        <div class="fortune-banner-content">
+            <h2 class="fortune-banner-title">
+                <span>🌙</span> 오늘의 운세
+            </h2>
+            <p class="fortune-banner-desc">
+                별자리 운세, 띠별 운세, 타로 카드로 오늘의 운을 확인하세요!<br>
+                꿈해몽과 궁합까지 무료로 제공됩니다.
+            </p>
+            <div class="fortune-quick-links">
+                <a href="/fortune/zodiac/" class="fortune-quick-link">⭐ 별자리</a>
+                <a href="/fortune/chinese-zodiac/" class="fortune-quick-link">🐉 띠별</a>
+                <a href="/fortune/tarot/" class="fortune-quick-link">🃏 타로</a>
+                <a href="/fortune/dream/" class="fortune-quick-link">🌙 꿈해몽</a>
+                <a href="/fortune/compatibility/" class="fortune-quick-link">💕 궁합</a>
+            </div>
+        </div>
+        <div class="fortune-banner-cta">
+            <a href="/fortune/" class="fortune-main-btn">
+                ✨ 운세 보러가기
+            </a>
+        </div>
     </div>
 </div>
 
